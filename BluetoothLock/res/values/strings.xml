@@ -85,4 +85,9 @@
     <string name="back">Return</string>
     <string name="save_exit">Save and exit</string>
     <string name="save_success">Save successfully</string>
+    <!-- Animation description -->
+    <string name="logo">Logo</string>
+    <string name="btns">Buttons</string>
+    <string name="sun">Sun</string>
+
 </resources>

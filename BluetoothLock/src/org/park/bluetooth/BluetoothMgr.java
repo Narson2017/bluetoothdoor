@@ -76,7 +76,6 @@ public class BluetoothMgr extends BroadcastReceiver {
 						Toast.LENGTH_SHORT).show();
 			} else if (action
 					.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
-				IS_FOUND = false;
 				((Controler) BluetoothMgr.mCtx).changeView(View.GONE,
 						View.GONE, R.string.not_found, View.VISIBLE);
 			}

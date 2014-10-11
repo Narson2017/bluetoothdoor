@@ -1,41 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayoutSplash"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/home_gardient"
-    android:gravity="center|center"
-    android:orientation="vertical" >
+    tools:context="org.park.bluetooth.splashScreen" >
 
-
-　　    
-
-    
-
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/LinearLayoutSplash"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-60dip"
-        android:paddingLeft="20dip"
-        android:paddingRight="20dip"
-        android:scaleType="centerInside"
-        android:src="@drawable/icon" />
+        android:contentDescription="@string/logo"
+        android:gravity="center|center"
+        android:layoutAnimation="@anim/layout_rise"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/TextViewSplash"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dip"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon" />
+
+        <TextView
+            android:id="@+id/TextViewSplash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:gravity="bottom"
+            android:shadowColor="#FFFFFF"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="@string/company_name"
+            android:textColor="#0000FF"
+            android:textSize="30dip"
+            android:typeface="serif" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btns"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dip"
-        android:gravity="bottom"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="2"
-        android:shadowRadius="1"
-        android:text="@string/company_name"
-        android:textColor="#0000FF"
-        android:textSize="30dip"
-        android:typeface="serif" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="64dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/btns"
+        android:gravity="center|center"
+        android:orientation="vertical" >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="60" >
 
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5" >
+            </LinearLayout>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="login" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50" >
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:weightSum="60" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5" >
+            </LinearLayout>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="register" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50" >
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
