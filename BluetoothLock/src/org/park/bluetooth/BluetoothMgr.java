@@ -40,11 +40,24 @@ public class BluetoothMgr extends BroadcastReceiver {
 		String action = intent.getAction();
 
 		if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED))
-			((ShowDetailer) mCtx).changeView(View.VISIBLE, View.GONE,
+			((Controler) mCtx).changeView(View.VISIBLE, View.GONE,
 					R.string.connect_failed, View.GONE);
 		else if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED))
-			((ShowDetailer) mCtx).changeView(View.GONE, View.GONE,
+			((Controler) mCtx).changeView(View.GONE, View.GONE,
 					R.string.connect_failed, View.VISIBLE);
+		else if (action.equals(BluetoothDevice.ACTION_PAIRING_REQUEST)) {
+			BluetoothDevice btDevice = intent
+					.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+			try {
+				ClsUtils.setPin(btDevice.getClass(), btDevice,
+						showDetail.PIN_CODE); // 手机和蓝牙采集器配对
+				ClsUtils.createBond(btDevice.getClass(), btDevice);
+				ClsUtils.cancelPairingUserInput(btDevice.getClass(), btDevice);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 		if (!IS_FOUND) {
 			if (action.equals(BluetoothDevice.ACTION_FOUND)) { // found device
@@ -54,8 +67,7 @@ public class BluetoothMgr extends BroadcastReceiver {
 						actualAddr == null ? BluetoothMgr.DEVICE_MAC_ADDR
 								: actualAddr)) {
 					IS_FOUND = true;
-					mHandler.obtainMessage(Common.MESSAGE_TARGET_FOUND, device)
-							.sendToTarget();
+					connectTarget(device);
 					return;
 				}
 
@@ -64,25 +76,15 @@ public class BluetoothMgr extends BroadcastReceiver {
 						Toast.LENGTH_SHORT).show();
 			} else if (action
 					.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
-				((ShowDetailer) BluetoothMgr.mCtx).hintNotFound();
-			} else if (action.equals(BluetoothDevice.ACTION_PAIRING_REQUEST)) {
-				BluetoothDevice btDevice = intent
-						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				try {
-					ClsUtils.setPin(btDevice.getClass(), btDevice,
-							showDetail.PIN_CODE); // 手机和蓝牙采集器配对
-					ClsUtils.createBond(btDevice.getClass(), btDevice);
-					ClsUtils.cancelPairingUserInput(btDevice.getClass(),
-							btDevice);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				IS_FOUND = false;
+				((Controler) BluetoothMgr.mCtx).changeView(View.GONE,
+						View.GONE, R.string.not_found, View.VISIBLE);
 			}
 		}
 	}
 
 	public void findDev(String mac) {
+		IS_FOUND = false;
 		actualAddr = mac;
 		if (btAdapt == null)
 			btAdapt = BluetoothAdapter.getDefaultAdapter();
@@ -108,22 +110,21 @@ public class BluetoothMgr extends BroadcastReceiver {
 						btAdapt.startDiscovery();
 				}
 				break;
-			case Common.MESSAGE_TARGET_FOUND:
-				btAdapt.cancelDiscovery();
-				IS_FOUND = true;
-				try {
-					((ShowDetailer) BluetoothMgr.mCtx).connectDev(
-							((BluetoothDevice) msg.obj).getAddress(),
-							((BluetoothDevice) msg.obj).getName());
-				} catch (Exception e) {
-					Log.d(Common.TAG, "Error connected to: "
-							+ ((BluetoothDevice) msg.obj).getAddress());
-					e.printStackTrace();
-				}
-				break;
 			}
 		}
 	};
+
+	private void connectTarget(BluetoothDevice btdev) {
+		btAdapt.cancelDiscovery();
+		IS_FOUND = true;
+		try {
+			((Controler) BluetoothMgr.mCtx).connectDev(btdev.getAddress(),
+					btdev.getName());
+		} catch (Exception e) {
+			Log.d(Common.TAG, "Error connected to: " + btdev.getAddress());
+			e.printStackTrace();
+		}
+	}
 
 	private boolean findPairedDevice() //
 	{
@@ -132,8 +133,7 @@ public class BluetoothMgr extends BroadcastReceiver {
 			for (BluetoothDevice device : pairedDevices)
 				if (device.getAddress().equalsIgnoreCase(
 						actualAddr == null ? DEVICE_MAC_ADDR : actualAddr)) {
-					mHandler.obtainMessage(Common.MESSAGE_TARGET_FOUND, device)
-							.sendToTarget();
+					connectTarget(device);
 					return true;
 				}
 		}

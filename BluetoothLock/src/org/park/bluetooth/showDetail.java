@@ -36,7 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class showDetail extends Activity implements View.OnClickListener,
-		ShowDetailer {
+		Controler {
 	public static final String OPERATION = "OPERATION";
 	private static final int OPR_QUERY_LOCK = 1;
 	private static final int OPR_QUERY_ALL = 0;
@@ -455,15 +455,6 @@ public class showDetail extends Activity implements View.OnClickListener,
 		strAddress = addr;
 		tvTitle.setText(strName);
 		mHandler.sendEmptyMessageDelayed(Common.MESSAGE_CONNECT, 1000);
-	}
-
-	@Override
-	public void hintNotFound() {
-		// TODO Auto-generated method stub
-		detail_view.setVisibility(View.GONE);
-		progress_connect.setVisibility(View.GONE);
-		tx_fault.setText(R.string.not_found);
-		tx_connect_failed.setVisibility(View.VISIBLE);
 	}
 
 	@Override
