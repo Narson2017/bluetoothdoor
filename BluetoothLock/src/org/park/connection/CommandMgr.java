@@ -1,7 +1,9 @@
 package org.park.connection;
 
 public class CommandMgr {
-	String pairPsw = "000000000000";
+	final String DEFAULT_PAIR_PASSWORD = "000000000000";
+	String pairPsw = null;
+	String receivedData = null;
 
 	public CommandMgr() {
 		super();
@@ -17,7 +19,7 @@ public class CommandMgr {
 	}
 
 	// get "password and algorithm type" command
-	byte[] getPswAlg(String cabinet_id, String box_id) {
+	byte[] getPswAlg(int cabinet_id, int box_id) {
 		return null;
 	}
 
@@ -27,7 +29,16 @@ public class CommandMgr {
 	}
 
 	// get "open lock" command
-	byte[] getOpenLockCommand(String received_str) {
+	byte[] getOpenLockCommand() {
+		return null;
+	}
+
+	public void setRecivedData(String tmp) {
+		receivedData = tmp;
+	}
+
+	public byte[] getChangePairPsw() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

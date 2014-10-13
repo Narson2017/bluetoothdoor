@@ -15,6 +15,7 @@ import android.os.Message;
 import android.util.Log;
 
 public class ConnectedThread extends Thread {
+	final int RESPONSE_LENGTH = 14;
 	static final int OPR_OPEN_LOCK = 2;
 	static final int OPR_QUERY_LOCK = 1;
 	static final int OPR_QUERY_ALL = 0;
@@ -31,6 +32,7 @@ public class ConnectedThread extends Thread {
 			8, 23, 22 };
 	int[] empty_sequence = { 31, 30, 29, 28, 27, 26, 25, 24, 39, 38, 37, 36,
 			35, 34, 33, 32, 47, 46 };
+	CommandMgr mCmdmgr;
 
 	public ConnectedThread(BluetoothSocket socket, showDetail cx) {
 		mCtx = cx;
@@ -47,6 +49,7 @@ public class ConnectedThread extends Thread {
 
 		mmInStream = tmpIn;
 		mmOutStream = tmpOut;
+		mCmdmgr = new CommandMgr();
 	}
 
 	public void setConnState(boolean bl) {
@@ -101,7 +104,7 @@ public class ConnectedThread extends Thread {
 		try {
 			if (mmOutStream == null)
 				return;
-			nNeed = 13;
+			nNeed = RESPONSE_LENGTH;
 			nRecved = 0;
 
 			switch (act) {
@@ -178,26 +181,16 @@ public class ConnectedThread extends Thread {
 			switch (msg.what) {
 			case Common.MESSAGE_RECV:
 				// String strRecv = bytesToString(bRecv, msg.arg1);
-				String strRecv = HexConvert.Bytes2HexString(bRecv, nNeed);
-				// System.out.print("Received: " + strRecv);
-				String tmp1 = strRecv.substring(12, 24);
-				String str_tmp = HexConvert.hexString2binaryString(tmp1);
-				boolean is_lock = true,
-				is_empty = true;
-
-				int index = mCtx.getBoxnbr();
-				if (index < 0)
-					break;
-				if (str_tmp.charAt(lock_sequence[index]) == '0')
-					is_lock = false;
-				else
-					is_lock = true;
-				if (str_tmp.charAt(empty_sequence[index]) == '0')
-					is_empty = false;
-				else
-					is_empty = true;
-				mCtx.setBoxState(is_lock, is_empty);
-				mCtx.setBoxEnable(true);
+				mCmdmgr.setRecivedData(HexConvert.Bytes2HexString(bRecv, nNeed));
+				if (mCmdmgr.ifReceivedDyPsw()) {
+					try {
+						mmOutStream.write(mCmdmgr.getOpenLockCommand());
+						mmOutStream.flush();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				// reset received length
 				nRecved = 0;
 				break;
@@ -236,4 +229,35 @@ public class ConnectedThread extends Thread {
 			}
 		}
 	};
+
+	public void changePairPsw(String tmp) {
+		mCmdmgr.setPairPsw(tmp);
+		try {
+			mmOutStream.write(mCmdmgr.getChangePairPsw());
+			mmOutStream.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void obtainDynamicPsw(int cabinet_id, int box_id) {
+		try {
+			mmOutStream.write(mCmdmgr.getPswAlg(cabinet_id, box_id));
+			mmOutStream.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void openLock(String received_str) {
+		try {
+			mmOutStream.write(mCmdmgr.getOpenLockCommand());
+			mmOutStream.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

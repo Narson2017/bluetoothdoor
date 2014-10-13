@@ -158,6 +158,8 @@ public class ConnectCtrl extends BroadcastReceiver {
 				mCtx.setBoxVisible(true);
 				mCtx.setProgressVisible(false);
 				mCtx.setHint(R.string.connect_success);
+				mCtx.setBoxState(true, true);
+				mCtx.setBoxEnable(true);
 				mCtx.setConn(new ConnectedThread(btSocket, mCtx));
 				mCtx.startConn();
 				break;
