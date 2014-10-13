@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.park.authorize.LoginActivity;
 import org.park.bluetooth.R;
-import org.park.bluetooth.showDetail;
+import org.park.connection.showDetail;
 import org.park.util.About;
 import org.park.util.ClsUtils;
 import org.park.util.Common;

@@ -1,7 +1,7 @@
 package org.park.util;
 
 import org.park.bluetooth.R;
-import org.park.bluetooth.splashScreen;
+import org.park.entrance.splashScreen;
 
 import android.app.AlertDialog;
 import android.content.Context;

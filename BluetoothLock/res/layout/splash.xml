@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/home_gardient"
-    tools:context="org.park.bluetooth.splashScreen" >
+    tools:context="org.park.entrance.splashScreen" >
 
     <LinearLayout
         android:id="@+id/LinearLayoutSplash"

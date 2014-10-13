@@ -1,4 +1,4 @@
-package org.park.boxpsw;
+package org.park.connection;
 
 public class CommandMgr {
 	String pairPsw = "000000000000";

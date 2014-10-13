@@ -51,7 +51,7 @@ public class DeviceAdapter extends ArrayAdapter<MDevice> {
 		MDevice mDevice = data.get(position);
 		holder.tx_index.setText(String.valueOf(mDevice.index));
 		holder.ic_bar.setImageResource(R.drawable.ic_bar);
-		holder.tx_devname.setText(mDevice.dev_name);
+		holder.tx_devname.setText(mDevice.dev_name + ":" + mDevice.mac_addr);
 		holder.btn_connect.setBackgroundResource(mDevice.ic_btn);
 
 		return row;

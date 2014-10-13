@@ -13,7 +13,7 @@ public class Common {
 	public static final int MESSAGE_RECV = 10;
 	public static final int MESSAGE_EXCEPTION_RECV = 11;
 	public static final int MESSAGE_SHOW_DEVICES = 12;
-	public static final int MESSAGE_AUTHORIZE_PASSED = 13;
+	public static final int MESSAGE_AUTHORIZE_PASSED = 15;
 	public static final int MESSAGE_START_DISCOVER = 13;
 	public static final int MESSAGE_TARGET_FOUND = 14;
 	public static final String HINT = "toast";

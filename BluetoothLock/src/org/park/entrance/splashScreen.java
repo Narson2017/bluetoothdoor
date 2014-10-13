@@ -1,6 +1,8 @@
-package org.park.bluetooth;
+package org.park.entrance;
 
 import org.park.authorize.LoginActivity;
+import org.park.bluetooth.R;
+import org.park.connection.showDetail;
 import org.park.util.Quit;
 
 import android.app.Activity;
