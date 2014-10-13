@@ -86,4 +86,8 @@
     <string name="save_exit">保存并退出</string>
     <string name="save_success">保存成功</string>
     <string name="new_user">新用户?快速通道</string>
+    <string name="loading">正在加载...</string>
+    <string name="disconnect">连接已断开</string>
+    <string name="pairing">正在配对...</string>
+
 </resources>

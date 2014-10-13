@@ -32,7 +32,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class showDetail extends Activity implements View.OnClickListener,
 		Controler {
@@ -60,7 +59,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 	int nRecved = 0;
 	ConnectedThread connThr;
 
-	private LinearLayout detail_view, progress_connect, tx_connect_failed;
+	private LinearLayout detail_view, progress_connect;
 	private TextView tx_fault;
 
 	private LockManager mLockManager;
@@ -85,7 +84,6 @@ public class showDetail extends Activity implements View.OnClickListener,
 
 		detail_view = (LinearLayout) findViewById(R.id.detail_view);
 		progress_connect = (LinearLayout) findViewById(R.id.progress_connect);
-		tx_connect_failed = (LinearLayout) findViewById(R.id.layout_hint);
 		btn_back = (Button) findViewById(R.id.btn_back);
 		tvTitle = (TextView) findViewById(R.id.tvTitle);
 		tx_fault = (TextView) findViewById(R.id.text_hint);
@@ -95,7 +93,6 @@ public class showDetail extends Activity implements View.OnClickListener,
 			detail_view.setVisibility(View.GONE);
 			progress_connect.setVisibility(View.GONE);
 			tx_fault.setText(R.string.blue_unabailable);
-			tx_connect_failed.setVisibility(View.VISIBLE);
 			return;
 		}
 
@@ -265,8 +262,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 				mmOutStream.write(HexConvert.HexString2Bytes(send_tmp));
 				mmOutStream.flush();
 			} catch (Exception e) {
-				Toast.makeText(showDetail.this, R.string.send_failed,
-						Toast.LENGTH_SHORT).show();
+				tx_fault.setText(R.string.send_failed);
 				return;
 			}
 		}
@@ -282,7 +278,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 		case R.id.btn_connect:
 			detail_view.setVisibility(View.GONE);
 			progress_connect.setVisibility(View.VISIBLE);
-			tx_connect_failed.setVisibility(View.GONE);
+			tx_fault.setText(R.string.loading);
 			mBtMgr.findDev(strAddress);
 			break;
 		case R.id.btn_box:
@@ -354,11 +350,9 @@ public class showDetail extends Activity implements View.OnClickListener,
 				}).start();
 				break;
 			case Common.MESSAGE_CONNECT_SUCCEED:
-				Toast.makeText(showDetail.this, R.string.connect_success,
-						Toast.LENGTH_SHORT).show();
 				detail_view.setVisibility(View.VISIBLE);
 				progress_connect.setVisibility(View.GONE);
-				tx_connect_failed.setVisibility(View.GONE);
+				tx_fault.setText(R.string.connect_success);
 				bConnect = true;
 				connThr = new ConnectedThread(btSocket);
 				connThr.start();
@@ -402,7 +396,6 @@ public class showDetail extends Activity implements View.OnClickListener,
 					detail_view.setVisibility(View.GONE);
 					progress_connect.setVisibility(View.GONE);
 					tx_fault.setText(R.string.connect_failed);
-					tx_connect_failed.setVisibility(View.VISIBLE);
 				}
 				break;
 			case Common.MESSAGE_WRITE:
@@ -434,11 +427,6 @@ public class showDetail extends Activity implements View.OnClickListener,
 				// reset received length
 				nRecved = 0;
 				break;
-			case Common.MESSAGE_TOAST:
-				Toast.makeText(getApplicationContext(),
-						msg.getData().getString(Common.TOAST),
-						Toast.LENGTH_SHORT).show();
-				break;
 			case Common.MESSAGE_AUTHORIZE_PASSED:
 				connThr.send(msg.arg1 + 1, OPR_OPEN_LOCK);
 				mLockManager.set_state(false, true);
@@ -457,11 +445,10 @@ public class showDetail extends Activity implements View.OnClickListener,
 	}
 
 	@Override
-	public void changeView(int boxes, int progress, int fault_tx, int fault) {
+	public void changeView(int boxes, int progress, int fault_tx) {
 		// TODO Auto-generated method stub
 		detail_view.setVisibility(boxes);
 		progress_connect.setVisibility(progress);
 		tx_fault.setText(fault_tx);
-		tx_connect_failed.setVisibility(fault);
 	}
 }

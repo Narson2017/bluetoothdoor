@@ -85,7 +85,7 @@
                     android:id="@+id/text_hint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/login"
+                    android:text="@string/loading"
                     android:textColor="@color/black"
                     android:textSize="11dp" />
             </LinearLayout>
@@ -190,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/btn_about"
-                    android:onClick="act_about" />
+                    android:onClick="onClick" />
             </LinearLayout>
 
             <LinearLayout
@@ -222,7 +222,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@drawable/btn_exit"
-                    android:onClick="act_exit" />
+                    android:onClick="onClick" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

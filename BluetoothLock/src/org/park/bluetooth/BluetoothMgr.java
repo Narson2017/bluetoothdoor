@@ -41,11 +41,13 @@ public class BluetoothMgr extends BroadcastReceiver {
 
 		if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED))
 			((Controler) mCtx).changeView(View.VISIBLE, View.GONE,
-					R.string.connect_failed, View.GONE);
+					R.string.connect_success);
 		else if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED))
 			((Controler) mCtx).changeView(View.GONE, View.GONE,
-					R.string.connect_failed, View.VISIBLE);
+					R.string.disconnect);
 		else if (action.equals(BluetoothDevice.ACTION_PAIRING_REQUEST)) {
+			((Controler) mCtx).changeView(View.GONE, View.VISIBLE,
+					R.string.pairing);
 			BluetoothDevice btDevice = intent
 					.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 			try {
@@ -77,7 +79,7 @@ public class BluetoothMgr extends BroadcastReceiver {
 			} else if (action
 					.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
 				((Controler) BluetoothMgr.mCtx).changeView(View.GONE,
-						View.GONE, R.string.not_found, View.VISIBLE);
+						View.GONE, R.string.not_found);
 			}
 		}
 	}

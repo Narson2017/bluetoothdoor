@@ -90,5 +90,8 @@
     <string name="btns">Buttons</string>
     <string name="sun">Sun</string>
     <string name="new_user">New user</string>
+    <string name="loading">Loading...</string>
+    <string name="disconnect">Disconnected</string>
+    <string name="pairing">Pairing</string>
 
 </resources>

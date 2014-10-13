@@ -578,6 +578,7 @@ public final class R {
         public static final int connecting=0x7f08000f;
         public static final int detail_view=0x7f080011;
         public static final int dev_name=0x7f08000e;
+        public static final int disconnect=0x7f080045;
         public static final int empty=0x7f080017;
         public static final int enter_locknbr=0x7f08003a;
         public static final int enter_password=0x7f080039;
@@ -586,6 +587,7 @@ public final class R {
         public static final int filled=0x7f080018;
         public static final int forget_psw=0x7f080027;
         public static final int hint=0x7f080019;
+        public static final int loading=0x7f080044;
         public static final int lock_nbr_label=0x7f080007;
         public static final int lock_not_found=0x7f08001f;
         public static final int login=0x7f080025;
@@ -603,6 +605,7 @@ public final class R {
         public static final int obtain=0x7f08001d;
         public static final int open=0x7f080015;
         public static final int open_blue=0x7f080012;
+        public static final int pairing=0x7f080046;
         public static final int password=0x7f080022;
         public static final int please_connect=0x7f08001a;
         public static final int pref_account=0x7f080037;
