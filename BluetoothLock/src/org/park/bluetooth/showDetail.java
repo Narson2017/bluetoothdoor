@@ -85,10 +85,10 @@ public class showDetail extends Activity implements View.OnClickListener,
 
 		detail_view = (LinearLayout) findViewById(R.id.detail_view);
 		progress_connect = (LinearLayout) findViewById(R.id.progress_connect);
-		tx_connect_failed = (LinearLayout) findViewById(R.id.tx_connect_failed);
+		tx_connect_failed = (LinearLayout) findViewById(R.id.layout_hint);
 		btn_back = (Button) findViewById(R.id.btn_back);
 		tvTitle = (TextView) findViewById(R.id.tvTitle);
-		tx_fault = (TextView) findViewById(R.id.tx_fault);
+		tx_fault = (TextView) findViewById(R.id.text_hint);
 
 		btAdapt = BluetoothAdapter.getDefaultAdapter();
 		if (btAdapt == null) {

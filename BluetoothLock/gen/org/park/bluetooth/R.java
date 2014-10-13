@@ -535,6 +535,7 @@ public final class R {
         public static final int ic_bar=0x7f0a000f;
         public static final int img_psw=0x7f0a001d;
         public static final int img_username=0x7f0a001a;
+        public static final int layout_hint=0x7f0a0003;
         public static final int layout_psw=0x7f0a001c;
         public static final int layout_username=0x7f0a0019;
         public static final int login_form=0x7f0a0018;
@@ -543,13 +544,12 @@ public final class R {
         public static final int lst_devs=0x7f0a0012;
         public static final int lvDevices=0x7f0a0013;
         public static final int main_action_bar=0x7f0a0000;
-        public static final int progressBar1=0x7f0a0004;
-        public static final int progress_connect=0x7f0a0003;
+        public static final int progressBar1=0x7f0a0006;
+        public static final int progress_connect=0x7f0a0005;
+        public static final int text_hint=0x7f0a0004;
         public static final int text_login_hint=0x7f0a0017;
         public static final int tvTitle=0x7f0a0001;
-        public static final int tx_connect_failed=0x7f0a0005;
         public static final int tx_devname=0x7f0a0010;
-        public static final int tx_fault=0x7f0a0006;
         public static final int tx_index=0x7f0a000e;
     }
     public static final class layout {
