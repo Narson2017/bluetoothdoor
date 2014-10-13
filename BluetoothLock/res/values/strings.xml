@@ -89,5 +89,6 @@
     <string name="logo">Logo</string>
     <string name="btns">Buttons</string>
     <string name="sun">Sun</string>
+    <string name="new_user">New user</string>
 
 </resources>

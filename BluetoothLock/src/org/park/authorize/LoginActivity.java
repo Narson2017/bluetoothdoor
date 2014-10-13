@@ -2,6 +2,7 @@ package org.park.authorize;
 
 import org.park.bluetooth.R;
 import org.park.bluetooth.showDetail;
+import org.park.bluetooth.splashScreen;
 import org.park.devlist.DevlstActivity;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
@@ -14,7 +15,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -156,6 +156,9 @@ public class LoginActivity extends Activity implements
 			System.out.print("Registering");
 			break;
 		case R.id.btn_back:
+			startActivity(new Intent(LoginActivity.this, splashScreen.class));
+			finish();
+			break;
 		case R.id.btn_exit:
 			Quit.act_exit(LoginActivity.this);
 			break;
@@ -224,16 +227,6 @@ public class LoginActivity extends Activity implements
 	public void setRegisterBtn(int res_id) {
 		// TODO Auto-generated method stub
 		btn_register.setText(res_id);
-	}
-
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			Quit.act_exit(LoginActivity.this);
-			return true;
-		} else {
-			return super.onKeyDown(keyCode, event);
-		}
 	}
 
 	@Override

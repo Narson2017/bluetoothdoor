@@ -524,6 +524,7 @@ public final class R {
         public static final int btn_devlst=0x7f0a0015;
         public static final int btn_exit=0x7f0a000d;
         public static final int btn_login=0x7f0a001f;
+        public static final int btn_newuser=0x7f0a0026;
         public static final int btn_query=0x7f0a0021;
         public static final int btn_register=0x7f0a0020;
         public static final int btn_setting=0x7f0a0002;
@@ -595,6 +596,7 @@ public final class R {
         /**  Animation description 
          */
         public static final int logo=0x7f080040;
+        public static final int new_user=0x7f080043;
         public static final int not_available=0x7f08002a;
         public static final int not_found=0x7f08001b;
         public static final int not_register=0x7f080035;

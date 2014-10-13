@@ -7,7 +7,6 @@ import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.UUID;
 
-import org.park.authorize.LoginActivity;
 import org.park.lockmgr.LockManager;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
@@ -99,7 +98,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 			tx_connect_failed.setVisibility(View.VISIBLE);
 			return;
 		}
-		
+
 		mBtMgr = new BluetoothMgr(this, btAdapt);
 		IntentFilter intent = new IntentFilter();
 		intent.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
@@ -159,7 +158,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			act_clean();
-			startActivity(new Intent(this, LoginActivity.class));
+			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			return true;
 		} else {
@@ -292,7 +291,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 			break;
 		case R.id.btn_back:
 			act_clean();
-			startActivity(new Intent(this, LoginActivity.class));
+			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			break;
 		case R.id.btn_about:
