@@ -93,5 +93,13 @@
     <string name="loading">Loading...</string>
     <string name="disconnect">Disconnected</string>
     <string name="pairing">Pairing</string>
+    <string name="change_psw_success">Change password successfully.</string>
+    <string name="obtain_dynamic_psw_failed">Obtain dynamic password failed.</string>
+    <string name="change_psw_failed">Change password failed.</string>
+    <string name="open_door_success">Open door successfully.</string>
+    <string name="open_door_failed">Open door failed.</string>
+    <string name="close_door_success">Close door successfully.</string>
+    <string name="close_door_failed">Close door failed.</string>
+    <string name="pair_failed">Pairing failed.</string>
 
 </resources>

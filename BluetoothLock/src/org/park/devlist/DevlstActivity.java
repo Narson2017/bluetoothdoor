@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.park.authorize.LoginActivity;
 import org.park.bluetooth.R;
+import org.park.connection.ConnectCtrl;
 import org.park.connection.showDetail;
 import org.park.util.About;
 import org.park.util.ClsUtils;
@@ -74,6 +75,8 @@ public class DevlstActivity extends Activity implements OnClickListener,
 			Toast.makeText(DevlstActivity.this, R.string.blue_unabailable, 1000)
 					.show();
 			startActivity(new Intent(this, LoginActivity.class));
+			if (btAdapt != null)
+				btAdapt.disable();
 			finish();
 		}
 		if (!btAdapt.isEnabled()) {
@@ -96,6 +99,8 @@ public class DevlstActivity extends Activity implements OnClickListener,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							// User cancelled the dialog
+							if (btAdapt != null)
+								btAdapt.disable();
 							finish();
 						}
 					});
@@ -139,7 +144,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 			btAdapt.disable();
 		unregisterReceiver(mSearchDev);
 		super.onDestroy();
-//		android.os.Process.killProcess(android.os.Process.myPid());
+		// android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
 	class ItemClickEvent implements AdapterView.OnItemClickListener {
@@ -158,7 +163,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 			lstDevices.get(arg2).ic_btn = R.drawable.btn_connect_pressed;
 			String address = lstDevices.get(arg2).mac_addr;
 			Log.i(Common.TAG, lstDevices.get(arg2).mac_addr);
-			ClsUtils.pair(address, showDetail.PIN_CODE);
+			ClsUtils.pair(address, ConnectCtrl.DEFAULT_PIN_CODE);
 			try {
 				Intent intMain = new Intent(getApplicationContext(),
 						showDetail.class);
@@ -178,6 +183,8 @@ public class DevlstActivity extends Activity implements OnClickListener,
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			startActivity(new Intent(this, LoginActivity.class));
+			if (btAdapt != null)
+				btAdapt.disable();
 			finish();
 			return true;
 		} else {
@@ -201,6 +208,8 @@ public class DevlstActivity extends Activity implements OnClickListener,
 		case R.id.btn_action_back:
 		case R.id.btn_back:
 			startActivity(new Intent(this, LoginActivity.class));
+			if (btAdapt != null)
+				btAdapt.disable();
 			finish();
 			break;
 		}
@@ -300,7 +309,8 @@ public class DevlstActivity extends Activity implements OnClickListener,
 	public void whenPairing(BluetoothDevice btDevice) {
 		// TODO Auto-generated method stub
 		try {
-			ClsUtils.setPin(btDevice.getClass(), btDevice, showDetail.PIN_CODE); // 手机和蓝牙采集器配对
+			ClsUtils.setPin(btDevice.getClass(), btDevice,
+					ConnectCtrl.DEFAULT_PIN_CODE); // 手机和蓝牙采集器配对
 			ClsUtils.createBond(btDevice.getClass(), btDevice);
 			ClsUtils.cancelPairingUserInput(btDevice.getClass(), btDevice);
 		} catch (Exception e) {

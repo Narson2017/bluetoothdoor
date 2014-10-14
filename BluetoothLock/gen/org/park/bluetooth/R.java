@@ -571,7 +571,11 @@ public final class R {
         public static final int btn_cancel=0x7f080005;
         public static final int btn_ok=0x7f080006;
         public static final int btns=0x7f080041;
+        public static final int change_psw_failed=0x7f080049;
+        public static final int change_psw_success=0x7f080047;
         public static final int close=0x7f080016;
+        public static final int close_door_failed=0x7f08004d;
+        public static final int close_door_success=0x7f08004c;
         public static final int company_name=0x7f080003;
         public static final int connect_failed=0x7f08000a;
         public static final int connect_success=0x7f080014;
@@ -603,8 +607,12 @@ public final class R {
         public static final int not_found=0x7f08001b;
         public static final int not_register=0x7f080035;
         public static final int obtain=0x7f08001d;
+        public static final int obtain_dynamic_psw_failed=0x7f080048;
         public static final int open=0x7f080015;
         public static final int open_blue=0x7f080012;
+        public static final int open_door_failed=0x7f08004b;
+        public static final int open_door_success=0x7f08004a;
+        public static final int pair_failed=0x7f08004e;
         public static final int pairing=0x7f080046;
         public static final int password=0x7f080022;
         public static final int please_connect=0x7f08001a;

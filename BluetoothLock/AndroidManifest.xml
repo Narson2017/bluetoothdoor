@@ -16,8 +16,7 @@
         android:theme="@android:style/Theme.Light" >
         <activity
             android:name="org.park.entrance.splashScreen"
-            android:label="@string/app_name"
-            android:launchMode="singleTask" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

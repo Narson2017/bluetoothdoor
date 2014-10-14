@@ -89,5 +89,13 @@
     <string name="loading">正在加载...</string>
     <string name="disconnect">连接已断开</string>
     <string name="pairing">正在配对...</string>
+    <string name="change_psw_success">修改配对密码成功.</string>
+    <string name="obtain_dynamic_psw_failed">获取动态密码失败.</string>
+    <string name="change_psw_failed">修改配对密码失败.</string>
+    <string name="open_door_success">门已开.</string>
+    <string name="open_door_failed">开门失败.</string>
+    <string name="close_door_success">门已关</string>
+    <string name="close_door_failed">关门信息同步失败.</string>
+    <string name="pair_failed">配对失败</string>
 
 </resources>

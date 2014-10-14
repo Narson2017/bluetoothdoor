@@ -8,7 +8,6 @@ import org.park.bluetooth.R;
 import org.park.util.Common;
 import org.park.util.HexConvert;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.Message;
@@ -25,7 +24,6 @@ public class ConnectedThread extends Thread {
 	int nRecved = 0;
 	private InputStream mmInStream;
 	private OutputStream mmOutStream;
-	BluetoothAdapter btAdapt = null;
 	BluetoothSocket btSocket = null;
 	showDetail mCtx;
 	int[] lock_sequence = { 7, 6, 5, 4, 3, 2, 1, 0, 15, 14, 13, 12, 11, 10, 9,
@@ -93,47 +91,6 @@ public class ConnectedThread extends Thread {
 		Log.e(Common.TAG, "Exit while");
 	}
 
-	public void send(int lock_nbr, int act) {
-		String send_tmp = "5cc50501d2000000d6";
-		String begin_length_address = "5cc50501";
-		String action;
-		String xor_check;
-
-		if (!bConnect)
-			return;
-		try {
-			if (mmOutStream == null)
-				return;
-			nNeed = RESPONSE_LENGTH;
-			nRecved = 0;
-
-			switch (act) {
-			case OPR_OPEN_LOCK:
-				action = "D1";
-				xor_check = Integer.toHexString(5 ^ 1
-						^ Integer.valueOf(action, 16).intValue() ^ lock_nbr);
-				send_tmp = begin_length_address + action
-						+ HexConvert.int2hexStr(lock_nbr) + "0000" + xor_check;
-				break;
-			case OPR_QUERY_LOCK:
-				action = "D2";
-				xor_check = Integer.toHexString(5 ^ 1
-						^ Integer.valueOf(action, 16).intValue() ^ lock_nbr);
-				send_tmp = begin_length_address + action
-						+ HexConvert.int2hexStr(lock_nbr) + "0000" + xor_check;
-				break;
-			case OPR_QUERY_ALL:
-			default:
-				break;
-			}
-			mmOutStream.write(HexConvert.HexString2Bytes(send_tmp));
-			mmOutStream.flush();
-		} catch (Exception e) {
-			mCtx.setHint(R.string.send_failed);
-			return;
-		}
-	}
-
 	public void act_clean() {
 		if (bConnect) {
 			bConnect = false;
@@ -150,8 +107,6 @@ public class ConnectedThread extends Thread {
 				e.printStackTrace();
 			}
 		}
-		if (btAdapt != null)
-			btAdapt.disable();
 	}
 
 	public void startQuery() {
@@ -161,7 +116,6 @@ public class ConnectedThread extends Thread {
 			public void run() {
 				while (bConnect) {
 					// TODO Auto-generated method stub
-					send(-1, OPR_QUERY_ALL);
 					try {
 						Thread.sleep(10000);
 					} catch (InterruptedException e) {
@@ -181,15 +135,41 @@ public class ConnectedThread extends Thread {
 			switch (msg.what) {
 			case Common.MESSAGE_RECV:
 				// String strRecv = bytesToString(bRecv, msg.arg1);
-				mCmdmgr.setRecivedData(HexConvert.Bytes2HexString(bRecv, nNeed));
-				if (mCmdmgr.ifReceivedDyPsw()) {
+				String strRecv = HexConvert.Bytes2HexString(bRecv, nNeed);
+
+				switch (mCmdmgr.checkRecvType(strRecv)) {
+				case CommandMgr.RECEIVE_DYNAMIC_PASSWORD_SUCCESS:
+					nNeed = RESPONSE_LENGTH;
+					nRecved = 0;
 					try {
-						mmOutStream.write(mCmdmgr.getOpenLockCommand());
+						mmOutStream.write(mCmdmgr.getOpenLockCommand(strRecv));
 						mmOutStream.flush();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					break;
+				case CommandMgr.RECEIVE_DYNAMIC_PASSWORD_FAILED:
+					mCtx.setHint(R.string.obtain_dynamic_psw_failed);
+					break;
+				case CommandMgr.RECEIVE_PAIR_PASSWORD_SUCCESS:
+					mCtx.setHint(R.string.change_psw_success);
+					break;
+				case CommandMgr.RECEIVE_PAIR_PASSWORD_FAILED:
+					mCtx.setHint(R.string.change_psw_failed);
+					break;
+				case CommandMgr.RECEIVE_OPEN_DOOR_SUCCESS:
+					mCtx.setHint(R.string.open_door_success);
+					break;
+				case CommandMgr.RECEIVE_OPEN_DOOR_FAILED:
+					mCtx.setHint(R.string.open_door_failed);
+					break;
+				case CommandMgr.RECEIVE_CLOSE_DOOR_SUCCESS:
+					mCtx.setHint(R.string.close_door_success);
+					break;
+				case CommandMgr.RECEIVE_CLOSE_DOOR_FAILED:
+					mCtx.setHint(R.string.close_door_failed);
+					break;
 				}
 				// reset received length
 				nRecved = 0;
@@ -222,18 +202,15 @@ public class ConnectedThread extends Thread {
 				break;
 			case Common.MESSAGE_READ:
 				break;
-			case Common.MESSAGE_AUTHORIZE_PASSED:
-				send(msg.arg1 + 1, OPR_OPEN_LOCK);
-				mCtx.setBoxState(false, true);
-				break;
 			}
 		}
 	};
 
 	public void changePairPsw(String tmp) {
-		mCmdmgr.setPairPsw(tmp);
+		nNeed = RESPONSE_LENGTH;
+		nRecved = 0;
 		try {
-			mmOutStream.write(mCmdmgr.getChangePairPsw());
+			mmOutStream.write(mCmdmgr.getChangePairPsw(tmp));
 			mmOutStream.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -241,19 +218,12 @@ public class ConnectedThread extends Thread {
 		}
 	}
 
-	public void obtainDynamicPsw(int cabinet_id, int box_id) {
+	public void openlock(int cabinet_id, int box_id) {
+		nNeed = RESPONSE_LENGTH;
+		nRecved = 0;
 		try {
-			mmOutStream.write(mCmdmgr.getPswAlg(cabinet_id, box_id));
-			mmOutStream.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void openLock(String received_str) {
-		try {
-			mmOutStream.write(mCmdmgr.getOpenLockCommand());
+			mmOutStream.write(mCmdmgr.getPswAlg(showDetail.PAIR_PASSWORD,
+					cabinet_id, box_id));
 			mmOutStream.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

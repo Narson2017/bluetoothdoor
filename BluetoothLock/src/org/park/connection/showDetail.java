@@ -25,7 +25,7 @@ import android.widget.TextView;
 public class showDetail extends Activity implements View.OnClickListener {
 	public static final String OPERATION = "OPERATION";
 	public static String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
-	public static String PIN_CODE = "1234";
+	public static String PAIR_PASSWORD = "000000000000";
 
 	Button btnExit, btn_back;
 	TextView tvTitle;
@@ -85,6 +85,7 @@ public class showDetail extends Activity implements View.OnClickListener {
 	protected void onDestroy() {
 		unregisterReceiver(mBtMgr);
 		connThr.act_clean();
+		mBtMgr.disable_bluetooth();
 		super.onDestroy();
 	}
 
@@ -92,6 +93,7 @@ public class showDetail extends Activity implements View.OnClickListener {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			connThr.act_clean();
+			mBtMgr.disable_bluetooth();
 			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			return true;
@@ -115,10 +117,11 @@ public class showDetail extends Activity implements View.OnClickListener {
 			break;
 		case R.id.btn_box:
 			mLockManager.set_state(false, false);
-			connThr.send(mLockManager.getNbr(), ConnectedThread.OPR_OPEN_LOCK);
+			connThr.openlock(1, 1);
 			break;
 		case R.id.btn_back:
 			connThr.act_clean();
+			mBtMgr.disable_bluetooth();
 			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			break;
@@ -126,7 +129,6 @@ public class showDetail extends Activity implements View.OnClickListener {
 			About.ShowAbout(this);
 			break;
 		case R.id.btn_exit:
-			connThr.act_clean();
 			Quit.act_exit(this);
 			break;
 		}
@@ -139,7 +141,7 @@ public class showDetail extends Activity implements View.OnClickListener {
 	public void startConn() {
 		if (connThr != null) {
 			connThr.start();
-//			connThr.startQuery();
+			// connThr.startQuery();
 		}
 	}
 
