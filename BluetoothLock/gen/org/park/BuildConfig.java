@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package org.park.bluetooth;
+package org.park;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

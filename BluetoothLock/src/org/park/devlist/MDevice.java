@@ -1,6 +1,6 @@
 package org.park.devlist;
 
-import org.park.bluetooth.R;
+import org.park.R;
 
 public class MDevice {
 	public int index;

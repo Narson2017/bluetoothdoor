@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package org.park.bluetooth;
+package org.park;
 
 public final class R {
     public static final class anim {

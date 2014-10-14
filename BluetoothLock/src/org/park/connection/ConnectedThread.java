@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.park.bluetooth.R;
+import org.park.R;
 import org.park.util.Common;
 import org.park.util.HexConvert;
 
@@ -26,10 +26,6 @@ public class ConnectedThread extends Thread {
 	private OutputStream mmOutStream;
 	BluetoothSocket btSocket = null;
 	showDetail mCtx;
-	int[] lock_sequence = { 7, 6, 5, 4, 3, 2, 1, 0, 15, 14, 13, 12, 11, 10, 9,
-			8, 23, 22 };
-	int[] empty_sequence = { 31, 30, 29, 28, 27, 26, 25, 24, 39, 38, 37, 36,
-			35, 34, 33, 32, 47, 46 };
 	CommandMgr mCmdmgr;
 
 	public ConnectedThread(BluetoothSocket socket, showDetail cx) {
@@ -142,7 +138,8 @@ public class ConnectedThread extends Thread {
 					nNeed = RESPONSE_LENGTH;
 					nRecved = 0;
 					try {
-						mmOutStream.write(mCmdmgr.getOpenLockCommand(strRecv));
+						mmOutStream.write(mCmdmgr.getOpenLockCommand(
+								CommandMgr.DEFAULT_PAIR_PASSWORD, strRecv));
 						mmOutStream.flush();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -222,8 +219,8 @@ public class ConnectedThread extends Thread {
 		nNeed = RESPONSE_LENGTH;
 		nRecved = 0;
 		try {
-			mmOutStream.write(mCmdmgr.getPswAlg(showDetail.PAIR_PASSWORD,
-					cabinet_id, box_id));
+			mCmdmgr.setBoxnbr(cabinet_id, box_id);
+			mmOutStream.write(mCmdmgr.getPswAlg(showDetail.PAIR_PASSWORD));
 			mmOutStream.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

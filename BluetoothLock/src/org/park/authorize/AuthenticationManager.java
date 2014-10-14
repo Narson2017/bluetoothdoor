@@ -9,7 +9,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.kxml2.kdom.Element;
 import org.kxml2.kdom.Node;
-import org.park.bluetooth.R;
+import org.park.R;
 import org.park.util.Common;
 import org.park.util.HexConvert;
 import org.park.util.MDes;

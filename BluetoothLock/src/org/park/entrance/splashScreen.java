@@ -1,7 +1,7 @@
 package org.park.entrance;
 
+import org.park.R;
 import org.park.authorize.LoginActivity;
-import org.park.bluetooth.R;
 import org.park.connection.showDetail;
 import org.park.util.Quit;
 

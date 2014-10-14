@@ -1,6 +1,6 @@
 package org.park.prefs;
 
-import org.park.bluetooth.R;
+import org.park.R;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,6 +1,6 @@
 package org.park.lockmgr;
 
-import org.park.bluetooth.R;
+import org.park.R;
 
 import android.app.Activity;
 import android.content.Context;

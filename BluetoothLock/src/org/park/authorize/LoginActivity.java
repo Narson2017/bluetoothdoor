@@ -1,6 +1,6 @@
 package org.park.authorize;
 
-import org.park.bluetooth.R;
+import org.park.R;
 import org.park.connection.showDetail;
 import org.park.devlist.DevlstActivity;
 import org.park.entrance.splashScreen;

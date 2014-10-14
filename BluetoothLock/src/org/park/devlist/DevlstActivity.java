@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.park.R;
 import org.park.authorize.LoginActivity;
-import org.park.bluetooth.R;
 import org.park.connection.ConnectCtrl;
 import org.park.connection.showDetail;
 import org.park.util.About;

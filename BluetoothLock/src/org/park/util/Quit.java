@@ -1,6 +1,6 @@
 package org.park.util;
 
-import org.park.bluetooth.R;
+import org.park.R;
 import org.park.entrance.splashScreen;
 
 import android.app.AlertDialog;

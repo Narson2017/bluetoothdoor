@@ -1,6 +1,6 @@
 package org.park.connection;
 
-import org.park.bluetooth.R;
+import org.park.R;
 import org.park.entrance.splashScreen;
 import org.park.lockmgr.LockManager;
 import org.park.prefs.settingActivity;
