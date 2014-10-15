@@ -1,4 +1,4 @@
-package org.park.lockmgr;
+package org.park.connection;
 
 import org.park.R;
 

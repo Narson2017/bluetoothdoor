@@ -1,8 +1,8 @@
 package org.park.connection;
 
 import org.park.R;
-import org.park.entrance.splashScreen;
-import org.park.lockmgr.LockManager;
+import org.park.authorize.LoginActivity;
+import org.park.boxlst.BoxAdapter;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
 import org.park.util.Quit;
@@ -12,13 +12,10 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,8 +23,6 @@ public class showDetail extends Activity implements View.OnClickListener {
 	public static final String OPERATION = "OPERATION";
 	public static String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 	public static String PAIR_PASSWORD = "000000000000";
-
-	Button btnExit, btn_back;
 	TextView tvTitle;
 
 	public ConnectedThread connThr;
@@ -45,15 +40,10 @@ public class showDetail extends Activity implements View.OnClickListener {
 		setContentView(R.layout.detail);
 
 		mLockManager = new LockManager(this, R.id.btn_box, R.id.box_nbr);
-		SharedPreferences _sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(getBaseContext());
-		String tmp = _sharedPreferences.getString("locknbr", "");
-		if (!tmp.equals(""))
-			mLockManager.setNbr(Integer.valueOf(tmp));
+		mLockManager.setNbr(getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1));
 
 		detail_view = (LinearLayout) findViewById(R.id.detail_view);
 		progress_connect = (LinearLayout) findViewById(R.id.progress_connect);
-		btn_back = (Button) findViewById(R.id.btn_back);
 		tvTitle = (TextView) findViewById(R.id.tvTitle);
 		tx_fault = (TextView) findViewById(R.id.text_hint);
 
@@ -94,7 +84,7 @@ public class showDetail extends Activity implements View.OnClickListener {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			connThr.act_clean();
 			mBtMgr.disable_bluetooth();
-			startActivity(new Intent(this, splashScreen.class));
+			startActivity(new Intent(this, LoginActivity.class));
 			finish();
 			return true;
 		} else {
@@ -117,12 +107,12 @@ public class showDetail extends Activity implements View.OnClickListener {
 			break;
 		case R.id.btn_box:
 			mLockManager.set_state(false, false);
-			connThr.openlock(1, 1);
+			connThr.openlock(1, mLockManager.getNbr());
 			break;
 		case R.id.btn_back:
 			connThr.act_clean();
 			mBtMgr.disable_bluetooth();
-			startActivity(new Intent(this, splashScreen.class));
+			startActivity(new Intent(this, LoginActivity.class));
 			finish();
 			break;
 		case R.id.btn_about:
