@@ -10,6 +10,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import org.kxml2.kdom.Element;
 import org.kxml2.kdom.Node;
 import org.park.R;
+import org.park.boxlst.BoxlstActivity;
 import org.park.util.Common;
 import org.park.util.HexConvert;
 import org.park.util.MDes;
@@ -45,12 +46,19 @@ public class AuthenticationManager {
 	protected String NOT_AVAILABLE = "0";
 	private MsgManager mMsgMgr;
 
+	private BoxlstActivity boxlst_ctx;
+
 	private String phone_number = null, password = null;
 	private int lock_number = -1;
 
 	public AuthenticationManager(MsgManager ctx) {
 		super();
 		this.mMsgMgr = ctx;
+	}
+
+	public AuthenticationManager(BoxlstActivity ctx) {
+		super();
+		this.boxlst_ctx = ctx;
 	}
 
 	private Handler mHandler = new Handler() {
@@ -204,5 +212,10 @@ public class AuthenticationManager {
 							.sendToTarget();
 			}
 		}).start();
+	}
+
+	public void getAvailableBoxes() {
+		int[] tmp = { 2, 4, 6, 8, 10 };
+		boxlst_ctx.initlst(tmp);
 	}
 }

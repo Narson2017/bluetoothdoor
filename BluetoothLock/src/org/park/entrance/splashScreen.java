@@ -2,7 +2,7 @@ package org.park.entrance;
 
 import org.park.R;
 import org.park.authorize.LoginActivity;
-import org.park.connection.showDetail;
+import org.park.boxlst.BoxlstActivity;
 import org.park.util.Quit;
 
 import android.app.Activity;
@@ -41,7 +41,7 @@ public class splashScreen extends Activity implements OnClickListener {
 			startActivity(new Intent(splashScreen.this, LoginActivity.class));
 			break;
 		case R.id.btn_newuser:
-			startActivity(new Intent(splashScreen.this, showDetail.class));
+			startActivity(new Intent(splashScreen.this, BoxlstActivity.class));
 			break;
 		}
 	}

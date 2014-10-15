@@ -101,5 +101,9 @@
     <string name="close_door_success">Close door successfully.</string>
     <string name="close_door_failed">Close door failed.</string>
     <string name="pair_failed">Pairing failed.</string>
+    <string name="box_lst">Boxes</string>
+    <string name="use">Select</string>
+    <string name="available">Available</string>
+    <string name="nbr">2</string>
 
 </resources>

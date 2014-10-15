@@ -97,5 +97,9 @@
     <string name="close_door_success">门已关</string>
     <string name="close_door_failed">关门信息同步失败.</string>
     <string name="pair_failed">配对失败</string>
+    <string name="box_lst">所有箱子</string>
+    <string name="use">使用</string>
+    <string name="available">空闲</string>
+    <string name="nbr">2</string>
 
 </resources>

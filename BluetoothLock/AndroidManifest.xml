@@ -46,6 +46,9 @@
         <activity
             android:name="org.park.devlist.DevlstActivity"
             android:launchMode="singleTask" />
+        <activity
+            android:name="org.park.boxlst.BoxlstActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

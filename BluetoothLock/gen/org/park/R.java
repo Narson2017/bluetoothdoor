@@ -512,52 +512,63 @@ public final class R {
         public static final int sun=0x7f020034;
     }
     public static final class id {
-        public static final int LinearLayoutSplash=0x7f0a0022;
-        public static final int TextViewSplash=0x7f0a0024;
-        public static final int box_nbr=0x7f0a0009;
-        public static final int btnDis=0x7f0a0014;
-        public static final int btn_about=0x7f0a000b;
-        public static final int btn_action_back=0x7f0a0011;
-        public static final int btn_back=0x7f0a000c;
-        public static final int btn_box=0x7f0a0008;
-        public static final int btn_connect=0x7f0a000a;
-        public static final int btn_devlst=0x7f0a0015;
-        public static final int btn_exit=0x7f0a000d;
-        public static final int btn_login=0x7f0a001f;
-        public static final int btn_newuser=0x7f0a0026;
-        public static final int btn_query=0x7f0a0021;
-        public static final int btn_register=0x7f0a0020;
-        public static final int btn_setting=0x7f0a0002;
-        public static final int btns=0x7f0a0025;
-        public static final int detail_view=0x7f0a0007;
-        public static final int edit_psw=0x7f0a001e;
-        public static final int edit_username=0x7f0a001b;
-        public static final int ic_bar=0x7f0a000f;
-        public static final int img_psw=0x7f0a001d;
-        public static final int img_username=0x7f0a001a;
-        public static final int layout_hint=0x7f0a0003;
-        public static final int layout_psw=0x7f0a001c;
-        public static final int layout_username=0x7f0a0019;
-        public static final int login_form=0x7f0a0018;
-        public static final int login_hint=0x7f0a0016;
-        public static final int logo=0x7f0a0023;
-        public static final int lst_devs=0x7f0a0012;
-        public static final int lvDevices=0x7f0a0013;
-        public static final int main_action_bar=0x7f0a0000;
-        public static final int progressBar1=0x7f0a0006;
-        public static final int progress_connect=0x7f0a0005;
-        public static final int text_hint=0x7f0a0004;
-        public static final int text_login_hint=0x7f0a0017;
-        public static final int tvTitle=0x7f0a0001;
-        public static final int tx_devname=0x7f0a0010;
-        public static final int tx_index=0x7f0a000e;
+        public static final int LinearLayoutSplash=0x7f0a002b;
+        public static final int TextViewSplash=0x7f0a002d;
+        public static final int box_nbr=0x7f0a0017;
+        public static final int btnDis=0x7f0a000c;
+        public static final int btn_about=0x7f0a000d;
+        public static final int btn_action_back=0x7f0a0008;
+        public static final int btn_back=0x7f0a000e;
+        public static final int btn_box=0x7f0a0016;
+        public static final int btn_connect=0x7f0a0018;
+        public static final int btn_devlst=0x7f0a001e;
+        public static final int btn_exit=0x7f0a000f;
+        public static final int btn_login=0x7f0a0028;
+        public static final int btn_newuser=0x7f0a002f;
+        public static final int btn_query=0x7f0a002a;
+        public static final int btn_register=0x7f0a0029;
+        public static final int btn_setting=0x7f0a0011;
+        public static final int btns=0x7f0a002e;
+        public static final int button1=0x7f0a0006;
+        public static final int detail_view=0x7f0a0015;
+        public static final int edit_psw=0x7f0a0027;
+        public static final int edit_username=0x7f0a0024;
+        public static final int ic_bar=0x7f0a001a;
+        public static final int imageView1=0x7f0a0001;
+        public static final int img_psw=0x7f0a0026;
+        public static final int img_username=0x7f0a0023;
+        public static final int l_btn=0x7f0a0005;
+        public static final int l_icon=0x7f0a0000;
+        public static final int l_lsboxes=0x7f0a0009;
+        public static final int l_nbr_msg=0x7f0a0002;
+        public static final int layout_hint=0x7f0a0012;
+        public static final int layout_psw=0x7f0a0025;
+        public static final int layout_username=0x7f0a0022;
+        public static final int login_form=0x7f0a0021;
+        public static final int login_hint=0x7f0a001f;
+        public static final int logo=0x7f0a002c;
+        public static final int lst_devs=0x7f0a001c;
+        public static final int lvDevices=0x7f0a001d;
+        public static final int lvboxes=0x7f0a000a;
+        public static final int main_action_bar=0x7f0a0007;
+        public static final int progressBar1=0x7f0a000b;
+        public static final int progress_connect=0x7f0a0014;
+        public static final int textView1=0x7f0a0004;
+        public static final int text_hint=0x7f0a0013;
+        public static final int text_login_hint=0x7f0a0020;
+        public static final int tvTitle=0x7f0a0010;
+        public static final int tx_box_nbr=0x7f0a0003;
+        public static final int tx_devname=0x7f0a001b;
+        public static final int tx_index=0x7f0a0019;
     }
     public static final class layout {
-        public static final int detail=0x7f030000;
-        public static final int dev_lst_item_row=0x7f030001;
-        public static final int devlst=0x7f030002;
-        public static final int login=0x7f030003;
-        public static final int splash=0x7f030004;
+        public static final int box_lst_item_row=0x7f030000;
+        public static final int boxlst=0x7f030001;
+        public static final int detail=0x7f030002;
+        public static final int dev_lst_item_row=0x7f030003;
+        public static final int devlst=0x7f030004;
+        public static final int login=0x7f030005;
+        public static final int splash=0x7f030006;
     }
     public static final class string {
         public static final int about_us=0x7f080002;
@@ -566,8 +577,10 @@ public final class R {
         public static final int auth_success=0x7f080031;
         public static final int authorize=0x7f080020;
         public static final int authorizing=0x7f08002d;
+        public static final int available=0x7f080051;
         public static final int back=0x7f08003d;
         public static final int blue_unabailable=0x7f080008;
+        public static final int box_lst=0x7f08004f;
         public static final int btn_cancel=0x7f080005;
         public static final int btn_ok=0x7f080006;
         public static final int btns=0x7f080041;
@@ -602,6 +615,7 @@ public final class R {
         /**  Animation description 
          */
         public static final int logo=0x7f080040;
+        public static final int nbr=0x7f080052;
         public static final int new_user=0x7f080043;
         public static final int not_available=0x7f08002a;
         public static final int not_found=0x7f08001b;
@@ -639,6 +653,7 @@ public final class R {
         public static final int store=0x7f08001c;
         public static final int sun=0x7f080042;
         public static final int sure=0x7f080023;
+        public static final int use=0x7f080050;
         public static final int username=0x7f080021;
         public static final int welcome=0x7f080004;
     }
@@ -655,10 +670,12 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f090006;
+        public static final int AppBaseTheme=0x7f090008;
         public static final int BlackTheme=0x7f090002;
         public static final int CustomTheme=0x7f090000;
         public static final int LightTheme=0x7f090001;
+        public static final int box_lst_msg=0x7f090007;
+        public static final int box_lst_nbr=0x7f090006;
         public static final int box_nbr=0x7f090004;
         public static final int box_style=0x7f090003;
         public static final int login_text=0x7f090005;
