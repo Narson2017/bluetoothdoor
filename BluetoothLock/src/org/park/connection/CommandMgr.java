@@ -18,19 +18,19 @@ public class CommandMgr {
 	static public final int RECEIVE_OPEN_DOOR_FAILED = 6;
 	static public final int RECEIVE_CLOSE_DOOR_FAILED = 7;
 
-	int cabinet_id, box_id;
+	int cabinet_id = 0, box_id = 0;
 
 	public CommandMgr() {
 		super();
 	}
 
-	public void setBoxnbr(int cabinet_id, int box_id) {
-		this.cabinet_id = cabinet_id;
-		this.box_id = box_id;
+	public void setBoxNbr(int cabinet, int box) {
+		this.cabinet_id = cabinet;
+		this.box_id = box;
 	}
 
 	// get "password and algorithm type" command
-	byte[] getPswAlg(String pairStr) {
+	byte[] getPswAlg(String pairStr, int cabinet_id, int box_id) {
 		String tmp1 = "feef";
 		String tmp2 = "10" + pairStr + "a2" + "000000000000"
 				+ HexConvert.int2hexStr(cabinet_id)
@@ -54,7 +54,7 @@ public class CommandMgr {
 	// get "open lock" command
 	byte[] getOpenLockCommand(String pairStr, String receivedStr) {
 		String tmp1 = "feef";
-		String tmp2 = "0c" + pairStr + "a3" + calculateDynamicPsw(receivedStr)
+		String tmp2 = "10" + pairStr + "a3" + calculateDynamicPsw(receivedStr)
 				+ HexConvert.int2hexStr(cabinet_id)
 				+ HexConvert.int2hexStr(box_id) + "00";
 		String tmp3 = xor(tmp2);
@@ -84,21 +84,32 @@ public class CommandMgr {
 	}
 
 	public String calculateDynamicPsw(String receivedStr) {
-		String source = receivedStr.substring(10, 16);
+		String source = receivedStr.substring(10, 22);
 		String result = "";
 
-		if (receivedStr.substring(16, 18).equalsIgnoreCase("f1")) {
-			ArrayList<String> strs = new ArrayList<String>();
-			for (int i = 0; i < source.length() / 2; i++) {
-				strs.add(source.substring(2 * i, 2 * i + 2));
-			}
-			int key = 0;
+		ArrayList<String> strs = new ArrayList<String>();
+		for (int i = 0; i < source.length() / 2; i++) {
+			strs.add(source.substring(2 * i, 2 * i + 2));
+		}
+		
+		int key = 0;
+		if (receivedStr.substring(22, 24).equalsIgnoreCase("f1")) {
 			for (String hexStr : strs)
 				key = Integer.valueOf(hexStr, 16).intValue() ^ key;
 
 			for (String hexStr : strs) {
 				key = Integer.valueOf(hexStr, 16).intValue() ^ key;
 				result += HexConvert.int2hexStr(key);
+			}
+		} else if (receivedStr.substring(22, 24).equalsIgnoreCase("f2")) {
+			for (int i = 0; i < strs.size() - 1; i += 2) {
+				key = Integer.valueOf(strs.get(i), 16).intValue()
+						^ Integer.valueOf(strs.get(i + 1), 16).intValue();
+				result += HexConvert.int2hexStr(Integer
+						.valueOf(strs.get(i), 16).intValue() ^ key);
+				result += HexConvert.int2hexStr(Integer.valueOf(
+						strs.get(i + 1), 16).intValue()
+						^ key);
 			}
 		}
 		return result;

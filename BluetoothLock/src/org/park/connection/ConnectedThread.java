@@ -14,7 +14,7 @@ import android.os.Message;
 import android.util.Log;
 
 public class ConnectedThread extends Thread {
-	final int RESPONSE_LENGTH = 14;
+	final int RESPONSE_LENGTH = 16;
 	static final int OPR_OPEN_LOCK = 2;
 	static final int OPR_QUERY_LOCK = 1;
 	static final int OPR_QUERY_ALL = 0;
@@ -46,14 +46,11 @@ public class ConnectedThread extends Thread {
 		mCmdmgr = new CommandMgr();
 	}
 
-	public void setConnState(boolean bl) {
-		bConnect = bl;
-	}
-
 	public void run() {
 		// Keep listening to the InputStream until an exception occurs
 		byte[] bufRecv = new byte[32];
 		int nRecv = 0;
+		bConnect = true;
 		while (bConnect) {
 			try {
 				if (nRecved >= nNeed) {
@@ -219,8 +216,9 @@ public class ConnectedThread extends Thread {
 		nNeed = RESPONSE_LENGTH;
 		nRecved = 0;
 		try {
-			mCmdmgr.setBoxnbr(cabinet_id, box_id);
-			mmOutStream.write(mCmdmgr.getPswAlg(showDetail.PAIR_PASSWORD));
+			mCmdmgr.setBoxNbr(cabinet_id, box_id);
+			mmOutStream.write(mCmdmgr.getPswAlg(showDetail.PAIR_PASSWORD,
+					cabinet_id, box_id));
 			mmOutStream.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -16,7 +16,9 @@ public class TestCmd extends TestCase {
 		super.tearDown();
 	}
 
-	public void testXor() {
+	public void testCalculate() {
+		assertEquals("adf611e7020e",
+				mcmd.calculateDynamicPsw("BEEB0CB2DAF6ADE7110E02F200000029"));
 	}
 
 }
