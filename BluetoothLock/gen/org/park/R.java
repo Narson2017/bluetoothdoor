@@ -583,6 +583,7 @@ public final class R {
         public static final int btn_cancel=0x7f080005;
         public static final int btn_ok=0x7f080006;
         public static final int btns=0x7f080041;
+        public static final int cabinet_label=0x7f080054;
         public static final int change_psw_failed=0x7f080049;
         public static final int change_psw_success=0x7f080047;
         public static final int close=0x7f080016;
@@ -596,6 +597,7 @@ public final class R {
         public static final int dev_name=0x7f08000e;
         public static final int disconnect=0x7f080045;
         public static final int empty=0x7f080017;
+        public static final int enter_cabinet=0x7f080053;
         public static final int enter_locknbr=0x7f08003a;
         public static final int enter_password=0x7f080039;
         public static final int enter_username=0x7f080038;
@@ -603,6 +605,7 @@ public final class R {
         public static final int filled=0x7f080018;
         public static final int forget_psw=0x7f080027;
         public static final int hint=0x7f080019;
+        public static final int if_login=0x7f080056;
         public static final int loading=0x7f080044;
         public static final int lock_nbr_label=0x7f080007;
         public static final int lock_not_found=0x7f08001f;
@@ -629,6 +632,7 @@ public final class R {
         public static final int pairing=0x7f080046;
         public static final int password=0x7f080022;
         public static final int please_connect=0x7f08001a;
+        public static final int please_login=0x7f080055;
         public static final int pref_account=0x7f080037;
         public static final int pref_reset=0x7f08003c;
         public static final int query_btn=0x7f08000c;

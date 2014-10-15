@@ -1,6 +1,7 @@
 package org.park.authorize;
 
 import org.park.R;
+import org.park.boxlst.BoxAdapter;
 import org.park.connection.showDetail;
 import org.park.devlist.DevlstActivity;
 import org.park.entrance.splashScreen;
@@ -23,11 +24,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class LoginActivity extends Activity implements
-		View.OnFocusChangeListener, OnClickListener, MsgManager,
-		OnLongClickListener {
+		View.OnFocusChangeListener, OnClickListener, OnLongClickListener {
 	protected static final int MSG_LOGIN_LOADING = 0;
 	protected static final int MSG_REGISTER_LOADING = 2;
 	public static final int MSG_SERVER_FAULT = 3;
@@ -35,7 +34,6 @@ public class LoginActivity extends Activity implements
 	ImageView img_psw, img_username;
 	Button btn_login, btn_register;
 	TextView text_login_hint;
-	View login_hint;
 	AuthenticationManager mAuthMgr;
 
 	int[] loginTexts = { R.string.login_load1, R.string.login_load2,
@@ -43,6 +41,7 @@ public class LoginActivity extends Activity implements
 	int[] registerTexts = { R.string.register_load1, R.string.register_load2,
 			R.string.register_load3 };
 	public boolean authorizing = true;
+	public int box_nbr, cabinet_nbr;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +64,20 @@ public class LoginActivity extends Activity implements
 		btn_register.setOnClickListener(this);
 		btn_register.setOnLongClickListener(this);
 		text_login_hint = (TextView) findViewById(R.id.text_login_hint);
-		login_hint = findViewById(R.id.login_hint);
 
+		box_nbr = getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1);
+		cabinet_nbr = getIntent().getIntExtra(BoxAdapter.CABINET_NUMBER, -1);
+		if (box_nbr != -1) {
+			btn_login.setEnabled(false);
+			btn_register.setEnabled(true);
+			btn_login.setBackgroundColor(R.color.gray);
+			text_login_hint.setText(R.string.not_register);
+		} else {
+			btn_register.setEnabled(false);
+			btn_login.setEnabled(true);
+			btn_register.setBackgroundColor(R.color.gray);
+			text_login_hint.setText(R.string.please_login);
+		}
 		mAuthMgr = new AuthenticationManager(this);
 	}
 
@@ -136,8 +147,8 @@ public class LoginActivity extends Activity implements
 		case R.id.btn_login:
 			try {
 				// btn_login.setText(R.string.logining);
-				mAuthMgr.authSend(edit_username.getText().toString(), edit_psw
-						.getText().toString(), AuthenticationManager.OPR_OPEN);
+				mAuthMgr.login(edit_username.getText().toString(), edit_psw
+						.getText().toString());
 				new Thread(new OprLoad(MSG_LOGIN_LOADING)).start();
 			} catch (Exception e) {
 				System.err.print("Begin authorize failed: " + e.toString());
@@ -145,10 +156,8 @@ public class LoginActivity extends Activity implements
 			break;
 		case R.id.btn_register:
 			try {
-				// btn_register.setText(R.string.registering);
-				mAuthMgr.authSend(edit_username.getText().toString(), edit_psw
-						.getText().toString(),
-						AuthenticationManager.OPR_REGISTER);
+				mAuthMgr.register(edit_username.getText().toString(), edit_psw
+						.getText().toString(), cabinet_nbr, box_nbr);
 				new Thread(new OprLoad(MSG_REGISTER_LOADING)).start();
 			} catch (Exception e) {
 				System.err.print("Begin register failed: " + e.toString());
@@ -189,47 +198,40 @@ public class LoginActivity extends Activity implements
 		}
 	};
 
-	@Override
-	public void authPassed(int lock_nbr) {
+	public void authPassed() {
 		// TODO Auto-generated method stub
 		authorizing = false;
-		Toast.makeText(this, R.string.auth_success, Toast.LENGTH_SHORT).show();
+		text_login_hint.setText(R.string.auth_success);
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		prefs.edit().putString("username", edit_username.getText().toString())
 				.commit();
 		prefs.edit().putString("password", edit_psw.getText().toString())
 				.commit();
-		prefs.edit().putString("locknbr", String.valueOf(lock_nbr)).commit();
-		startActivity(new Intent(this, showDetail.class));
+		prefs.edit().putString("locknbr", String.valueOf(box_nbr)).commit();
+		prefs.edit().putString("cabinet", String.valueOf(cabinet_nbr)).commit();
+
+		Intent intent = new Intent(this, showDetail.class);
+		intent.putExtra(BoxAdapter.CABINET_NUMBER, cabinet_nbr);
+		intent.putExtra(BoxAdapter.BOX_NUMBER, box_nbr);
+		startActivity(intent);
 	}
 
-	@Override
 	public void hint(int res_id) {
 		// TODO Auto-generated method stub
 		hint(getString(res_id));
 	}
 
-	@Override
 	public void hint(String str) {
 		// TODO Auto-generated method stub
-		login_hint.setVisibility(View.VISIBLE);
 		text_login_hint.setText(str);
 	}
 
-	@Override
-	public void unHint() {
-		// TODO Auto-generated method stub
-		login_hint.setVisibility(View.INVISIBLE);
-	}
-
-	@Override
 	public void setRegisterBtn(int res_id) {
 		// TODO Auto-generated method stub
 		btn_register.setText(res_id);
 	}
 
-	@Override
 	public void stopLoading() {
 		// TODO Auto-generated method stub
 		authorizing = false;

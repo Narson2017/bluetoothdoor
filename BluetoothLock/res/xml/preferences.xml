@@ -17,6 +17,11 @@
             android:key="locknbr"
             android:summary="@string/enter_locknbr"
             android:title="@string/lock_nbr_label" />
+        <EditTextPreference
+            android:dialogTitle="@string/enter_cabinet"
+            android:key="cabinet"
+            android:summary="@string/enter_cabinet"
+            android:title="@string/cabinet_label" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_reset" >
         <org.park.prefs.ResetPrefs

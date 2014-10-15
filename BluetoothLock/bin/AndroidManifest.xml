@@ -38,9 +38,7 @@
             android:name="org.park.connection.showDetail"
             android:launchMode="singleTask" >
         </activity>
-        <activity
-            android:name="org.park.authorize.LoginActivity"
-            android:launchMode="singleTask" >
+        <activity android:name="org.park.authorize.LoginActivity" >
         </activity>
         <activity android:name="org.park.prefs.settingActivity" />
         <activity

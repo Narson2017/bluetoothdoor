@@ -43,7 +43,7 @@ public class BoxlstActivity extends Activity implements View.OnClickListener {
 
 	public void initlst(int[] boxes_lst) {
 		for (int box : boxes_lst) {
-			box_lst.add(new MBox(box));
+			box_lst.add(new MBox(1, box));
 		}
 		mBoxApt.notifyDataSetChanged();
 		l_progressBar1.setVisibility(View.GONE);

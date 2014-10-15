@@ -41,6 +41,8 @@ public class showDetail extends Activity implements View.OnClickListener {
 
 		mLockManager = new LockManager(this, R.id.btn_box, R.id.box_nbr);
 		mLockManager.setNbr(getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1));
+		mLockManager.cabinet = getIntent().getIntExtra(
+				BoxAdapter.CABINET_NUMBER, -1);
 
 		detail_view = (LinearLayout) findViewById(R.id.detail_view);
 		progress_connect = (LinearLayout) findViewById(R.id.progress_connect);

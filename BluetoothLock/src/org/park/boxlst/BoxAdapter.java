@@ -3,7 +3,7 @@ package org.park.boxlst;
 import java.util.List;
 
 import org.park.R;
-import org.park.connection.showDetail;
+import org.park.authorize.LoginActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +21,7 @@ public class BoxAdapter extends ArrayAdapter<MBox> {
 	int resource;
 	List<MBox> objects;
 	public static String BOX_NUMBER = "box_number";
+	public static String CABINET_NUMBER = "cabinet_number";
 
 	public BoxAdapter(Context context, int resource, List<MBox> objects) {
 		super(context, resource, objects);
@@ -53,8 +54,9 @@ public class BoxAdapter extends ArrayAdapter<MBox> {
 						if (position != ListView.INVALID_POSITION) {
 							// DO THE STUFF YOU WANT TO DO WITH THE position
 							Intent intent = new Intent(context,
-									showDetail.class);
+									LoginActivity.class);
 							intent.putExtra(BOX_NUMBER, mBox.get_nbr());
+							intent.putExtra(CABINET_NUMBER, mBox.cabinet_id);
 							((BoxlstActivity) context).startActivity(intent);
 						}
 						break;

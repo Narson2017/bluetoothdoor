@@ -13,6 +13,7 @@ public class LockManager {
 	Button boxBtn;
 	TextView nbrText;
 	int lockNbr;
+	public int cabinet;
 
 	public LockManager(Context ctx, int btn_res, int tx_res) {
 		Activity act = (Activity) ctx;

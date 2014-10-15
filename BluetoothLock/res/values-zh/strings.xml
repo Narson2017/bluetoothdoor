@@ -101,5 +101,8 @@
     <string name="use">使用</string>
     <string name="available">空闲</string>
     <string name="nbr">2</string>
-
+    <string name="enter_cabinet">输入柜号</string>
+    <string name="cabinet_label">柜号</string>
+    <string name="please_login">请登录</string>
+<string name="if_login">检测到上次登录的账户信息, 是否直接使用该账号登录?</string>
 </resources>

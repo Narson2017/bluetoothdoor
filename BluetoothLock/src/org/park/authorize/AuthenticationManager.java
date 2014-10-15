@@ -32,7 +32,7 @@ public class AuthenticationManager {
 	private static final String SOAP_ADDRESS = "http://192.168.1.206:8092/web_test/services/web_test";
 
 	private static final int MSG_FAILURE = 1;
-	protected static final int MSG_OPEN_CHECK = 2;
+	protected static final int MSG_REGISTER_CHECK = 2;
 	protected static final int MSG_SAVE_RECEIVE = 3;
 	protected static final int MSG_OPEN_RECEIVE = 4;
 	protected static final int MSG_HINT = 5;
@@ -44,16 +44,16 @@ public class AuthenticationManager {
 
 	protected String OPERATION_FAILED = "-1";
 	protected String NOT_AVAILABLE = "0";
-	private MsgManager mMsgMgr;
 
 	private BoxlstActivity boxlst_ctx;
+	private LoginActivity login_ctx;
 
 	private String phone_number = null, password = null;
 	private int lock_number = -1;
 
-	public AuthenticationManager(MsgManager ctx) {
+	public AuthenticationManager(LoginActivity ctx) {
 		super();
-		this.mMsgMgr = ctx;
+		login_ctx = ctx;
 	}
 
 	public AuthenticationManager(BoxlstActivity ctx) {
@@ -68,42 +68,41 @@ public class AuthenticationManager {
 			String result = null;
 			switch (msg.what) {
 			case MSG_HINT:
-				mMsgMgr.hint(msg.arg1);
+				login_ctx.hint(msg.arg1);
 				break;
-			case MSG_OPEN_CHECK:
+			case MSG_REGISTER_CHECK:
 				result = ((SoapObject) msg.obj).getProperty(0).toString();
 				if (result.equalsIgnoreCase(NOT_AVAILABLE))
-					authSend(phone_number, password, OPR_SAVE);
+					authSend(phone_number, password, login_ctx.cabinet_nbr,
+							login_ctx.box_nbr, OPR_SAVE);
 				else {
-					mMsgMgr.hint(R.string.already_registered);
-					mMsgMgr.stopLoading();
+					login_ctx.hint(R.string.already_registered);
+					login_ctx.stopLoading();
 				}
 				break;
 			case MSG_OPEN_RECEIVE:
 				result = ((SoapObject) msg.obj).getProperty(0).toString();
 				if (result.equalsIgnoreCase(OPERATION_FAILED)) {
-					mMsgMgr.hint(R.string.server_fault);
-					mMsgMgr.stopLoading();
+					login_ctx.hint(R.string.server_fault);
+					login_ctx.stopLoading();
 				} else if (result.equalsIgnoreCase(NOT_AVAILABLE)) {
-					mMsgMgr.hint(R.string.not_register);
-					mMsgMgr.stopLoading();
+					login_ctx.hint(R.string.not_register);
+					login_ctx.stopLoading();
 				} else {
-					mMsgMgr.unHint();
-					mMsgMgr.authPassed(Integer.valueOf(result).intValue());
+					login_ctx.authPassed();
 				}
 				break;
 			case MSG_SAVE_RECEIVE:
-				mMsgMgr.setRegisterBtn(R.string.register);
+				login_ctx.setRegisterBtn(R.string.register);
 				result = ((SoapObject) msg.obj).getProperty(0).toString();
 				if (result.equalsIgnoreCase(OPERATION_FAILED)) {
-					mMsgMgr.hint(R.string.save_failed);
-					mMsgMgr.stopLoading();
+					login_ctx.hint(R.string.save_failed);
+					login_ctx.stopLoading();
 				} else if (result.equalsIgnoreCase(NOT_AVAILABLE)) {
-					mMsgMgr.hint(R.string.not_available);
-					mMsgMgr.stopLoading();
+					login_ctx.hint(R.string.not_available);
+					login_ctx.stopLoading();
 				} else {
-					mMsgMgr.unHint();
-					mMsgMgr.authPassed(Integer.valueOf(result).intValue());
+					login_ctx.authPassed();
 				}
 				break;
 			// ∑Ò‘ÚÃ· æ ß∞‹
@@ -115,8 +114,8 @@ public class AuthenticationManager {
 		}
 	};
 
-	public void authSend(final String phone, final String psw,
-			final int operation) {
+	public void authSend(final String phone, final String psw, int cabinet,
+			int box, final int operation) {
 
 		phone_number = phone;
 		password = psw;
@@ -195,7 +194,7 @@ public class AuthenticationManager {
 				if (result != null)
 					switch (operation) {
 					case OPR_REGISTER:
-						mHandler.obtainMessage(MSG_OPEN_CHECK, result)
+						mHandler.obtainMessage(MSG_REGISTER_CHECK, result)
 								.sendToTarget();
 						break;
 					case OPR_SAVE:
@@ -217,5 +216,16 @@ public class AuthenticationManager {
 	public void getAvailableBoxes() {
 		int[] tmp = { 2, 4, 6, 8, 10 };
 		boxlst_ctx.initlst(tmp);
+	}
+
+	public void register(String username, String password, int cabinet, int box) {
+		// authSend(username, password, cabinet, box, OPR_REGISTER);
+		login_ctx.authPassed();
+	}
+
+	public void login(String username, String password) {
+		// TODO Auto-generated method stub
+//		authSend(username, password, -1, -1, OPR_OPEN);
+		login_ctx.authPassed();
 	}
 }
