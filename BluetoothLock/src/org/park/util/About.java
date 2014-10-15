@@ -12,7 +12,7 @@ public class About {
 
 	public static void ShowAbout(final Context ctx) {
 		new AlertDialog.Builder(ctx)
-				.setIcon(R.drawable.icon)
+				.setIcon(R.drawable.ic_launcher)
 				.setTitle(R.string.company_name)
 				.setMessage(R.string.welcome)
 				.setPositiveButton(R.string.btn_cancel,

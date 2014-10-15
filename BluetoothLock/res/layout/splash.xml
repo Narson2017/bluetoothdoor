@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_gardient"
     tools:context="org.park.entrance.splashScreen" >
 
     <LinearLayout
@@ -23,7 +22,7 @@
             android:paddingLeft="20dip"
             android:paddingRight="20dip"
             android:scaleType="centerInside"
-            android:src="@drawable/icon" />
+            android:src="@drawable/ic_lock_blue" />
 
         <TextView
             android:id="@+id/TextViewSplash"
@@ -35,9 +34,8 @@
             android:shadowDx="0"
             android:shadowDy="2"
             android:shadowRadius="1"
-            android:text="@string/company_name"
-            android:textColor="#0000FF"
-            android:textSize="30dip"
+            android:text="@string/product_name"
+            android:textSize="16dip"
             android:typeface="serif" />
     </LinearLayout>
 
@@ -64,11 +62,12 @@
             </LinearLayout>
 
             <Button
-                android:onClick="onClick"
                 android:id="@+id/btn_login"
+                style="@style/btn_login"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
                 android:layout_weight="50"
+                android:onClick="onClick"
                 android:text="@string/login" />
 
             <LinearLayout
@@ -91,11 +90,12 @@
             </LinearLayout>
 
             <Button
-                android:onClick="onClick"
                 android:id="@+id/btn_newuser"
+                style="@style/btn_login"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
                 android:layout_weight="50"
+                android:onClick="onClick"
                 android:text="@string/new_user" />
 
             <LinearLayout

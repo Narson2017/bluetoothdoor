@@ -508,8 +508,9 @@ public final class R {
         public static final int ic_device_access_usb_pressed=0x7f020030;
         public static final int ic_disconnect_normal=0x7f020031;
         public static final int ic_disconnect_pressed=0x7f020032;
-        public static final int icon=0x7f020033;
-        public static final int sun=0x7f020034;
+        public static final int ic_launcher=0x7f020033;
+        public static final int ic_lock_blue=0x7f020034;
+        public static final int sun=0x7f020035;
     }
     public static final class id {
         public static final int LinearLayoutSplash=0x7f0a002a;
@@ -635,6 +636,7 @@ public final class R {
         public static final int please_login=0x7f080055;
         public static final int pref_account=0x7f080037;
         public static final int pref_reset=0x7f08003c;
+        public static final int product_name=0x7f080057;
         public static final int query_btn=0x7f08000c;
         public static final int register=0x7f080026;
         public static final int register_load1=0x7f080032;
@@ -673,7 +675,7 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f090008;
+        public static final int AppBaseTheme=0x7f090009;
         public static final int BlackTheme=0x7f090002;
         public static final int CustomTheme=0x7f090000;
         public static final int LightTheme=0x7f090001;
@@ -681,6 +683,7 @@ public final class R {
         public static final int box_lst_nbr=0x7f090006;
         public static final int box_nbr=0x7f090004;
         public static final int box_style=0x7f090003;
+        public static final int btn_login=0x7f090008;
         public static final int login_text=0x7f090005;
     }
     public static final class xml {

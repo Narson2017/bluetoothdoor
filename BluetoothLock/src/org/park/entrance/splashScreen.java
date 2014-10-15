@@ -48,7 +48,8 @@ public class splashScreen extends Activity implements OnClickListener {
 					.getDefaultSharedPreferences(getBaseContext());
 			final String box = _sharedPreferences.getString("locknbr", "");
 			if (!box.equals("")) {
-				final String cabinet = _sharedPreferences.getString("cabinet", "");
+				final String cabinet = _sharedPreferences.getString("cabinet",
+						"");
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						splashScreen.this);
@@ -58,9 +59,12 @@ public class splashScreen extends Activity implements OnClickListener {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								// User clicked OK button
-								Intent tmp = new Intent(splashScreen.this, showDetail.class);
-								tmp.putExtra(BoxAdapter.BOX_NUMBER, box);
-								tmp.putExtra(BoxAdapter.BOX_NUMBER, cabinet);
+								Intent tmp = new Intent(splashScreen.this,
+										showDetail.class);
+								tmp.putExtra(BoxAdapter.BOX_NUMBER, Integer
+										.valueOf(box).intValue());
+								tmp.putExtra(BoxAdapter.BOX_NUMBER, Integer
+										.valueOf(cabinet).intValue());
 								startActivity(tmp);
 							}
 						});
@@ -68,7 +72,8 @@ public class splashScreen extends Activity implements OnClickListener {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								// User cancelled the dialog
-								startActivity(new Intent(splashScreen.this, LoginActivity.class));
+								startActivity(new Intent(splashScreen.this,
+										LoginActivity.class));
 							}
 						});
 

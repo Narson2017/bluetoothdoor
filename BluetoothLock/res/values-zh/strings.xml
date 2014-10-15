@@ -41,7 +41,7 @@
     <string name="detail_view">详细视图</string>
     <string name="open_blue">请开启蓝牙</string>
     <string name="send_failed">发送指令出错</string>
-    <string name="connect_success">连接成功, 正在查询可用柜子...</string>
+    <string name="connect_success">连接成功, 请点击开锁.</string>
     <string name="open">开</string>
     <string name="close">关</string>
     <string name="empty">无</string>
@@ -104,5 +104,7 @@
     <string name="enter_cabinet">输入柜号</string>
     <string name="cabinet_label">柜号</string>
     <string name="please_login">请登录</string>
-<string name="if_login">检测到上次登录的账户信息, 是否直接使用该账号登录?</string>
+    <string name="if_login">检测到上次登录的账户信息, 是否直接使用该账号登录?</string>
+    <string name="product_name">蓝牙遥控</string>
+
 </resources>

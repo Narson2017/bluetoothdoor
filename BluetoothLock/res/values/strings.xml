@@ -109,5 +109,6 @@
     <string name="cabinet_label">Cabinet number</string>
     <string name="please_login">Please login</string>
     <string name="if_login">The account saved is found, use this account to login or not?</string>
+    <string name="product_name">Bluetooth control</string>
 
 </resources>
