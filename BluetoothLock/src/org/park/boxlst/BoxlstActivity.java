@@ -5,29 +5,34 @@ import java.util.List;
 
 import org.park.R;
 import org.park.authorize.AuthenticationManager;
-import org.park.entrance.splashScreen;
-import org.park.util.About;
-import org.park.util.Quit;
+import org.park.util.OnClickCtrl;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
 
-public class BoxlstActivity extends Activity implements View.OnClickListener {
+public class BoxlstActivity extends Activity {
 	AuthenticationManager mAuthMgr;
 	ListView box_lv;
 	BoxAdapter mBoxApt;
 	List<MBox> box_lst = new ArrayList<MBox>();
 	View l_lsboxes, l_progressBar1;
+	OnClickCtrl mOnclickCtrl;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.boxlst);
+
+		mOnclickCtrl = new OnClickCtrl(this);
+		findViewById(R.id.btn_exit).setOnClickListener(mOnclickCtrl);
+		findViewById(R.id.btn_about).setOnClickListener(mOnclickCtrl);
+		findViewById(R.id.btn_action_back).setOnClickListener(mOnclickCtrl);
+		findViewById(R.id.btn_back).setOnClickListener(mOnclickCtrl);
+		findViewById(R.id.btn_setting).setOnClickListener(mOnclickCtrl);
 
 		l_progressBar1 = findViewById(R.id.progressBar1);
 		l_lsboxes = findViewById(R.id.l_lsboxes);
@@ -48,23 +53,5 @@ public class BoxlstActivity extends Activity implements View.OnClickListener {
 		mBoxApt.notifyDataSetChanged();
 		l_progressBar1.setVisibility(View.GONE);
 		l_lsboxes.setVisibility(View.VISIBLE);
-	}
-
-	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
-		switch (arg0.getId()) {
-		case R.id.btn_exit:
-			Quit.act_exit(this);
-			break;
-		case R.id.btn_about:
-			About.ShowAbout(this);
-			break;
-		case R.id.btn_action_back:
-		case R.id.btn_back:
-			startActivity(new Intent(this, splashScreen.class));
-			finish();
-			break;
-		}
 	}
 }

@@ -55,7 +55,7 @@
     <string name="lock_not_found">Lock does not exists</string>
     <string name="authorize">Authorize</string>
     <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="password">6 digit password</string>
     <string name="sure">Are you sure?</string>
     <string name="room_lst">Room list</string>
     <string name="login">Login</string>
@@ -81,6 +81,7 @@
     <string name="enter_password">Enter password</string>
     <string name="enter_locknbr">Enter lock number(allow empty)</string>
     <string name="reset">Reset</string>
+    <string name="reset_sum">Reset and return.</string>
     <string name="pref_reset">Clean all</string>
     <string name="back">Return</string>
     <string name="save_exit">Save and exit</string>
@@ -93,7 +94,7 @@
     <string name="loading">Loading...</string>
     <string name="disconnect">Disconnected</string>
     <string name="pairing">Pairing</string>
-    <string name="change_psw_success">Change password successfully.</string>
+    <string name="change_psw_success">Change password successfully, loading...</string>
     <string name="obtain_dynamic_psw_failed">Obtain dynamic password failed.</string>
     <string name="change_psw_failed">Change password failed.</string>
     <string name="open_door_success">Open door successfully.</string>
@@ -105,10 +106,19 @@
     <string name="use">Select</string>
     <string name="available">Available</string>
     <string name="nbr">2</string>
-    <string name="enter_cabinet">Enter cabinet number</string>
+    <string name="enter_cabinet">Enter cabinet number(allow empty)</string>
     <string name="cabinet_label">Cabinet number</string>
     <string name="please_login">Please login</string>
     <string name="if_login">The account saved is found, use this account to login or not?</string>
     <string name="product_name">Bluetooth control</string>
+    <string name="upload_account">Update account detail</string>
+    <string name="old_account">Please input old account message to authorize</string>
+    <string name="authorize_update">Authorize and update</string>
+    <string name="authorize_update1">Authorize and update.</string>
+    <string name="authorize_update2">Authorize and update..</string>
+    <string name="authorize_update3">Authorize and update...</string>
+    <string name="authorize_update4">Authorize and update....</string>
+    <string name="change_account_success">Change account successfully, loading...</string>
+    <string name="update_success">Update successfully, redirect to index after 3 seconds...</string>
 
 </resources>

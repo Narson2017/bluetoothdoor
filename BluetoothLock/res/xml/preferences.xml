@@ -3,21 +3,27 @@
 
     <PreferenceCategory android:title="@string/pref_account" >
         <EditTextPreference
+            style="@style/input_username"
             android:dialogTitle="@string/enter_username"
             android:key="username"
             android:summary="@string/enter_username"
             android:title="@string/username" />
         <EditTextPreference
+            style="@style/edit_password"
             android:dialogTitle="@string/enter_password"
             android:key="password"
             android:summary="@string/enter_password"
             android:title="@string/password" />
         <EditTextPreference
+            android:inputType="number"
+            android:maxLength="3"
             android:dialogTitle="@string/enter_locknbr"
             android:key="locknbr"
             android:summary="@string/enter_locknbr"
             android:title="@string/lock_nbr_label" />
         <EditTextPreference
+            android:inputType="number"
+            android:maxLength="2"
             android:dialogTitle="@string/enter_cabinet"
             android:key="cabinet"
             android:summary="@string/enter_cabinet"
@@ -25,6 +31,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_reset" >
         <org.park.prefs.ResetPrefs
+            android:summary="@string/reset_sum"
             android:key="pref_dialog"
             android:title="@string/reset" />
     </PreferenceCategory>

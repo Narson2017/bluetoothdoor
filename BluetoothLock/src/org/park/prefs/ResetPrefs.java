@@ -1,8 +1,10 @@
 package org.park.prefs;
 
 import org.park.R;
+import org.park.entrance.splashScreen;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
@@ -31,6 +33,8 @@ public class ResetPrefs extends DialogPreference {
 			mPrefs.edit().putString("username", "").commit();
 			mPrefs.edit().putString("password", "").commit();
 			mPrefs.edit().putString("locknbr", "").commit();
+			getContext().startActivity(
+					new Intent(getContext(), splashScreen.class));
 		} else {
 			// User selected Cancel
 		}

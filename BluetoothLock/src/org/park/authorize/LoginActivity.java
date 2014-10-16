@@ -70,12 +70,12 @@ public class LoginActivity extends Activity implements
 		if (box_nbr != -1) {
 			btn_login.setEnabled(false);
 			btn_register.setEnabled(true);
-			btn_login.setBackgroundColor(R.color.gray);
+			btn_login.setBackgroundColor(R.color.grey);
 			text_login_hint.setText(R.string.not_register);
 		} else {
 			btn_register.setEnabled(false);
 			btn_login.setEnabled(true);
-			btn_register.setBackgroundColor(R.color.gray);
+			btn_register.setBackgroundColor(R.color.grey);
 			text_login_hint.setText(R.string.please_login);
 		}
 		mAuthMgr = new AuthenticationManager(this);
@@ -165,11 +165,11 @@ public class LoginActivity extends Activity implements
 			System.out.print("Registering");
 			break;
 		case R.id.btn_back:
-			startActivity(new Intent(LoginActivity.this, splashScreen.class));
+			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			break;
 		case R.id.btn_exit:
-			Quit.act_exit(LoginActivity.this);
+			Quit.act_exit(this);
 			break;
 		case R.id.btn_about:
 			About.ShowAbout(this);

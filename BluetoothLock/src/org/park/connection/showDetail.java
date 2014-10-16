@@ -8,10 +8,7 @@ import org.park.util.About;
 import org.park.util.Quit;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -48,25 +45,17 @@ public class showDetail extends Activity implements View.OnClickListener {
 		progress_connect = (LinearLayout) findViewById(R.id.progress_connect);
 		tvTitle = (TextView) findViewById(R.id.tvTitle);
 		tx_fault = (TextView) findViewById(R.id.text_hint);
-
-		mBtMgr = new ConnectCtrl(this);
-		if (mBtMgr.btAdapt == null)
-			return;
-
-		IntentFilter intent = new IntentFilter();
-		intent.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-		intent.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-		intent.addAction(BluetoothDevice.ACTION_FOUND);
-		intent.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
-		intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-		intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-		registerReceiver(mBtMgr, intent);
 		mLockManager.setEnabled(false);
 
+		mBtMgr = new ConnectCtrl(this);
 		Bundle bunde = this.getIntent().getExtras();
 		if (bunde != null) {
 			tvTitle.setText(bunde.getString("NAME"));
 			mBtMgr.setMac(bunde.getString("MAC"));
+		}
+		if (mBtMgr.btAdapt == null) {
+			tx_fault.setText(R.string.blue_unabailable);
+			return;
 		}
 		mBtMgr.findDev();
 	}
@@ -75,11 +64,12 @@ public class showDetail extends Activity implements View.OnClickListener {
 
 	@Override
 	protected void onDestroy() {
-		unregisterReceiver(mBtMgr);
 		if (connThr != null)
 			connThr.act_clean();
-		if (mBtMgr != null)
+		if (mBtMgr != null) {
 			mBtMgr.disable_bluetooth();
+			mBtMgr.unregister();
+		}
 		super.onDestroy();
 	}
 

@@ -15,6 +15,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -30,9 +31,14 @@ public class ConnectCtrl extends BroadcastReceiver {
 	static String strAddress = null;
 	public BluetoothSocket btSocket = null;
 	public static String DEFAULT_PIN_CODE = "1234";
+	HandleConnMsg mHandleConnMsg = null;
 
 	public ConnectCtrl() {
 		super();
+	}
+
+	public ConnectCtrl(HandleConnMsg c) {
+		mHandleConnMsg = c;
 	}
 
 	public ConnectCtrl(showDetail ctx) {
@@ -44,6 +50,18 @@ public class ConnectCtrl extends BroadcastReceiver {
 			ctx.progress_connect.setVisibility(View.GONE);
 			ctx.tx_fault.setText(R.string.blue_unabailable);
 		}
+		register(ctx);
+	}
+
+	public void register(Context c) {
+		IntentFilter intent = new IntentFilter();
+		intent.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+		intent.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+		intent.addAction(BluetoothDevice.ACTION_FOUND);
+		intent.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
+		intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+		intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+		c.registerReceiver(this, intent);
 	}
 
 	@Override
@@ -155,6 +173,10 @@ public class ConnectCtrl extends BroadcastReceiver {
 		strAddress = mac;
 	}
 
+	public void unregister() {
+		mCtx.unregisterReceiver(this);
+	}
+
 	// Hander
 	public final Handler mHandler = new Handler() {
 		@Override
@@ -229,5 +251,14 @@ public class ConnectCtrl extends BroadcastReceiver {
 	public void disable_bluetooth() {
 		if (btAdapt != null)
 			btAdapt.disable();
+	}
+
+	public void connect() {
+		Log.i(Common.TAG, "Connted");
+		mHandleConnMsg.connect_state(true);
+	}
+	public void send(String old_password, String new_password){
+		Log.i(Common.TAG, "Sended");
+		mHandleConnMsg.send_state(true);
 	}
 }
