@@ -1,8 +1,8 @@
 package org.park.connection;
 
 import org.park.R;
-import org.park.authorize.LoginActivity;
 import org.park.boxlst.BoxAdapter;
+import org.park.entrance.splashScreen;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
 import org.park.util.Quit;
@@ -76,17 +76,21 @@ public class showDetail extends Activity implements View.OnClickListener {
 	@Override
 	protected void onDestroy() {
 		unregisterReceiver(mBtMgr);
-		connThr.act_clean();
-		mBtMgr.disable_bluetooth();
+		if (connThr != null)
+			connThr.act_clean();
+		if (mBtMgr != null)
+			mBtMgr.disable_bluetooth();
 		super.onDestroy();
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			connThr.act_clean();
-			mBtMgr.disable_bluetooth();
-			startActivity(new Intent(this, LoginActivity.class));
+			if (connThr != null)
+				connThr.act_clean();
+			if (mBtMgr != null)
+				mBtMgr.disable_bluetooth();
+			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			return true;
 		} else {
@@ -112,9 +116,11 @@ public class showDetail extends Activity implements View.OnClickListener {
 			connThr.openlock(1, mLockManager.getNbr());
 			break;
 		case R.id.btn_back:
-			connThr.act_clean();
-			mBtMgr.disable_bluetooth();
-			startActivity(new Intent(this, LoginActivity.class));
+			if (connThr != null)
+				connThr.act_clean();
+			if (mBtMgr != null)
+				mBtMgr.disable_bluetooth();
+			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			break;
 		case R.id.btn_about:

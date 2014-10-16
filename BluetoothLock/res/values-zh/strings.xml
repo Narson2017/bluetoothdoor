@@ -39,7 +39,7 @@
     <string name="connecting">正在连接</string>
     <string name="simple_view">简略视图</string>
     <string name="detail_view">详细视图</string>
-    <string name="open_blue">请开启蓝牙</string>
+    <string name="open_blue">蓝牙已关闭, 将自动开户, 请稍等...</string>
     <string name="send_failed">发送指令出错</string>
     <string name="connect_success">连接成功, 请点击开锁.</string>
     <string name="open">开</string>
@@ -48,7 +48,7 @@
     <string name="filled">有</string>
     <string name="hint">提示</string>
     <string name="please_connect">请点击列表中的一项连接</string>
-    <string name="not_found">未找到蓝牙设备</string>
+    <string name="not_found">未找到蓝牙设备, 请点击连接按键重试.</string>
     <string name="store">存件</string>
     <string name="obtain">取件</string>
     <string name="room">房间</string>

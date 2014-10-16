@@ -92,6 +92,7 @@ public class ConnectCtrl extends BroadcastReceiver {
 			} else if (action
 					.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
 				mCtx.setHint(R.string.not_found);
+				mCtx.setProgressVisible(false);
 			}
 		}
 	}
@@ -171,6 +172,8 @@ public class ConnectCtrl extends BroadcastReceiver {
 			case Common.MESSAGE_START_DISCOVER:
 				if (btAdapt.getState() != BluetoothAdapter.STATE_ON) {
 					mCtx.tx_fault.setText(R.string.open_blue);
+					btAdapt.enable();
+					sendEmptyMessageDelayed(Common.MESSAGE_START_DISCOVER, 3072);
 					break;
 				}
 				if (!btAdapt.isDiscovering()) {

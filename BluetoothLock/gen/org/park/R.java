@@ -485,32 +485,37 @@ public final class R {
         public static final int btn_exit_normal=0x7f020019;
         public static final int btn_exit_pressed=0x7f02001a;
         public static final int btn_login=0x7f02001b;
-        public static final int btn_open_empty=0x7f02001c;
-        public static final int btn_open_empty_normal=0x7f02001d;
-        public static final int btn_open_empty_pressed=0x7f02001e;
-        public static final int btn_open_filled=0x7f02001f;
-        public static final int btn_open_filled_normal=0x7f020020;
-        public static final int btn_open_filled_pressed=0x7f020021;
-        public static final int btn_query=0x7f020022;
-        public static final int btn_query_normal=0x7f020023;
-        public static final int btn_query_pressed=0x7f020024;
-        public static final int home_gardient=0x7f020025;
-        public static final int ic_action_about=0x7f020026;
-        public static final int ic_action_settings_normal=0x7f020027;
-        public static final int ic_action_settings_pressed=0x7f020028;
-        public static final int ic_bar=0x7f020029;
-        public static final int ic_device_access_accounts=0x7f02002a;
-        public static final int ic_device_access_accounts_focused=0x7f02002b;
-        public static final int ic_device_access_call=0x7f02002c;
-        public static final int ic_device_access_call_focused=0x7f02002d;
-        public static final int ic_device_access_secure=0x7f02002e;
-        public static final int ic_device_access_usb_normal=0x7f02002f;
-        public static final int ic_device_access_usb_pressed=0x7f020030;
-        public static final int ic_disconnect_normal=0x7f020031;
-        public static final int ic_disconnect_pressed=0x7f020032;
-        public static final int ic_launcher=0x7f020033;
-        public static final int ic_lock_blue=0x7f020034;
-        public static final int sun=0x7f020035;
+        public static final int btn_new_user=0x7f02001c;
+        public static final int btn_open_empty=0x7f02001d;
+        public static final int btn_open_empty_normal=0x7f02001e;
+        public static final int btn_open_empty_pressed=0x7f02001f;
+        public static final int btn_open_filled=0x7f020020;
+        public static final int btn_open_filled_normal=0x7f020021;
+        public static final int btn_open_filled_pressed=0x7f020022;
+        public static final int btn_query=0x7f020023;
+        public static final int btn_query_normal=0x7f020024;
+        public static final int btn_query_pressed=0x7f020025;
+        public static final int home_gardient=0x7f020026;
+        public static final int ic_action_about=0x7f020027;
+        public static final int ic_action_settings_normal=0x7f020028;
+        public static final int ic_action_settings_pressed=0x7f020029;
+        public static final int ic_bar=0x7f02002a;
+        public static final int ic_device_access_accounts=0x7f02002b;
+        public static final int ic_device_access_accounts_focused=0x7f02002c;
+        public static final int ic_device_access_call=0x7f02002d;
+        public static final int ic_device_access_call_focused=0x7f02002e;
+        public static final int ic_device_access_secure=0x7f02002f;
+        public static final int ic_device_access_usb_normal=0x7f020030;
+        public static final int ic_device_access_usb_pressed=0x7f020031;
+        public static final int ic_disconnect_normal=0x7f020032;
+        public static final int ic_disconnect_pressed=0x7f020033;
+        public static final int ic_launcher=0x7f020034;
+        public static final int ic_lock_blue=0x7f020035;
+        public static final int ic_login_btn=0x7f020036;
+        public static final int ic_logo=0x7f020037;
+        public static final int ic_new_user_btn=0x7f020038;
+        public static final int img_btn_login=0x7f020039;
+        public static final int sun=0x7f02003a;
     }
     public static final class id {
         public static final int LinearLayoutSplash=0x7f0a002a;
@@ -675,7 +680,7 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f090009;
+        public static final int AppBaseTheme=0x7f09000a;
         public static final int BlackTheme=0x7f090002;
         public static final int CustomTheme=0x7f090000;
         public static final int LightTheme=0x7f090001;
@@ -685,6 +690,7 @@ public final class R {
         public static final int box_style=0x7f090003;
         public static final int btn_login=0x7f090008;
         public static final int login_text=0x7f090005;
+        public static final int style_btn_new_user=0x7f090009;
     }
     public static final class xml {
         public static final int preferences=0x7f050000;

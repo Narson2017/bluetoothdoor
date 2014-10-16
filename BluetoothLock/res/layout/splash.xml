@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/logo"
         android:gravity="center|center"
-        android:layoutAnimation="@anim/layout_rise"
         android:orientation="vertical" >
 
         <ImageView
@@ -22,7 +21,7 @@
             android:paddingLeft="20dip"
             android:paddingRight="20dip"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_lock_blue" />
+            android:src="@drawable/ic_logo" />
 
         <TextView
             android:id="@+id/TextViewSplash"
@@ -34,6 +33,7 @@
             android:shadowDx="0"
             android:shadowDy="2"
             android:shadowRadius="1"
+            android:textColor="@color/blue"
             android:text="@string/product_name"
             android:textSize="16dip"
             android:typeface="serif" />
@@ -65,10 +65,9 @@
                 android:id="@+id/btn_login"
                 style="@style/btn_login"
                 android:layout_width="0dp"
-                android:layout_height="64dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="50"
-                android:onClick="onClick"
-                android:text="@string/login" />
+                android:onClick="onClick" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -91,12 +90,11 @@
 
             <Button
                 android:id="@+id/btn_newuser"
-                style="@style/btn_login"
+                style="@style/style_btn_new_user"
                 android:layout_width="0dp"
-                android:layout_height="64dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="50"
-                android:onClick="onClick"
-                android:text="@string/new_user" />
+                android:onClick="onClick" />
 
             <LinearLayout
                 android:layout_width="0dp"
