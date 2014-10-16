@@ -91,14 +91,44 @@ public class UpdateInfo implements HandleConnMsg {
 	};
 
 	@Override
-	public void connect_state(boolean state) {
+	public void connected(boolean state) {
 		// TODO Auto-generated method stub
 		mBtMgr.send(old_psw, password);
 	}
 
 	@Override
-	public void send_state(boolean state) {
+	public void sended(boolean state) {
 		// TODO Auto-generated method stub
 		ctx.set_hint(R.string.change_psw_success);
+	}
+
+	@Override
+	public void disconnected() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pairing() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void paired(boolean state) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void discovery_stated() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void discovery_finished() {
+		// TODO Auto-generated method stub
+		
 	}
 }

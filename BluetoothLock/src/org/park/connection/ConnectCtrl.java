@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.UUID;
 
-import org.park.R;
 import org.park.util.ClsUtils;
 import org.park.util.Common;
 
@@ -19,14 +18,12 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.View;
 
 public class ConnectCtrl extends BroadcastReceiver {
 
 	public static String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 	public BluetoothAdapter btAdapt;
 	public static String DEFAULT_DEVICE_ADDR = "00:0E:0E:00:0F:53";
-	public showDetail mCtx;
 	private boolean IS_FOUND = false;
 	static String strAddress = null;
 	public BluetoothSocket btSocket = null;
@@ -38,19 +35,9 @@ public class ConnectCtrl extends BroadcastReceiver {
 	}
 
 	public ConnectCtrl(HandleConnMsg c) {
-		mHandleConnMsg = c;
-	}
-
-	public ConnectCtrl(showDetail ctx) {
 		super();
-		this.mCtx = ctx;
-		btAdapt = BluetoothAdapter.getDefaultAdapter();
-		if (btAdapt == null) {
-			ctx.detail_view.setVisibility(View.GONE);
-			ctx.progress_connect.setVisibility(View.GONE);
-			ctx.tx_fault.setText(R.string.blue_unabailable);
-		}
-		register(ctx);
+		mHandleConnMsg = c;
+		register((Context) c);
 	}
 
 	public void register(Context c) {
@@ -69,17 +56,11 @@ public class ConnectCtrl extends BroadcastReceiver {
 		String action = intent.getAction();
 
 		if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
-			mCtx.detail_view.setVisibility(View.VISIBLE);
-			mCtx.progress_connect.setVisibility(View.GONE);
-			mCtx.setHint(R.string.connect_success);
+			mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_SUCCEED);
 		} else if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
-			mCtx.detail_view.setVisibility(View.GONE);
-			mCtx.progress_connect.setVisibility(View.GONE);
-			mCtx.tx_fault.setText(R.string.disconnect);
+			mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_LOST);
 		} else if (action.equals(BluetoothDevice.ACTION_PAIRING_REQUEST)) {
-			mCtx.detail_view.setVisibility(View.GONE);
-			mCtx.progress_connect.setVisibility(View.VISIBLE);
-			mCtx.tx_fault.setText(R.string.pairing);
+			mHandleConnMsg.pairing();
 			BluetoothDevice btDevice = intent
 					.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 			try {
@@ -88,7 +69,7 @@ public class ConnectCtrl extends BroadcastReceiver {
 				ClsUtils.cancelPairingUserInput(btDevice.getClass(), btDevice);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				mCtx.setHint(R.string.pair_failed);
+				mHandleConnMsg.paired(false);
 				e.printStackTrace();
 			}
 		}
@@ -106,16 +87,15 @@ public class ConnectCtrl extends BroadcastReceiver {
 					return;
 				}
 			} else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_STARTED)) {
-				mCtx.setHint(R.string.searching);
+				mHandleConnMsg.discovery_stated();
 			} else if (action
 					.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
-				mCtx.setHint(R.string.not_found);
-				mCtx.setProgressVisible(false);
+				mHandleConnMsg.discovery_finished();
 			}
 		}
 	}
 
-	public void findDev() {
+	public void connect() {
 		IS_FOUND = false;
 		if (btAdapt == null)
 			btAdapt = BluetoothAdapter.getDefaultAdapter();
@@ -138,7 +118,6 @@ public class ConnectCtrl extends BroadcastReceiver {
 						btSocket = btDev
 								.createRfcommSocketToServiceRecord(uuid);
 						btSocket.connect();
-						mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_SUCCEED);
 					} catch (Exception e) {
 						btSocket = null;
 						e.printStackTrace();
@@ -174,7 +153,7 @@ public class ConnectCtrl extends BroadcastReceiver {
 	}
 
 	public void unregister() {
-		mCtx.unregisterReceiver(this);
+		((Context) mHandleConnMsg).unregisterReceiver(this);
 	}
 
 	// Hander
@@ -183,17 +162,10 @@ public class ConnectCtrl extends BroadcastReceiver {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case Common.MESSAGE_CONNECT_SUCCEED:
-				mCtx.setBoxVisible(true);
-				mCtx.setProgressVisible(false);
-				mCtx.setHint(R.string.connect_success);
-				mCtx.setBoxState(true, true);
-				mCtx.setBoxEnable(true);
-				mCtx.setConn(new ConnectedThread(btSocket, mCtx));
-				mCtx.startConn();
+				mHandleConnMsg.connected(true);
 				break;
 			case Common.MESSAGE_START_DISCOVER:
 				if (btAdapt.getState() != BluetoothAdapter.STATE_ON) {
-					mCtx.tx_fault.setText(R.string.open_blue);
 					btAdapt.enable();
 					sendEmptyMessageDelayed(Common.MESSAGE_START_DISCOVER, 3072);
 					break;
@@ -213,10 +185,7 @@ public class ConnectCtrl extends BroadcastReceiver {
 					e.printStackTrace();
 				} finally {
 					btSocket = null;
-					mCtx.setBoxEnable(false);
-					mCtx.setBoxVisible(false);
-					mCtx.setProgressVisible(false);
-					mCtx.setHint(R.string.connect_failed);
+					mHandleConnMsg.disconnected();
 				}
 				break;
 			}
@@ -253,12 +222,8 @@ public class ConnectCtrl extends BroadcastReceiver {
 			btAdapt.disable();
 	}
 
-	public void connect() {
-		Log.i(Common.TAG, "Connted");
-		mHandleConnMsg.connect_state(true);
-	}
-	public void send(String old_password, String new_password){
+	public void send(String old_password, String new_password) {
 		Log.i(Common.TAG, "Sended");
-		mHandleConnMsg.send_state(true);
+		mHandleConnMsg.sended(true);
 	}
 }
