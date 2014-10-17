@@ -48,15 +48,21 @@ public final class R {
         /**  暗绿色 
          */
         public static final int blue=0x7f06008d;
+        /**  黑色 
+         */
+        public static final int blue_green=0x7f060092;
+        public static final int blue_sapphire=0x7f060093;
         /**  暗红色 
          */
         public static final int blueviolet=0x7f06005b;
         /**  暗灰色 
          */
         public static final int brown=0x7f060050;
+        public static final int btn_login_color=0x7f060097;
         /**  亮青色 
          */
         public static final int burlywood=0x7f060034;
+        public static final int buttom_bar_color=0x7f060096;
         /**  菊兰色 
          */
         public static final int cadetblue=0x7f060071;
@@ -78,7 +84,7 @@ public final class R {
         /**  淡灰色 
          */
         public static final int crimson=0x7f060037;
-        public static final int custom_theme_color=0x7f060092;
+        public static final int custom_theme_color=0x7f060095;
         /**  浅绿色 
          */
         public static final int cyan=0x7f060083;
@@ -439,6 +445,7 @@ public final class R {
         /**  热粉红色 
          */
         public static final int tomato=0x7f060019;
+        public static final int trolley_grey=0x7f060094;
         /**  皇家蓝 
          */
         public static final int turquoise=0x7f060078;
@@ -481,45 +488,66 @@ public final class R {
         public static final int btn_connect_pressed=0x7f020015;
         public static final int btn_disconnect=0x7f020016;
         public static final int btn_disconnect_normal=0x7f020017;
-        public static final int btn_exit=0x7f020018;
-        public static final int btn_exit_normal=0x7f020019;
-        public static final int btn_exit_pressed=0x7f02001a;
-        public static final int btn_login=0x7f02001b;
-        public static final int btn_new_user=0x7f02001c;
-        public static final int btn_open_empty=0x7f02001d;
-        public static final int btn_open_empty_normal=0x7f02001e;
-        public static final int btn_open_empty_pressed=0x7f02001f;
-        public static final int btn_open_filled=0x7f020020;
-        public static final int btn_open_filled_normal=0x7f020021;
-        public static final int btn_open_filled_pressed=0x7f020022;
-        public static final int btn_query=0x7f020023;
-        public static final int btn_query_normal=0x7f020024;
-        public static final int btn_query_pressed=0x7f020025;
-        public static final int home_gardient=0x7f020026;
-        public static final int ic_action_about=0x7f020027;
-        public static final int ic_action_settings_normal=0x7f020028;
-        public static final int ic_action_settings_pressed=0x7f020029;
-        public static final int ic_bar=0x7f02002a;
-        public static final int ic_device_access_accounts=0x7f02002b;
-        public static final int ic_device_access_accounts_focused=0x7f02002c;
-        public static final int ic_device_access_call=0x7f02002d;
-        public static final int ic_device_access_call_focused=0x7f02002e;
-        public static final int ic_device_access_secure=0x7f02002f;
-        public static final int ic_device_access_usb_normal=0x7f020030;
-        public static final int ic_device_access_usb_pressed=0x7f020031;
-        public static final int ic_disconnect_normal=0x7f020032;
-        public static final int ic_disconnect_pressed=0x7f020033;
-        public static final int ic_launcher=0x7f020034;
-        public static final int ic_lock_blue=0x7f020035;
-        public static final int ic_login_btn=0x7f020036;
-        public static final int ic_logo=0x7f020037;
-        public static final int ic_new_user_btn=0x7f020038;
-        public static final int img_btn_login=0x7f020039;
-        public static final int sun=0x7f02003a;
+        public static final int btn_entrance=0x7f020018;
+        public static final int btn_entrance_normal=0x7f020019;
+        public static final int btn_entrance_pressed=0x7f02001a;
+        public static final int btn_exit=0x7f02001b;
+        public static final int btn_exit_normal=0x7f02001c;
+        public static final int btn_exit_pressed=0x7f02001d;
+        public static final int btn_login=0x7f02001e;
+        public static final int btn_new_user=0x7f02001f;
+        public static final int btn_open_empty=0x7f020020;
+        public static final int btn_open_empty_normal=0x7f020021;
+        public static final int btn_open_empty_pressed=0x7f020022;
+        public static final int btn_open_filled=0x7f020023;
+        public static final int btn_open_filled_normal=0x7f020024;
+        public static final int btn_open_filled_pressed=0x7f020025;
+        public static final int btn_query=0x7f020026;
+        public static final int btn_query_normal=0x7f020027;
+        public static final int btn_query_pressed=0x7f020028;
+        public static final int home_gardient=0x7f020029;
+        public static final int ic_action_about=0x7f02002a;
+        public static final int ic_action_settings_normal=0x7f02002b;
+        public static final int ic_action_settings_pressed=0x7f02002c;
+        public static final int ic_bar=0x7f02002d;
+        public static final int ic_device_access_accounts=0x7f02002e;
+        public static final int ic_device_access_accounts_focused=0x7f02002f;
+        public static final int ic_device_access_call=0x7f020030;
+        public static final int ic_device_access_call_focused=0x7f020031;
+        public static final int ic_device_access_secure=0x7f020032;
+        public static final int ic_device_access_usb_normal=0x7f020033;
+        public static final int ic_device_access_usb_pressed=0x7f020034;
+        public static final int ic_disconnect_normal=0x7f020035;
+        public static final int ic_disconnect_pressed=0x7f020036;
+        public static final int ic_exit=0x7f020037;
+        public static final int ic_exit_pressed=0x7f020038;
+        public static final int ic_hyperlink_blue=0x7f020039;
+        public static final int ic_hyperlink_blue_pressed=0x7f02003a;
+        public static final int ic_launcher=0x7f02003b;
+        public static final int ic_left_arrow=0x7f02003c;
+        public static final int ic_left_arrow_pressed=0x7f02003d;
+        public static final int ic_list_view=0x7f02003e;
+        public static final int ic_list_view_pressed=0x7f02003f;
+        public static final int ic_lock_blue=0x7f020040;
+        public static final int ic_locked=0x7f020041;
+        public static final int ic_login_btn=0x7f020042;
+        public static final int ic_logo=0x7f020043;
+        public static final int ic_new_user_btn=0x7f020044;
+        public static final int ic_search=0x7f020045;
+        public static final int ic_search_pressed=0x7f020046;
+        public static final int ic_tag=0x7f020047;
+        public static final int ic_tag_pressed=0x7f020048;
+        public static final int ic_undo_blue=0x7f020049;
+        public static final int ic_undo_blue_pressed=0x7f02004a;
+        public static final int ic_unlocked=0x7f02004b;
+        public static final int ic_unlocked_pressed=0x7f02004c;
+        public static final int ic_user_female=0x7f02004d;
+        public static final int ic_user_female_pressed=0x7f02004e;
+        public static final int img_btn_login=0x7f02004f;
+        public static final int sun=0x7f020050;
     }
     public static final class id {
         public static final int LinearLayoutSplash=0x7f0a002b;
-        public static final int TextViewSplash=0x7f0a002d;
         public static final int box_nbr=0x7f0a0021;
         public static final int btnDis=0x7f0a001e;
         public static final int btn_about=0x7f0a0011;
@@ -531,11 +559,11 @@ public final class R {
         public static final int btn_devlst=0x7f0a0001;
         public static final int btn_exit=0x7f0a0013;
         public static final int btn_login=0x7f0a0029;
-        public static final int btn_newuser=0x7f0a002f;
+        public static final int btn_newuser=0x7f0a002e;
         public static final int btn_query=0x7f0a0010;
         public static final int btn_register=0x7f0a002a;
         public static final int btn_setting=0x7f0a0003;
-        public static final int btns=0x7f0a002e;
+        public static final int btns=0x7f0a002d;
         public static final int detail_view=0x7f0a0020;
         public static final int edit_psw=0x7f0a000e;
         public static final int edit_username=0x7f0a000b;
@@ -692,7 +720,7 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f09000c;
+        public static final int AppBaseTheme=0x7f09000b;
         public static final int BlackTheme=0x7f090002;
         public static final int CustomTheme=0x7f090000;
         public static final int LightTheme=0x7f090001;
@@ -701,10 +729,9 @@ public final class R {
         public static final int box_nbr=0x7f090004;
         public static final int box_style=0x7f090003;
         public static final int btn_login=0x7f090008;
-        public static final int edit_password=0x7f09000a;
-        public static final int input_username=0x7f09000b;
+        public static final int edit_password=0x7f090009;
+        public static final int input_username=0x7f09000a;
         public static final int login_text=0x7f090005;
-        public static final int style_btn_new_user=0x7f090009;
     }
     public static final class xml {
         public static final int preferences=0x7f050000;

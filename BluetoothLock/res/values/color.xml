@@ -293,5 +293,8 @@
     <!-- 海军色 -->
     <color name="black">#000000</color>
     <!-- 黑色 -->
+    <color name="blue_green">#0D98BA</color>
+    <color name="blue_sapphire">#126180</color>
+    <color name="trolley_grey">#808080</color>
 
 </resources>

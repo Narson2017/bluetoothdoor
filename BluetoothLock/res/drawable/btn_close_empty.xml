@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/btn_close_empty_pressed" android:state_pressed="true"/>
+    <item android:drawable="@drawable/ic_unlocked_pressed" android:state_pressed="true"/>
     <!-- pressed -->
-    <item android:drawable="@drawable/btn_close_empty_normal"/>
+    <item android:drawable="@drawable/ic_unlocked"/>
     <!-- default -->
 
 </selector>

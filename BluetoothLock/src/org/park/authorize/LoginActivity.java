@@ -70,12 +70,12 @@ public class LoginActivity extends Activity implements
 		if (box_nbr != -1) {
 			btn_login.setEnabled(false);
 			btn_register.setEnabled(true);
-			btn_login.setBackgroundColor(R.color.grey);
+			btn_login.setBackgroundColor(R.color.trolley_grey);
 			text_login_hint.setText(R.string.not_register);
 		} else {
 			btn_register.setEnabled(false);
 			btn_login.setEnabled(true);
-			btn_register.setBackgroundColor(R.color.grey);
+			btn_register.setBackgroundColor(R.color.trolley_grey);
 			text_login_hint.setText(R.string.please_login);
 		}
 		mAuthMgr = new AuthenticationManager(this);
