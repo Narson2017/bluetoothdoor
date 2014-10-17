@@ -42,7 +42,6 @@ public class ConnectCtrl extends BroadcastReceiver {
 
 	public void register(Context c) {
 		IntentFilter intent = new IntentFilter();
-		intent.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
 		intent.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
 		intent.addAction(BluetoothDevice.ACTION_FOUND);
 		intent.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
@@ -54,10 +53,7 @@ public class ConnectCtrl extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
-
-		if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
-			mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_SUCCEED);
-		} else if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+		if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
 			mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_LOST);
 		} else if (action.equals(BluetoothDevice.ACTION_PAIRING_REQUEST)) {
 			mHandleConnMsg.pairing();
@@ -118,6 +114,7 @@ public class ConnectCtrl extends BroadcastReceiver {
 						btSocket = btDev
 								.createRfcommSocketToServiceRecord(uuid);
 						btSocket.connect();
+						mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_SUCCEED);
 					} catch (Exception e) {
 						btSocket = null;
 						e.printStackTrace();
@@ -161,19 +158,14 @@ public class ConnectCtrl extends BroadcastReceiver {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case Common.MESSAGE_CONNECT_SUCCEED:
-				mHandleConnMsg.connected(true);
-				break;
 			case Common.MESSAGE_START_DISCOVER:
-				if (btAdapt.getState() != BluetoothAdapter.STATE_ON) {
-					btAdapt.enable();
-					sendEmptyMessageDelayed(Common.MESSAGE_START_DISCOVER, 3072);
-					break;
-				}
 				if (!btAdapt.isDiscovering()) {
 					if (!findPairedDevice())
 						btAdapt.startDiscovery();
 				}
+				break;
+			case Common.MESSAGE_CONNECT_SUCCEED:
+				mHandleConnMsg.connected(true);
 				break;
 			case Common.MESSAGE_CONNECT_LOST:
 				unpair();

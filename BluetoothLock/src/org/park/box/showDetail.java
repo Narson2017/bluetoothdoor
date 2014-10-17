@@ -1,7 +1,10 @@
-package org.park.connection;
+package org.park.box;
 
 import org.park.R;
 import org.park.boxlst.BoxAdapter;
+import org.park.connection.ConnectCtrl;
+import org.park.connection.ConnectedThread;
+import org.park.connection.HandleConnMsg;
 import org.park.entrance.splashScreen;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
@@ -54,10 +57,6 @@ public class showDetail extends Activity implements View.OnClickListener,
 			tvTitle.setText(bunde.getString("NAME"));
 			mBtMgr.setMac(bunde.getString("MAC"));
 		}
-		if (mBtMgr.btAdapt == null) {
-			tx_fault.setText(R.string.blue_unabailable);
-			return;
-		}
 		mBtMgr.connect();
 	}
 
@@ -103,7 +102,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 			mBtMgr.connect();
 			break;
 		case R.id.btn_box:
-			mLockManager.set_state(false, false);
+			mLockManager.set_state(false, true);
 			connThr.openlock(1, mLockManager.getNbr());
 			break;
 		case R.id.btn_back:
@@ -127,7 +126,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 		connThr = ct;
 	}
 
-	public void startConn() {
+	public void startConnThr() {
 		if (connThr != null) {
 			connThr.start();
 			// connThr.startQuery();
@@ -164,10 +163,6 @@ public class showDetail extends Activity implements View.OnClickListener,
 		mLockManager.setEnabled(bl);
 	}
 
-	public void unpair() {
-		mBtMgr.unpair();
-	}
-
 	@Override
 	public void connected(boolean state) {
 		// TODO Auto-generated method stub
@@ -178,7 +173,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 			setBoxState(true, true);
 			setBoxEnable(true);
 			setConn(new ConnectedThread(mBtMgr.btSocket, this));
-			startConn();
+			startConnThr();
 		}
 	}
 
@@ -191,6 +186,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 	@Override
 	public void disconnected() {
 		// TODO Auto-generated method stub
+		mBtMgr.unpair();
 		setBoxEnable(false);
 		setBoxVisible(false);
 		setProgressVisible(false);
@@ -215,13 +211,19 @@ public class showDetail extends Activity implements View.OnClickListener,
 	@Override
 	public void discovery_stated() {
 		// TODO Auto-generated method stub
-		setHint(R.string.searching);		
+		setHint(R.string.searching);
 	}
 
 	@Override
 	public void discovery_finished() {
 		// TODO Auto-generated method stub
 		setHint(R.string.not_found);
-		setProgressVisible(false);		
+		setProgressVisible(false);
+	}
+
+	@Override
+	public void receive_data(int res_id) {
+		// TODO Auto-generated method stub
+		tx_fault.setText(res_id);
 	}
 }

@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.park.R;
+import org.park.box.showDetail;
+import org.park.command.LockCommand;
 import org.park.util.Common;
 import org.park.util.HexConvert;
 
@@ -25,10 +27,10 @@ public class ConnectedThread extends Thread {
 	private InputStream mmInStream;
 	private OutputStream mmOutStream;
 	BluetoothSocket btSocket = null;
-	showDetail mCtx;
-	CommandMgr mCmdmgr;
+	HandleConnMsg mCtx;
+	LockCommand mCmdmgr;
 
-	public ConnectedThread(BluetoothSocket socket, showDetail cx) {
+	public ConnectedThread(BluetoothSocket socket, HandleConnMsg cx) {
 		mCtx = cx;
 		InputStream tmpIn = null;
 		OutputStream tmpOut = null;
@@ -43,7 +45,7 @@ public class ConnectedThread extends Thread {
 
 		mmInStream = tmpIn;
 		mmOutStream = tmpOut;
-		mCmdmgr = new CommandMgr();
+		mCmdmgr = new LockCommand();
 	}
 
 	public void run() {
@@ -131,38 +133,38 @@ public class ConnectedThread extends Thread {
 				String strRecv = HexConvert.Bytes2HexString(bRecv, nNeed);
 
 				switch (mCmdmgr.checkRecvType(strRecv)) {
-				case CommandMgr.RECEIVE_DYNAMIC_PASSWORD_SUCCESS:
+				case LockCommand.RECEIVE_DYNAMIC_PASSWORD_SUCCESS:
 					nNeed = RESPONSE_LENGTH;
 					nRecved = 0;
 					try {
 						mmOutStream.write(mCmdmgr.getOpenLockCommand(
-								CommandMgr.DEFAULT_PAIR_PASSWORD, strRecv));
+								LockCommand.DEFAULT_PAIR_PASSWORD, strRecv));
 						mmOutStream.flush();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					break;
-				case CommandMgr.RECEIVE_DYNAMIC_PASSWORD_FAILED:
-					mCtx.setHint(R.string.obtain_dynamic_psw_failed);
+				case LockCommand.RECEIVE_DYNAMIC_PASSWORD_FAILED:
+					mCtx.receive_data(R.string.obtain_dynamic_psw_failed);
 					break;
-				case CommandMgr.RECEIVE_PAIR_PASSWORD_SUCCESS:
-					mCtx.setHint(R.string.change_psw_success);
+				case LockCommand.RECEIVE_PAIR_PASSWORD_SUCCESS:
+					mCtx.receive_data(R.string.change_psw_success);
 					break;
-				case CommandMgr.RECEIVE_PAIR_PASSWORD_FAILED:
-					mCtx.setHint(R.string.change_psw_failed);
+				case LockCommand.RECEIVE_PAIR_PASSWORD_FAILED:
+					mCtx.receive_data(R.string.change_psw_failed);
 					break;
-				case CommandMgr.RECEIVE_OPEN_DOOR_SUCCESS:
-					mCtx.setHint(R.string.open_door_success);
+				case LockCommand.RECEIVE_OPEN_DOOR_SUCCESS:
+					mCtx.receive_data(R.string.open_door_success);
 					break;
-				case CommandMgr.RECEIVE_OPEN_DOOR_FAILED:
-					mCtx.setHint(R.string.open_door_failed);
+				case LockCommand.RECEIVE_OPEN_DOOR_FAILED:
+					mCtx.receive_data(R.string.open_door_failed);
 					break;
-				case CommandMgr.RECEIVE_CLOSE_DOOR_SUCCESS:
-					mCtx.setHint(R.string.close_door_success);
+				case LockCommand.RECEIVE_CLOSE_DOOR_SUCCESS:
+					mCtx.receive_data(R.string.close_door_success);
 					break;
-				case CommandMgr.RECEIVE_CLOSE_DOOR_FAILED:
-					mCtx.setHint(R.string.close_door_failed);
+				case LockCommand.RECEIVE_CLOSE_DOOR_FAILED:
+					mCtx.receive_data(R.string.close_door_failed);
 					break;
 				}
 				// reset received length
@@ -170,7 +172,6 @@ public class ConnectedThread extends Thread {
 				break;
 			case Common.MESSAGE_EXCEPTION_RECV:
 			case Common.MESSAGE_CONNECT_LOST:
-				mCtx.unpair();
 				try {
 					if (mmInStream != null)
 						mmInStream.close();
@@ -186,10 +187,7 @@ public class ConnectedThread extends Thread {
 					mmOutStream = null;
 					btSocket = null;
 					bConnect = false;
-					mCtx.setBoxEnable(false);
-					mCtx.setBoxVisible(false);
-					mCtx.setProgressVisible(false);
-					mCtx.setHint(R.string.connect_failed);
+					mCtx.disconnected();
 				}
 				break;
 			case Common.MESSAGE_WRITE:

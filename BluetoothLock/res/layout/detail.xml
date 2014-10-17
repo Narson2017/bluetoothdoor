@@ -136,9 +136,9 @@
 
                 <Button
                     android:id="@+id/btn_box"
-                    style="@style/box_style"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_lock_grey" />
 
                 <TextView
                     android:id="@+id/box_nbr"

@@ -131,4 +131,10 @@ public class UpdateInfo implements HandleConnMsg {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void receive_data(int res_id) {
+		// TODO Auto-generated method stub
+		
+	}
 }

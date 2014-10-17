@@ -1,8 +1,8 @@
 package org.park.authorize;
 
 import org.park.R;
+import org.park.box.showDetail;
 import org.park.boxlst.BoxAdapter;
-import org.park.connection.showDetail;
 import org.park.devlist.DevlstActivity;
 import org.park.entrance.splashScreen;
 import org.park.prefs.settingActivity;

@@ -2,13 +2,13 @@ package org.park.tests;
 
 import junit.framework.TestCase;
 
-import org.park.connection.CommandMgr;
+import org.park.command.LockCommand;
 
 public class TestCmd extends TestCase {
-	CommandMgr mcmd;
+	LockCommand mcmd;
 
 	protected void setUp() throws Exception {
-		mcmd = new CommandMgr();
+		mcmd = new LockCommand();
 		super.setUp();
 	}
 

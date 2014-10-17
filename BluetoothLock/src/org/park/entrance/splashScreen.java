@@ -2,9 +2,9 @@ package org.park.entrance;
 
 import org.park.R;
 import org.park.authorize.LoginActivity;
+import org.park.box.showDetail;
 import org.park.boxlst.BoxAdapter;
 import org.park.boxlst.BoxlstActivity;
-import org.park.connection.showDetail;
 import org.park.util.Quit;
 
 import android.app.Activity;
@@ -22,15 +22,10 @@ public class splashScreen extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.splash);
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
 		if (getIntent().getBooleanExtra(Quit.IS_EXIT, false))
 			finish();
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.splash);
 	}
 
 	@Override

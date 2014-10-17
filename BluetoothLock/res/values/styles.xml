@@ -12,10 +12,6 @@
 
     <style name="BlackTheme" parent="@android:style/Theme.Black"></style>
 
-    <style name="box_style" parent="@android:style/TextAppearance.Medium">
-        <item name="android:background">@drawable/ic_device_access_secure</item>
-    </style>
-
     <style name="box_nbr">
         <item name="android:textColor">@color/black</item>
         <item name="android:typeface">serif</item>

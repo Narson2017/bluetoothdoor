@@ -6,19 +6,17 @@ import java.util.Set;
 
 import org.park.R;
 import org.park.authorize.LoginActivity;
+import org.park.box.showDetail;
 import org.park.connection.ConnectCtrl;
-import org.park.connection.showDetail;
 import org.park.util.About;
 import org.park.util.ClsUtils;
 import org.park.util.Common;
 import org.park.util.Quit;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -27,12 +25,12 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class DevlstActivity extends Activity implements OnClickListener,
 		Devlster {
@@ -49,6 +47,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 	private View mProgress, lst_devs;
 	protected String DEVICE_MAC_ADDR = "00:0E:0E:00:0F:54";
 	private SearchDevReceiver mSearchDev;
+	TextView text_hint;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +57,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 
 		mProgress = findViewById(R.id.progressBar1);
 		lst_devs = findViewById(R.id.lst_devs);
+		text_hint = (TextView) findViewById(R.id.text_hint);
 
 		// Button
 		btnDis = (Button) findViewById(R.id.btnDis);
@@ -74,53 +74,22 @@ public class DevlstActivity extends Activity implements OnClickListener,
 
 		btAdapt = BluetoothAdapter.getDefaultAdapter();
 		if (btAdapt == null) {
-			Toast.makeText(DevlstActivity.this, R.string.blue_unabailable, 1000)
-					.show();
+			text_hint.setText(R.string.blue_unabailable);
 			startActivity(new Intent(this, LoginActivity.class));
 			if (btAdapt != null)
 				btAdapt.disable();
 			finish();
 		}
-		if (!btAdapt.isEnabled()) {
-			// 1. Instantiate an AlertDialog.Builder with its constructor
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					DevlstActivity.this);
-
-			// 2. Chain together various setter methods to set the dialog
-			// characteristics
-			builder.setMessage(R.string.open_blue).setTitle(R.string.hint);
-			// Add the buttons
-			builder.setPositiveButton(R.string.btn_ok,
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							// User clicked OK button
-							btAdapt.enable();
-						}
-					});
-			builder.setNegativeButton(R.string.btn_cancel,
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							// User cancelled the dialog
-							if (btAdapt != null)
-								btAdapt.disable();
-							finish();
-						}
-					});
-
-			// 3. Get the AlertDialog from create()
-			AlertDialog dialog = builder.create();
-			dialog.show();
-		}
-
+		if (!btAdapt.isEnabled())
+			btAdapt.enable();
 		// 注册Receiver来获取蓝牙设备相关的结果
-		mSearchDev = new SearchDevReceiver(this);
+		mSearchDev = new SearchDevReceiver(DevlstActivity.this);
 		IntentFilter intent = new IntentFilter();
 		intent.addAction(BluetoothDevice.ACTION_FOUND); // 用BroadcastReceiver来取得搜索结果
 		intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
 		intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 		intent.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
 		registerReceiver(mSearchDev, intent);
-
 		mHandler.sendEmptyMessageDelayed(Common.MESSAGE_START_DISCOVER, 3072);
 	}
 
@@ -155,8 +124,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			if (btAdapt.getState() != BluetoothAdapter.STATE_ON) {
-				Toast.makeText(DevlstActivity.this, R.string.open_blue, 3000)
-						.show();
+				text_hint.setText(R.string.open_blue);
 				return;
 			}
 
@@ -233,8 +201,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 				break;
 			case Common.MESSAGE_START_DISCOVER:
 				if (btAdapt.getState() != BluetoothAdapter.STATE_ON) {
-					Toast.makeText(DevlstActivity.this, R.string.open_blue,
-							1000).show();
+					text_hint.setText(R.string.open_blue);
 					break;
 				}
 
@@ -290,8 +257,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		mProgress.setVisibility(View.VISIBLE);
 		lst_devs.setVisibility(View.GONE);
-		Toast.makeText(DevlstActivity.this, R.string.searching,
-				Toast.LENGTH_SHORT).show();
+		text_hint.setText(R.string.searching);
 	}
 
 	@Override
@@ -300,11 +266,9 @@ public class DevlstActivity extends Activity implements OnClickListener,
 		mProgress.setVisibility(View.GONE);
 		lst_devs.setVisibility(View.VISIBLE);
 		if (lstDevices.isEmpty())
-			Toast.makeText(DevlstActivity.this, R.string.not_found,
-					Toast.LENGTH_LONG).show();
+			text_hint.setText(R.string.not_found);
 		else
-			Toast.makeText(DevlstActivity.this, R.string.please_connect,
-					Toast.LENGTH_SHORT).show();
+			text_hint.setText(R.string.please_connect);
 	}
 
 	@Override

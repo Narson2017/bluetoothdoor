@@ -1,4 +1,4 @@
-package org.park.connection;
+package org.park.box;
 
 import org.park.R;
 
@@ -30,7 +30,7 @@ public class LockManager {
 		if (bl) {
 			boxBtn.setBackgroundResource(lockState);
 		} else {
-			boxBtn.setBackgroundResource(R.drawable.ic_device_access_secure);
+			boxBtn.setBackgroundResource(R.drawable.ic_lock_grey);
 		}
 	}
 

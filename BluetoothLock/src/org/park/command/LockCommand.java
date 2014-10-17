@@ -1,4 +1,4 @@
-package org.park.connection;
+package org.park.command;
 
 import java.util.ArrayList;
 
@@ -7,8 +7,8 @@ import org.park.util.HexConvert;
 
 import android.util.Log;
 
-public class CommandMgr {
-	static final String DEFAULT_PAIR_PASSWORD = "000000000000";
+public class LockCommand {
+	public static final String DEFAULT_PAIR_PASSWORD = "000000000000";
 	static public final int RECEIVE_PAIR_PASSWORD_SUCCESS = 0;
 	static public final int RECEIVE_DYNAMIC_PASSWORD_SUCCESS = 1;
 	static public final int RECEIVE_OPEN_DOOR_SUCCESS = 2;
@@ -20,7 +20,7 @@ public class CommandMgr {
 
 	int cabinet_id = 0, box_id = 0;
 
-	public CommandMgr() {
+	public LockCommand() {
 		super();
 	}
 
@@ -30,7 +30,7 @@ public class CommandMgr {
 	}
 
 	// get "password and algorithm type" command
-	byte[] getPswAlg(String pairStr, int cabinet_id, int box_id) {
+	public byte[] getPswAlg(String pairStr, int cabinet_id, int box_id) {
 		String tmp1 = "feef";
 		String tmp2 = "10" + pairStr + "a2" + "000000000000"
 				+ HexConvert.int2hexStr(cabinet_id)
@@ -52,7 +52,7 @@ public class CommandMgr {
 	}
 
 	// get "open lock" command
-	byte[] getOpenLockCommand(String pairStr, String receivedStr) {
+	public byte[] getOpenLockCommand(String pairStr, String receivedStr) {
 		String tmp1 = "feef";
 		String tmp2 = "10" + pairStr + "a3" + calculateDynamicPsw(receivedStr)
 				+ HexConvert.int2hexStr(cabinet_id)
@@ -69,15 +69,15 @@ public class CommandMgr {
 	public int checkRecvType(String tmp) {
 		if (tmp.substring(6, 8).equalsIgnoreCase("b2"))
 			if (tmp.substring(8, 10).equalsIgnoreCase("da")) {
-				return CommandMgr.RECEIVE_DYNAMIC_PASSWORD_SUCCESS;
+				return LockCommand.RECEIVE_DYNAMIC_PASSWORD_SUCCESS;
 			} else {
-				return CommandMgr.RECEIVE_DYNAMIC_PASSWORD_FAILED;
+				return LockCommand.RECEIVE_DYNAMIC_PASSWORD_FAILED;
 			}
 		else if (tmp.substring(6, 8).equalsIgnoreCase("b1"))
 			if (tmp.substring(8, 10).equalsIgnoreCase("da")) {
-				return CommandMgr.RECEIVE_PAIR_PASSWORD_SUCCESS;
+				return LockCommand.RECEIVE_PAIR_PASSWORD_SUCCESS;
 			} else {
-				return CommandMgr.RECEIVE_PAIR_PASSWORD_FAILED;
+				return LockCommand.RECEIVE_PAIR_PASSWORD_FAILED;
 			}
 
 		return -1;
