@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.park.R;
 import org.park.box.showDetail;
 import org.park.command.LockCommand;
 import org.park.util.Common;
@@ -20,7 +19,7 @@ public class ConnectedThread extends Thread {
 	static final int OPR_OPEN_LOCK = 2;
 	static final int OPR_QUERY_LOCK = 1;
 	static final int OPR_QUERY_ALL = 0;
-	Boolean bConnect = false;
+	public Boolean if_connected = false;
 	int nNeed = -1;
 	byte[] bRecv = new byte[1024];
 	int nRecved = 0;
@@ -52,8 +51,8 @@ public class ConnectedThread extends Thread {
 		// Keep listening to the InputStream until an exception occurs
 		byte[] bufRecv = new byte[32];
 		int nRecv = 0;
-		bConnect = true;
-		while (bConnect) {
+		if_connected = true;
+		while (if_connected) {
 			try {
 				if (nRecved >= nNeed) {
 					Log.e(Common.TAG, "System busy, please wait");
@@ -87,8 +86,8 @@ public class ConnectedThread extends Thread {
 	}
 
 	public void act_clean() {
-		if (bConnect) {
-			bConnect = false;
+		if (if_connected) {
+			if_connected = false;
 			try {
 				Thread.sleep(100);
 				if (mmInStream != null)
@@ -109,7 +108,7 @@ public class ConnectedThread extends Thread {
 
 			@Override
 			public void run() {
-				while (bConnect) {
+				while (if_connected) {
 					// TODO Auto-generated method stub
 					try {
 						Thread.sleep(10000);
@@ -130,43 +129,7 @@ public class ConnectedThread extends Thread {
 			switch (msg.what) {
 			case Common.MESSAGE_RECV:
 				// String strRecv = bytesToString(bRecv, msg.arg1);
-				String strRecv = HexConvert.Bytes2HexString(bRecv, nNeed);
-
-				switch (mCmdmgr.checkRecvType(strRecv)) {
-				case LockCommand.RECEIVE_DYNAMIC_PASSWORD_SUCCESS:
-					nNeed = RESPONSE_LENGTH;
-					nRecved = 0;
-					try {
-						mmOutStream.write(mCmdmgr.getOpenLockCommand(
-								LockCommand.DEFAULT_PAIR_PASSWORD, strRecv));
-						mmOutStream.flush();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					break;
-				case LockCommand.RECEIVE_DYNAMIC_PASSWORD_FAILED:
-					mCtx.receive_data(R.string.obtain_dynamic_psw_failed);
-					break;
-				case LockCommand.RECEIVE_PAIR_PASSWORD_SUCCESS:
-					mCtx.receive_data(R.string.change_psw_success);
-					break;
-				case LockCommand.RECEIVE_PAIR_PASSWORD_FAILED:
-					mCtx.receive_data(R.string.change_psw_failed);
-					break;
-				case LockCommand.RECEIVE_OPEN_DOOR_SUCCESS:
-					mCtx.receive_data(R.string.open_door_success);
-					break;
-				case LockCommand.RECEIVE_OPEN_DOOR_FAILED:
-					mCtx.receive_data(R.string.open_door_failed);
-					break;
-				case LockCommand.RECEIVE_CLOSE_DOOR_SUCCESS:
-					mCtx.receive_data(R.string.close_door_success);
-					break;
-				case LockCommand.RECEIVE_CLOSE_DOOR_FAILED:
-					mCtx.receive_data(R.string.close_door_failed);
-					break;
-				}
+				mCtx.received(HexConvert.Bytes2HexString(bRecv, nNeed));
 				// reset received length
 				nRecved = 0;
 				break;
@@ -186,7 +149,7 @@ public class ConnectedThread extends Thread {
 					mmInStream = null;
 					mmOutStream = null;
 					btSocket = null;
-					bConnect = false;
+					if_connected = false;
 					mCtx.disconnected();
 				}
 				break;
@@ -197,18 +160,6 @@ public class ConnectedThread extends Thread {
 			}
 		}
 	};
-
-	public void changePairPsw(String tmp) {
-		nNeed = RESPONSE_LENGTH;
-		nRecved = 0;
-		try {
-			mmOutStream.write(mCmdmgr.getChangePairPsw(tmp));
-			mmOutStream.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	public void openlock(int cabinet_id, int box_id) {
 		nNeed = RESPONSE_LENGTH;
@@ -221,6 +172,21 @@ public class ConnectedThread extends Thread {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	public void send(String mCommand) {
+		// TODO Auto-generated method stub
+		nNeed = RESPONSE_LENGTH;
+		nRecved = 0;
+		try {
+			mmOutStream.write(HexConvert.HexString2Bytes(mCommand));
+			mmOutStream.flush();
+			mCtx.sended(true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			mCtx.sended(false);
 		}
 	}
 }

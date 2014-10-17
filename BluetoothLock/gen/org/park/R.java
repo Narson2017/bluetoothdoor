@@ -641,6 +641,7 @@ public final class R {
         public static final int connecting=0x7f08000f;
         public static final int detail_view=0x7f080011;
         public static final int dev_name=0x7f08000e;
+        public static final int device_return_wrong=0x7f080060;
         public static final int disconnect=0x7f080043;
         public static final int empty=0x7f080017;
         public static final int enter_cabinet=0x7f080051;
@@ -697,6 +698,7 @@ public final class R {
         public static final int searching=0x7f080009;
         public static final int send=0x7f08000d;
         public static final int send_failed=0x7f080013;
+        public static final int send_success=0x7f08005f;
         public static final int server_fault=0x7f08002c;
         public static final int simple_view=0x7f080010;
         public static final int store=0x7f08001c;

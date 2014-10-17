@@ -40,7 +40,7 @@
     <string name="simple_view">Simple view</string>
     <string name="detail_view">Detail view</string>
     <string name="open_blue">Bluetooth is disable, will enable automatically, please wait...</string>
-    <string name="send_failed">Send command failed</string>
+    <string name="send_failed">Send command failed, please retry.</string>
     <string name="connect_success">Connect Successfully, retrieving boxes state...</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
@@ -116,5 +116,7 @@
     <string name="authorize_update4">Authorize and update....</string>
     <string name="change_account_success">Change account successfully, loading...</string>
     <string name="update_success">Update successfully, redirect to index after 3 seconds...</string>
+    <string name="send_success">Send command successfully</string>
+    <string name="device_return_wrong">Device return wrong message, please retry.</string>
 
 </resources>

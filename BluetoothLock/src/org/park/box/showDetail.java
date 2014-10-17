@@ -2,12 +2,14 @@ package org.park.box;
 
 import org.park.R;
 import org.park.boxlst.BoxAdapter;
+import org.park.command.LockCommand;
 import org.park.connection.ConnectCtrl;
 import org.park.connection.ConnectedThread;
 import org.park.connection.HandleConnMsg;
 import org.park.entrance.splashScreen;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
+import org.park.util.Common;
 import org.park.util.Quit;
 
 import android.app.Activity;
@@ -24,15 +26,15 @@ public class showDetail extends Activity implements View.OnClickListener,
 	public static final String OPERATION = "OPERATION";
 	public static String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 	public static String PAIR_PASSWORD = "000000000000";
+
 	TextView tvTitle;
-
-	public ConnectedThread connThr;
-
 	public LinearLayout detail_view, progress_connect;
 	public TextView tx_fault;
 
 	private LockManager mLockManager;
 	private ConnectCtrl mBtMgr;
+	private LockCommand mCmdmgr;
+	public ConnectedThread connThr;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 			break;
 		case R.id.btn_box:
 			mLockManager.set_state(false, true);
+//			connThr.send(mCommand);
 			connThr.openlock(1, mLockManager.getNbr());
 			break;
 		case R.id.btn_back:
@@ -120,10 +123,6 @@ public class showDetail extends Activity implements View.OnClickListener,
 			Quit.act_exit(this);
 			break;
 		}
-	}
-
-	public void setConn(ConnectedThread ct) {
-		connThr = ct;
 	}
 
 	public void startConnThr() {
@@ -172,7 +171,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 			setHint(R.string.connect_success);
 			setBoxState(true, true);
 			setBoxEnable(true);
-			setConn(new ConnectedThread(mBtMgr.btSocket, this));
+			connThr = new ConnectedThread(mBtMgr.btSocket, this);
 			startConnThr();
 		}
 	}
@@ -222,8 +221,20 @@ public class showDetail extends Activity implements View.OnClickListener,
 	}
 
 	@Override
-	public void receive_data(int res_id) {
+	public void received(String received_data) {
 		// TODO Auto-generated method stub
-		tx_fault.setText(res_id);
+		tx_fault.setText(received_data);
+
+		if (mCmdmgr == null)
+			mCmdmgr = new LockCommand();
+		switch (mCmdmgr.checkRecvType(received_data)) {
+		case Common.RECEIVE_DYNAMIC_PASSWORD_SUCCESS:
+			connThr.send(mCmdmgr.getOpenLockCommand(
+					Common.DEFAULT_PAIR_PASSWORD, received_data));
+			break;
+		case Common.RECEIVE_DYNAMIC_PASSWORD_FAILED:
+			tx_fault.setText(R.string.device_return_wrong);
+			break;
+		}
 	}
 }

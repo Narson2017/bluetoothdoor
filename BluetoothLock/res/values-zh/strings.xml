@@ -40,7 +40,7 @@
     <string name="simple_view">简略视图</string>
     <string name="detail_view">详细视图</string>
     <string name="open_blue">蓝牙已关闭, 将自动开户, 请稍等...</string>
-    <string name="send_failed">发送指令出错</string>
+    <string name="send_failed">发送指令失败, 请重试.</string>
     <string name="connect_success">连接成功, 请点击开锁.</string>
     <string name="open">开</string>
     <string name="close">关</string>
@@ -116,5 +116,7 @@
     <string name="authorize_update4">认证并更新信息....</string>
     <string name="change_account_success">更改账户信息成功, 正在加载, 请稍候...</string>
     <string name="update_success">更新信息成功, 3秒后返回首页...</string>
+    <string name="send_success">发送命令成功</string>
+    <string name="device_return_wrong">远端设备返回异常, 请重试.</string>
 
 </resources>

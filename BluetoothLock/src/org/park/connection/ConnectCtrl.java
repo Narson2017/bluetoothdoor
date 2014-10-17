@@ -29,6 +29,7 @@ public class ConnectCtrl extends BroadcastReceiver {
 	public BluetoothSocket btSocket = null;
 	public static String DEFAULT_PIN_CODE = "1234";
 	HandleConnMsg mHandleConnMsg = null;
+	public boolean if_connected = false;
 
 	public ConnectCtrl() {
 		super();
@@ -165,9 +166,11 @@ public class ConnectCtrl extends BroadcastReceiver {
 				}
 				break;
 			case Common.MESSAGE_CONNECT_SUCCEED:
+				if_connected = true;
 				mHandleConnMsg.connected(true);
 				break;
 			case Common.MESSAGE_CONNECT_LOST:
+				if_connected = false;
 				unpair();
 				try {
 					if (btSocket != null)

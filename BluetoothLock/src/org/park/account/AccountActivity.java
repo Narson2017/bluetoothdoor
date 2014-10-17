@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class AccountActivity extends Activity implements OnClickListener {
 	EditText edit_username, edit_psw;
-	String username, password;
+	String old_username, old_psw;
 	int cabinet, box;
 	Button mbtn;
 	TextView text_hint;
@@ -31,8 +31,8 @@ public class AccountActivity extends Activity implements OnClickListener {
 		edit_psw = (EditText) findViewById(R.id.edit_psw);
 		edit_username = (EditText) findViewById(R.id.edit_username);
 		Intent tmp = getIntent();
-		username = tmp.getStringExtra(settingActivity.USERNAME);
-		password = tmp.getStringExtra(settingActivity.PASSWORD);
+		old_username = tmp.getStringExtra(settingActivity.USERNAME);
+		old_psw = tmp.getStringExtra(settingActivity.PASSWORD);
 		cabinet = tmp.getIntExtra(settingActivity.CABINET, -1);
 		box = tmp.getIntExtra(settingActivity.BOX, -1);
 
@@ -47,9 +47,10 @@ public class AccountActivity extends Activity implements OnClickListener {
 		case R.id.btn_authorize:
 			mLoad = new Loading(this);
 			new Thread(mLoad).start();
-			mUpdateinfo = new UpdateInfo(this, mLoad);
-			mUpdateinfo.set_psw(password, edit_psw.getText().toString());
-			mUpdateinfo.set_username(username);
+			if (mUpdateinfo == null)
+				mUpdateinfo = new UpdateInfo(this, mLoad);
+			mUpdateinfo.set_account(edit_username.getText().toString(),
+					old_psw, edit_psw.getText().toString(), cabinet, box);
 			mUpdateinfo.update_info();
 			break;
 		}
@@ -62,5 +63,10 @@ public class AccountActivity extends Activity implements OnClickListener {
 	public void set_hint(int serverFault) {
 		// TODO Auto-generated method stub
 		text_hint.setText(serverFault);
+	}
+
+	public void set_hint(String received_data) {
+		// TODO Auto-generated method stub
+		text_hint.setText(received_data);
 	}
 }

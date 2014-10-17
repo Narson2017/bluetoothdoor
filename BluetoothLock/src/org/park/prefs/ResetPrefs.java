@@ -33,6 +33,7 @@ public class ResetPrefs extends DialogPreference {
 			mPrefs.edit().putString("username", "").commit();
 			mPrefs.edit().putString("password", "").commit();
 			mPrefs.edit().putString("locknbr", "").commit();
+			mPrefs.edit().putString("cabinet", "").commit();
 			getContext().startActivity(
 					new Intent(getContext(), splashScreen.class));
 		} else {

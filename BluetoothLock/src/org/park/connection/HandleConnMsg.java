@@ -16,5 +16,5 @@ public interface HandleConnMsg {
 
 	public void discovery_finished();
 
-	public void receive_data(int res_id);
+	public void received(String received_data);
 }
