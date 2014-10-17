@@ -20,14 +20,14 @@ public class LockCommand {
 	}
 
 	// get "password and algorithm type" command
-	public byte[] getPswAlg(String pairStr, int cabinet_id, int box_id) {
+	public String getPswAlg(String pairStr, int cabinet_id, int box_id) {
 		String tmp1 = "feef";
 		String tmp2 = "10" + pairStr + "a2" + "000000000000"
 				+ HexConvert.int2hexStr(cabinet_id)
 				+ HexConvert.int2hexStr(box_id) + "00";
 		String tmp3 = xor(tmp2);
 		Log.i(Common.TAG, tmp1 + tmp2 + tmp3);
-		return HexConvert.HexString2Bytes(tmp1 + tmp2 + tmp3);
+		return tmp1 + tmp2 + tmp3;
 	}
 
 	public String xor(String tmp) {

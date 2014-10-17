@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.park.box.showDetail;
 import org.park.command.LockCommand;
 import org.park.util.Common;
 import org.park.util.HexConvert;
@@ -160,20 +159,6 @@ public class ConnectedThread extends Thread {
 			}
 		}
 	};
-
-	public void openlock(int cabinet_id, int box_id) {
-		nNeed = RESPONSE_LENGTH;
-		nRecved = 0;
-		try {
-			mCmdmgr.setBoxNbr(cabinet_id, box_id);
-			mmOutStream.write(mCmdmgr.getPswAlg(showDetail.PAIR_PASSWORD,
-					cabinet_id, box_id));
-			mmOutStream.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	public void send(String mCommand) {
 		// TODO Auto-generated method stub

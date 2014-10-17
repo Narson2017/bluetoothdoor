@@ -14,7 +14,9 @@ import org.park.util.Quit;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -23,10 +25,6 @@ import android.widget.TextView;
 
 public class showDetail extends Activity implements View.OnClickListener,
 		HandleConnMsg {
-	public static final String OPERATION = "OPERATION";
-	public static String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
-	public static String PAIR_PASSWORD = "000000000000";
-
 	TextView tvTitle;
 	public LinearLayout detail_view, progress_connect;
 	public TextView tx_fault;
@@ -35,6 +33,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 	private ConnectCtrl mBtMgr;
 	private LockCommand mCmdmgr;
 	public ConnectedThread connThr;
+	private String pair_psw = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +52,9 @@ public class showDetail extends Activity implements View.OnClickListener,
 		tx_fault = (TextView) findViewById(R.id.text_hint);
 		mLockManager.setEnabled(false);
 
+		SharedPreferences _sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
+		pair_psw = _sharedPreferences.getString("password", "");
 		mBtMgr = new ConnectCtrl(this);
 		Bundle bunde = this.getIntent().getExtras();
 		if (bunde != null) {
@@ -105,8 +107,10 @@ public class showDetail extends Activity implements View.OnClickListener,
 			break;
 		case R.id.btn_box:
 			mLockManager.set_state(false, true);
-//			connThr.send(mCommand);
-			connThr.openlock(1, mLockManager.getNbr());
+			connThr.send(mCmdmgr.getPswAlg(
+					pair_psw.equals("") ? Common.DEFAULT_PAIR_PASSWORD
+							: pair_psw, mLockManager.cabinet,
+					mLockManager.lockNbr));
 			break;
 		case R.id.btn_back:
 			if (connThr != null)
