@@ -8,14 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class LockManager {
+public class LockDisplay {
 	int lockState;
 	Button boxBtn;
 	TextView nbrText;
 	int lockNbr;
 	public int cabinet;
 
-	public LockManager(Context ctx, int btn_res, int tx_res) {
+	public LockDisplay(Context ctx, int btn_res, int tx_res) {
 		Activity act = (Activity) ctx;
 		View.OnClickListener mListener = (View.OnClickListener) ctx;
 		boxBtn = (Button) act.findViewById(btn_res);

@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.park.R;
 import org.park.authorize.LoginActivity;
-import org.park.box.showDetail;
-import org.park.connection.ConnectCtrl;
+import org.park.box.BoxActivity;
+import org.park.connection.Connecter;
 import org.park.util.About;
 import org.park.util.ClsUtils;
 import org.park.util.Common;
@@ -133,10 +133,10 @@ public class DevlstActivity extends Activity implements OnClickListener,
 			lstDevices.get(arg2).ic_btn = R.drawable.btn_connect_pressed;
 			String address = lstDevices.get(arg2).mac_addr;
 			Log.i(Common.TAG, lstDevices.get(arg2).mac_addr);
-			ClsUtils.pair(address, ConnectCtrl.DEFAULT_PIN_CODE);
+			ClsUtils.pair(address, Connecter.DEFAULT_PIN_CODE);
 			try {
 				Intent intMain = new Intent(getApplicationContext(),
-						showDetail.class);
+						BoxActivity.class);
 				Bundle bd = new Bundle();
 				bd.putString("NAME", lstDevices.get(arg2).dev_name);
 				bd.putString("MAC", lstDevices.get(arg2).mac_addr);
@@ -215,7 +215,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 				btAdapt.cancelDiscovery();
 				try {
 					Intent intMain = new Intent(getApplicationContext(),
-							showDetail.class);
+							BoxActivity.class);
 					Bundle bd = new Bundle();
 					bd.putString("NAME", ((BluetoothDevice) msg.obj).getName());
 					bd.putString("MAC",
@@ -276,7 +276,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		try {
 			ClsUtils.setPin(btDevice.getClass(), btDevice,
-					ConnectCtrl.DEFAULT_PIN_CODE); // 手机和蓝牙采集器配对
+					Connecter.DEFAULT_PIN_CODE); // 手机和蓝牙采集器配对
 			ClsUtils.createBond(btDevice.getClass(), btDevice);
 			ClsUtils.cancelPairingUserInput(btDevice.getClass(), btDevice);
 		} catch (Exception e) {

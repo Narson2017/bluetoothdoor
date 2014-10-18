@@ -1,5 +1,6 @@
 package org.park.connection;
 
+
 public interface HandleConnMsg {
 
 	public void connected(boolean state);

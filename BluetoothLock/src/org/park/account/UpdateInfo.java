@@ -2,8 +2,8 @@ package org.park.account;
 
 import org.park.R;
 import org.park.command.LockCommand;
-import org.park.connection.ConnectCtrl;
-import org.park.connection.ConnectedThread;
+import org.park.connection.Connecter;
+import org.park.connection.ContactThread;
 import org.park.connection.HandleConnMsg;
 import org.park.entrance.splashScreen;
 import org.park.util.Common;
@@ -19,14 +19,14 @@ public class UpdateInfo implements HandleConnMsg {
 	int cabinet, box;
 	AccountActivity ctx;
 	Loading mload;
-	ConnectCtrl mBtMgr = null;
-	ConnectedThread mConnThr = null;
+	Connecter mBtMgr = null;
+	ContactThread mConnThr = null;
 	LockCommand mLockcmd = null;
 
-	public UpdateInfo(AccountActivity c, Loading mload) {
-		this.mload = mload;
+	public UpdateInfo(AccountActivity c) {
+		mload = new Loading(c);
 		ctx = c;
-		mBtMgr = new ConnectCtrl(this);
+		mBtMgr = new Connecter(this, c);
 		mLockcmd = new LockCommand();
 	}
 
@@ -48,8 +48,9 @@ public class UpdateInfo implements HandleConnMsg {
 		this.old_psw = old_psw;
 	}
 
-	public void update_info() {
+	public void startUpdate() {
 		ctx.set_hint(R.string.loading);
+		new Thread(mload).start();
 		if (!mBtMgr.if_connected)
 			mBtMgr.connect();
 		else if (mConnThr == null || !mConnThr.if_connected) {
@@ -115,7 +116,7 @@ public class UpdateInfo implements HandleConnMsg {
 	@Override
 	public void connected(boolean state) {
 		// TODO Auto-generated method stub
-		mConnThr = new ConnectedThread(mBtMgr.btSocket, this);
+		mConnThr = new ContactThread(mBtMgr.btSocket, this);
 		mConnThr.send(mLockcmd.getChangePairPswCmd(old_psw, new_psw, cabinet,
 				box));
 	}
@@ -132,7 +133,10 @@ public class UpdateInfo implements HandleConnMsg {
 	@Override
 	public void disconnected() {
 		// TODO Auto-generated method stub
-
+		if (mBtMgr != null)
+			mBtMgr.onClean();
+		if (mConnThr != null)
+			mConnThr.onClean();
 	}
 
 	@Override

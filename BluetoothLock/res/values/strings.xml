@@ -118,5 +118,6 @@
     <string name="update_success">Update successfully, redirect to index after 3 seconds...</string>
     <string name="send_success">Send command successfully</string>
     <string name="device_return_wrong">Device return wrong message, please retry.</string>
+    <string name="change_account">Change account info</string>
 
 </resources>

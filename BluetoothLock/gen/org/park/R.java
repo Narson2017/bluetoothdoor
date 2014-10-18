@@ -560,6 +560,7 @@ public final class R {
         public static final int btn_authorize=0x7f0a000f;
         public static final int btn_back=0x7f0a0012;
         public static final int btn_box=0x7f0a001a;
+        public static final int btn_change_account=0x7f0a002f;
         public static final int btn_connect=0x7f0a0022;
         public static final int btn_devlst=0x7f0a0001;
         public static final int btn_exit=0x7f0a0013;
@@ -629,6 +630,7 @@ public final class R {
         public static final int btn_cancel=0x7f080005;
         public static final int btn_ok=0x7f080006;
         public static final int cabinet_label=0x7f080052;
+        public static final int change_account=0x7f080061;
         public static final int change_account_success=0x7f08005d;
         public static final int change_psw_failed=0x7f080047;
         public static final int change_psw_success=0x7f080045;

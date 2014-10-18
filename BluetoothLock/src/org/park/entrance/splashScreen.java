@@ -2,9 +2,10 @@ package org.park.entrance;
 
 import org.park.R;
 import org.park.authorize.LoginActivity;
-import org.park.box.showDetail;
+import org.park.box.BoxActivity;
 import org.park.boxlst.BoxAdapter;
 import org.park.boxlst.BoxlstActivity;
+import org.park.prefs.settingActivity;
 import org.park.util.Quit;
 
 import android.app.Activity;
@@ -44,7 +45,7 @@ public class splashScreen extends Activity implements OnClickListener {
 			String box = _sharedPreferences.getString("locknbr", "");
 			if (!box.equals("")) {
 				String cabinet = _sharedPreferences.getString("cabinet", "");
-				Intent tmp = new Intent(splashScreen.this, showDetail.class);
+				Intent tmp = new Intent(splashScreen.this, BoxActivity.class);
 				tmp.putExtra(BoxAdapter.BOX_NUMBER, Integer.valueOf(box)
 						.intValue());
 				tmp.putExtra(BoxAdapter.CABINET_NUMBER, Integer
@@ -56,6 +57,9 @@ public class splashScreen extends Activity implements OnClickListener {
 			break;
 		case R.id.btn_newuser:
 			startActivity(new Intent(splashScreen.this, BoxlstActivity.class));
+			break;
+		case R.id.btn_change_account:
+			startActivity(new Intent(this, settingActivity.class));
 			break;
 		}
 	}

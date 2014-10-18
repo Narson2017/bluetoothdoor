@@ -3,8 +3,8 @@ package org.park.box;
 import org.park.R;
 import org.park.boxlst.BoxAdapter;
 import org.park.command.LockCommand;
-import org.park.connection.ConnectCtrl;
-import org.park.connection.ConnectedThread;
+import org.park.connection.Connecter;
+import org.park.connection.ContactThread;
 import org.park.connection.HandleConnMsg;
 import org.park.entrance.splashScreen;
 import org.park.prefs.settingActivity;
@@ -23,16 +23,16 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class showDetail extends Activity implements View.OnClickListener,
+public class BoxActivity extends Activity implements View.OnClickListener,
 		HandleConnMsg {
 	TextView tvTitle;
 	public LinearLayout detail_view, progress_connect;
 	public TextView tx_fault;
 
-	private LockManager mLockManager;
-	private ConnectCtrl mBtMgr;
+	private LockDisplay mLockManager;
+	private Connecter mBtMgr;
 	private LockCommand mCmdmgr;
-	public ConnectedThread connThr;
+	public ContactThread connThr;
 	private String pair_psw = null;
 
 	@Override
@@ -41,7 +41,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.detail);
 
-		mLockManager = new LockManager(this, R.id.btn_box, R.id.box_nbr);
+		mLockManager = new LockDisplay(this, R.id.btn_box, R.id.box_nbr);
 		mLockManager.setNbr(getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1));
 		mLockManager.cabinet = getIntent().getIntExtra(
 				BoxAdapter.CABINET_NUMBER, -1);
@@ -55,7 +55,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 		SharedPreferences _sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
 		pair_psw = _sharedPreferences.getString("password", "");
-		mBtMgr = new ConnectCtrl(this);
+		mBtMgr = new Connecter(this, this);
 		Bundle bunde = this.getIntent().getExtras();
 		if (bunde != null) {
 			tvTitle.setText(bunde.getString("NAME"));
@@ -69,10 +69,9 @@ public class showDetail extends Activity implements View.OnClickListener,
 	@Override
 	protected void onDestroy() {
 		if (connThr != null)
-			connThr.act_clean();
+			connThr.onClean();
 		if (mBtMgr != null) {
-			mBtMgr.disable_bluetooth();
-			mBtMgr.unregister();
+			mBtMgr.onClean();
 		}
 		super.onDestroy();
 	}
@@ -81,9 +80,9 @@ public class showDetail extends Activity implements View.OnClickListener,
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (connThr != null)
-				connThr.act_clean();
+				connThr.onClean();
 			if (mBtMgr != null)
-				mBtMgr.disable_bluetooth();
+				mBtMgr.onClean();
 			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			return true;
@@ -97,6 +96,10 @@ public class showDetail extends Activity implements View.OnClickListener,
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.btn_setting:
+			if (connThr != null)
+				connThr.onClean();
+			if (mBtMgr != null)
+				mBtMgr.onClean();
 			startActivity(new Intent(this, settingActivity.class));
 			break;
 		case R.id.btn_connect:
@@ -114,9 +117,9 @@ public class showDetail extends Activity implements View.OnClickListener,
 			break;
 		case R.id.btn_back:
 			if (connThr != null)
-				connThr.act_clean();
+				connThr.onClean();
 			if (mBtMgr != null)
-				mBtMgr.disable_bluetooth();
+				mBtMgr.onClean();
 			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			break;
@@ -175,7 +178,7 @@ public class showDetail extends Activity implements View.OnClickListener,
 			setHint(R.string.connect_success);
 			setBoxState(true, true);
 			setBoxEnable(true);
-			connThr = new ConnectedThread(mBtMgr.btSocket, this);
+			connThr = new ContactThread(mBtMgr.btSocket, this);
 			startConnThr();
 		}
 	}

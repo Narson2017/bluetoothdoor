@@ -13,7 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-public class ConnectedThread extends Thread {
+public class ContactThread extends Thread {
 	final int RESPONSE_LENGTH = 16;
 	static final int OPR_OPEN_LOCK = 2;
 	static final int OPR_QUERY_LOCK = 1;
@@ -28,7 +28,7 @@ public class ConnectedThread extends Thread {
 	HandleConnMsg mCtx;
 	LockCommand mCmdmgr;
 
-	public ConnectedThread(BluetoothSocket socket, HandleConnMsg cx) {
+	public ContactThread(BluetoothSocket socket, HandleConnMsg cx) {
 		mCtx = cx;
 		InputStream tmpIn = null;
 		OutputStream tmpOut = null;
@@ -84,20 +84,25 @@ public class ConnectedThread extends Thread {
 		Log.e(Common.TAG, "Exit while");
 	}
 
-	public void act_clean() {
+	public void onClean() {
 		if (if_connected) {
 			if_connected = false;
 			try {
-				Thread.sleep(100);
 				if (mmInStream != null)
 					mmInStream.close();
 				if (mmOutStream != null)
 					mmOutStream.close();
 				if (btSocket != null)
 					btSocket.close();
-			} catch (Exception e) {
-				Log.e(Common.TAG, "Clean error...");
+			} catch (IOException e) {
+				Log.e(Common.TAG, "Close Error");
 				e.printStackTrace();
+			} finally {
+				mmInStream = null;
+				mmOutStream = null;
+				btSocket = null;
+				if_connected = false;
+				mCtx.disconnected();
 			}
 		}
 	}
@@ -134,23 +139,7 @@ public class ConnectedThread extends Thread {
 				break;
 			case Common.MESSAGE_EXCEPTION_RECV:
 			case Common.MESSAGE_CONNECT_LOST:
-				try {
-					if (mmInStream != null)
-						mmInStream.close();
-					if (mmOutStream != null)
-						mmOutStream.close();
-					if (btSocket != null)
-						btSocket.close();
-				} catch (IOException e) {
-					Log.e(Common.TAG, "Close Error");
-					e.printStackTrace();
-				} finally {
-					mmInStream = null;
-					mmOutStream = null;
-					btSocket = null;
-					if_connected = false;
-					mCtx.disconnected();
-				}
+				onClean();
 				break;
 			case Common.MESSAGE_WRITE:
 				break;

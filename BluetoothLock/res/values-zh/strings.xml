@@ -118,5 +118,6 @@
     <string name="update_success">更新信息成功, 3秒后返回首页...</string>
     <string name="send_success">发送命令成功</string>
     <string name="device_return_wrong">远端设备返回异常, 请重试.</string>
+    <string name="change_account">修改账户信息</string>
 
 </resources>

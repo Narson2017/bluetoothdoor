@@ -19,7 +19,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-public class ConnectCtrl extends BroadcastReceiver {
+public class Connecter extends BroadcastReceiver {
 
 	public static String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 	public BluetoothAdapter btAdapt;
@@ -31,14 +31,14 @@ public class ConnectCtrl extends BroadcastReceiver {
 	HandleConnMsg mHandleConnMsg = null;
 	public boolean if_connected = false;
 
-	public ConnectCtrl() {
+	public Connecter() {
 		super();
 	}
 
-	public ConnectCtrl(HandleConnMsg c) {
+	public Connecter(HandleConnMsg c, Context ctx) {
 		super();
 		mHandleConnMsg = c;
-		register((Context) c);
+		register(ctx);
 	}
 
 	public void register(Context c) {
@@ -76,7 +76,7 @@ public class ConnectCtrl extends BroadcastReceiver {
 				BluetoothDevice btDevice = intent
 						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 				if (btDevice.getAddress().equalsIgnoreCase(
-						strAddress == null ? ConnectCtrl.DEFAULT_DEVICE_ADDR
+						strAddress == null ? Connecter.DEFAULT_DEVICE_ADDR
 								: strAddress)) {
 					IS_FOUND = true;
 					btAdapt.cancelDiscovery();
@@ -150,10 +150,6 @@ public class ConnectCtrl extends BroadcastReceiver {
 		strAddress = mac;
 	}
 
-	public void unregister() {
-		((Context) mHandleConnMsg).unregisterReceiver(this);
-	}
-
 	// Hander
 	public final Handler mHandler = new Handler() {
 		@Override
@@ -170,22 +166,32 @@ public class ConnectCtrl extends BroadcastReceiver {
 				mHandleConnMsg.connected(true);
 				break;
 			case Common.MESSAGE_CONNECT_LOST:
-				if_connected = false;
-				unpair();
-				try {
-					if (btSocket != null)
-						btSocket.close();
-				} catch (IOException e) {
-					Log.e(Common.TAG, "Close Error");
-					e.printStackTrace();
-				} finally {
-					btSocket = null;
-					mHandleConnMsg.disconnected();
-				}
+				onClean();
 				break;
 			}
 		}
 	};
+
+	public void onClean() {
+		if (if_connected) {
+			if_connected = false;
+			unpair();
+		}
+		if (mHandleConnMsg != null)
+			((Context) mHandleConnMsg).unregisterReceiver(this);
+		if (btAdapt != null)
+			btAdapt.disable();
+		try {
+			if (btSocket != null)
+				btSocket.close();
+		} catch (IOException e) {
+			Log.e(Common.TAG, "Close Error");
+			e.printStackTrace();
+		} finally {
+			btSocket = null;
+			mHandleConnMsg.disconnected();
+		}
+	}
 
 	public void unpair() {
 		Set<BluetoothDevice> bondedDevices = btAdapt.getBondedDevices();
@@ -196,7 +202,7 @@ public class ConnectCtrl extends BroadcastReceiver {
 			boolean cleared = false;
 			for (BluetoothDevice bluetoothDevice : bondedDevices) {
 				String mac = bluetoothDevice.getAddress();
-				if (mac.equals(strAddress == null ? ConnectCtrl.DEFAULT_DEVICE_ADDR
+				if (mac.equals(strAddress == null ? Connecter.DEFAULT_DEVICE_ADDR
 						: strAddress)) {
 					removeBondMethod.invoke(bluetoothDevice);
 					Log.i(Common.TAG, "Cleared Pairing");
@@ -210,11 +216,6 @@ public class ConnectCtrl extends BroadcastReceiver {
 		} catch (Throwable th) {
 			Log.e(Common.TAG, "Error pairing", th);
 		}
-	}
-
-	public void disable_bluetooth() {
-		if (btAdapt != null)
-			btAdapt.disable();
 	}
 
 	public void send(String old_password, String new_password) {

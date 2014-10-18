@@ -1,7 +1,7 @@
 package org.park.authorize;
 
 import org.park.R;
-import org.park.box.showDetail;
+import org.park.box.BoxActivity;
 import org.park.boxlst.BoxAdapter;
 import org.park.devlist.DevlstActivity;
 import org.park.entrance.splashScreen;
@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -180,6 +181,16 @@ public class LoginActivity extends Activity implements
 		}
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			startActivity(new Intent(this, splashScreen.class));
+			finish();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
 	Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -211,7 +222,7 @@ public class LoginActivity extends Activity implements
 		prefs.edit().putString("locknbr", String.valueOf(box_nbr)).commit();
 		prefs.edit().putString("cabinet", String.valueOf(cabinet_nbr)).commit();
 
-		Intent intent = new Intent(this, showDetail.class);
+		Intent intent = new Intent(this, BoxActivity.class);
 		intent.putExtra(BoxAdapter.CABINET_NUMBER, cabinet_nbr);
 		intent.putExtra(BoxAdapter.BOX_NUMBER, box_nbr);
 		startActivity(intent);
@@ -245,7 +256,7 @@ public class LoginActivity extends Activity implements
 			startActivity(new Intent(this, DevlstActivity.class));
 			return true;
 		case R.id.btn_register:
-			startActivity(new Intent(this, showDetail.class));
+			startActivity(new Intent(this, BoxActivity.class));
 			return true;
 		}
 		return false;

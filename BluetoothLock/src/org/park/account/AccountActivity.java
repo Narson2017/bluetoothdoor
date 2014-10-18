@@ -1,11 +1,15 @@
 package org.park.account;
 
 import org.park.R;
+import org.park.entrance.splashScreen;
 import org.park.prefs.settingActivity;
+import org.park.util.About;
+import org.park.util.Quit;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -19,7 +23,6 @@ public class AccountActivity extends Activity implements OnClickListener {
 	int cabinet, box;
 	Button mbtn;
 	TextView text_hint;
-	Loading mLoad = null;
 	UpdateInfo mUpdateinfo;
 
 	@Override
@@ -45,13 +48,24 @@ public class AccountActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.btn_authorize:
-			mLoad = new Loading(this);
-			new Thread(mLoad).start();
 			if (mUpdateinfo == null)
-				mUpdateinfo = new UpdateInfo(this, mLoad);
+				mUpdateinfo = new UpdateInfo(this);
 			mUpdateinfo.set_account(edit_username.getText().toString(),
 					old_psw, edit_psw.getText().toString(), cabinet, box);
-			mUpdateinfo.update_info();
+			mUpdateinfo.startUpdate();
+			break;
+		case R.id.btn_exit:
+			Quit.act_exit(this);
+			break;
+		case R.id.btn_about:
+			About.ShowAbout(this);
+			break;
+		case R.id.btn_action_back:
+		case R.id.btn_back:
+			startActivity(new Intent(this, splashScreen.class));
+			if (mUpdateinfo != null)
+				mUpdateinfo.disconnected();
+			finish();
 			break;
 		}
 	}
@@ -68,5 +82,25 @@ public class AccountActivity extends Activity implements OnClickListener {
 	public void set_hint(String received_data) {
 		// TODO Auto-generated method stub
 		text_hint.setText(received_data);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			startActivity(new Intent(this, splashScreen.class));
+			if (mUpdateinfo != null)
+				mUpdateinfo.disconnected();
+			finish();
+			return true;
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (mUpdateinfo != null)
+			mUpdateinfo.disconnected();
+		super.onDestroy();
 	}
 }

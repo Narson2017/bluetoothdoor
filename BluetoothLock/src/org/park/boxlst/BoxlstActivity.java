@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.park.R;
 import org.park.authorize.AuthenticationManager;
+import org.park.entrance.splashScreen;
 import org.park.util.OnClickCtrl;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
@@ -53,5 +56,16 @@ public class BoxlstActivity extends Activity {
 		mBoxApt.notifyDataSetChanged();
 		l_progressBar1.setVisibility(View.GONE);
 		l_lsboxes.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			startActivity(new Intent(this, splashScreen.class));
+			finish();
+			return true;
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
 	}
 }

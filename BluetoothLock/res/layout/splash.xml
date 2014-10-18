@@ -87,6 +87,34 @@
                 android:layout_weight="50" >
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:weightSum="60" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5" >
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_change_account"
+                style="@style/btn_login"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_weight="50"
+                android:onClick="onClick"
+                android:text="@string/change_account" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50" >
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
