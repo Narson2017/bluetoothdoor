@@ -13,7 +13,7 @@ public interface HandleConnMsg {
 
 	public void paired(boolean state);
 
-	public void discovery_stated();
+	public void discovery_started();
 
 	public void discovery_finished();
 

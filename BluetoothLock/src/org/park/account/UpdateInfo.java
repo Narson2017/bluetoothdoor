@@ -152,7 +152,7 @@ public class UpdateInfo implements HandleConnMsg {
 	}
 
 	@Override
-	public void discovery_stated() {
+	public void discovery_started() {
 		// TODO Auto-generated method stub
 
 	}

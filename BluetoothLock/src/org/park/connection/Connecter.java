@@ -84,7 +84,7 @@ public class Connecter extends BroadcastReceiver {
 					return;
 				}
 			} else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_STARTED)) {
-				mHandleConnMsg.discovery_stated();
+				mHandleConnMsg.discovery_started();
 			} else if (action
 					.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
 				mHandleConnMsg.discovery_finished();
