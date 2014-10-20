@@ -21,15 +21,14 @@ import android.util.Log;
 
 public class Connecter extends BroadcastReceiver {
 
-	public static String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 	public BluetoothAdapter btAdapt;
-	public static String DEFAULT_DEVICE_ADDR = "00:0E:0E:00:0F:53";
 	private boolean IS_FOUND = false;
 	static String strAddress = null;
 	public BluetoothSocket btSocket = null;
-	public static String DEFAULT_PIN_CODE = "1234";
 	HandleConnMsg mHandleConnMsg = null;
 	public boolean if_connected = false;
+	Context mCtx;
+	boolean if_registed = false;
 
 	public Connecter() {
 		super();
@@ -38,17 +37,21 @@ public class Connecter extends BroadcastReceiver {
 	public Connecter(HandleConnMsg c, Context ctx) {
 		super();
 		mHandleConnMsg = c;
+		mCtx = ctx;
 		register(ctx);
 	}
 
 	public void register(Context c) {
-		IntentFilter intent = new IntentFilter();
-		intent.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-		intent.addAction(BluetoothDevice.ACTION_FOUND);
-		intent.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
-		intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-		intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-		c.registerReceiver(this, intent);
+		if (!if_registed) {
+			IntentFilter intent = new IntentFilter();
+			intent.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+			intent.addAction(BluetoothDevice.ACTION_FOUND);
+			intent.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
+			intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+			intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+			c.registerReceiver(this, intent);
+			if_registed = true;
+		}
 	}
 
 	@Override
@@ -61,7 +64,8 @@ public class Connecter extends BroadcastReceiver {
 			BluetoothDevice btDevice = intent
 					.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 			try {
-				ClsUtils.setPin(btDevice.getClass(), btDevice, DEFAULT_PIN_CODE); // 手机和蓝牙采集器配对
+				ClsUtils.setPin(btDevice.getClass(), btDevice,
+						Common.DEFAULT_PIN_CODE); // 手机和蓝牙采集器配对
 				ClsUtils.createBond(btDevice.getClass(), btDevice);
 				ClsUtils.cancelPairingUserInput(btDevice.getClass(), btDevice);
 			} catch (Exception e) {
@@ -76,7 +80,7 @@ public class Connecter extends BroadcastReceiver {
 				BluetoothDevice btDevice = intent
 						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 				if (btDevice.getAddress().equalsIgnoreCase(
-						strAddress == null ? Connecter.DEFAULT_DEVICE_ADDR
+						strAddress == null ? Common.DEFAULT_DEVICE_ADDR
 								: strAddress)) {
 					IS_FOUND = true;
 					btAdapt.cancelDiscovery();
@@ -108,9 +112,9 @@ public class Connecter extends BroadcastReceiver {
 			new Thread(new Runnable() {
 				public void run() {
 					try {
-						UUID uuid = UUID.fromString(SPP_UUID);
+						UUID uuid = UUID.fromString(Common.SPP_UUID);
 						BluetoothDevice btDev = btAdapt
-								.getRemoteDevice(strAddress == null ? DEFAULT_DEVICE_ADDR
+								.getRemoteDevice(strAddress == null ? Common.DEFAULT_DEVICE_ADDR
 										: strAddress);
 						btSocket = btDev
 								.createRfcommSocketToServiceRecord(uuid);
@@ -137,7 +141,8 @@ public class Connecter extends BroadcastReceiver {
 		if (pairedDevices.size() > 0) {
 			for (BluetoothDevice device : pairedDevices)
 				if (device.getAddress().equalsIgnoreCase(
-						strAddress == null ? DEFAULT_DEVICE_ADDR : strAddress)) {
+						strAddress == null ? Common.DEFAULT_DEVICE_ADDR
+								: strAddress)) {
 					IS_FOUND = true;
 					connectTarget();
 					return true;
@@ -166,7 +171,7 @@ public class Connecter extends BroadcastReceiver {
 				mHandleConnMsg.connected(true);
 				break;
 			case Common.MESSAGE_CONNECT_LOST:
-				onClean();
+				mHandleConnMsg.disconnected();
 				break;
 			}
 		}
@@ -175,10 +180,12 @@ public class Connecter extends BroadcastReceiver {
 	public void onClean() {
 		if (if_connected) {
 			if_connected = false;
-			unpair();
 		}
-		if (mHandleConnMsg != null)
-			((Context) mHandleConnMsg).unregisterReceiver(this);
+		unpair();
+		if (if_registed) {
+			mCtx.unregisterReceiver(this);
+			if_registed = false;
+		}
 		if (btAdapt != null)
 			btAdapt.disable();
 		try {
@@ -189,7 +196,6 @@ public class Connecter extends BroadcastReceiver {
 			e.printStackTrace();
 		} finally {
 			btSocket = null;
-			mHandleConnMsg.disconnected();
 		}
 	}
 
@@ -202,7 +208,7 @@ public class Connecter extends BroadcastReceiver {
 			boolean cleared = false;
 			for (BluetoothDevice bluetoothDevice : bondedDevices) {
 				String mac = bluetoothDevice.getAddress();
-				if (mac.equals(strAddress == null ? Connecter.DEFAULT_DEVICE_ADDR
+				if (mac.equals(strAddress == null ? Common.DEFAULT_DEVICE_ADDR
 						: strAddress)) {
 					removeBondMethod.invoke(bluetoothDevice);
 					Log.i(Common.TAG, "Cleared Pairing");

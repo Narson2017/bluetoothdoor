@@ -25,11 +25,11 @@ public class ContactThread extends Thread {
 	private InputStream mmInStream;
 	private OutputStream mmOutStream;
 	BluetoothSocket btSocket = null;
-	HandleConnMsg mCtx;
+	HandleConnMsg mHandleConn;
 	LockCommand mCmdmgr;
 
 	public ContactThread(BluetoothSocket socket, HandleConnMsg cx) {
-		mCtx = cx;
+		mHandleConn = cx;
 		InputStream tmpIn = null;
 		OutputStream tmpOut = null;
 
@@ -102,7 +102,6 @@ public class ContactThread extends Thread {
 				mmOutStream = null;
 				btSocket = null;
 				if_connected = false;
-				mCtx.disconnected();
 			}
 		}
 	}
@@ -133,13 +132,13 @@ public class ContactThread extends Thread {
 			switch (msg.what) {
 			case Common.MESSAGE_RECV:
 				// String strRecv = bytesToString(bRecv, msg.arg1);
-				mCtx.received(HexConvert.Bytes2HexString(bRecv, nNeed));
+				mHandleConn.received(HexConvert.Bytes2HexString(bRecv, nNeed));
 				// reset received length
 				nRecved = 0;
 				break;
 			case Common.MESSAGE_EXCEPTION_RECV:
 			case Common.MESSAGE_CONNECT_LOST:
-				onClean();
+				mHandleConn.disconnected();
 				break;
 			case Common.MESSAGE_WRITE:
 				break;
@@ -156,11 +155,11 @@ public class ContactThread extends Thread {
 		try {
 			mmOutStream.write(HexConvert.HexString2Bytes(mCommand));
 			mmOutStream.flush();
-			mCtx.sended(true);
+			mHandleConn.sended(true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			mCtx.sended(false);
+			mHandleConn.sended(false);
 		}
 	}
 }

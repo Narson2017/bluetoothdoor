@@ -46,9 +46,11 @@ public class LockOperation implements HandleConnMsg {
 		mLockManager.setEnabled(false);
 		mBoxActivity.setBoxVisible(false);
 		mBoxActivity.setProgressVisible(false);
-		mBoxActivity.setHint(R.string.connect_failed);
-		mConnecter.onClean();
-		mConnThr.onClean();
+		mBoxActivity.tx_fault.setText(R.string.connect_failed);
+		if (mConnecter != null)
+			mConnecter.onClean();
+		if (mConnThr != null)
+			mConnThr.onClean();
 	}
 
 	@Override
@@ -113,15 +115,8 @@ public class LockOperation implements HandleConnMsg {
 			mConnecter = new Connecter(this, mBoxActivity);
 			mConnecter.setMac(mBoxActivity.mac_addr);
 		}
+		mConnecter.register(mBoxActivity);
 		mConnecter.connect();
-	}
-
-	public void onClean() {
-		if (mConnThr != null)
-			mConnThr.onClean();
-		if (mConnecter != null) {
-			mConnecter.onClean();
-		}
 	}
 
 	public void openLock() {

@@ -22,7 +22,7 @@ public class LockCommand {
 	// get "password and algorithm type" command
 	public String getPswAlg(String pairStr, int cabinet_id, int box_id) {
 		String tmp1 = "feef";
-		String tmp2 = "10" + pairStr + "a2" + "000000000000"
+		String tmp2 = "10" + intStr6hexStr(pairStr) + "a2" + "000000000000"
 				+ HexConvert.int2hexStr(cabinet_id)
 				+ HexConvert.int2hexStr(box_id) + "00";
 		String tmp3 = xor(tmp2);

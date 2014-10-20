@@ -65,14 +65,14 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 
 	@Override
 	protected void onDestroy() {
-		mLockOpr.onClean();
+		mLockOpr.disconnected();
 		super.onDestroy();
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			mLockOpr.onClean();
+			mLockOpr.disconnected();
 			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			return true;
@@ -86,7 +86,7 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.btn_setting:
-			mLockOpr.onClean();
+			mLockOpr.disconnected();
 			startActivity(new Intent(this, settingActivity.class));
 			break;
 		case R.id.btn_connect:
@@ -99,7 +99,7 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 			mLockOpr.openLock();
 			break;
 		case R.id.btn_back:
-			mLockOpr.onClean();
+			mLockOpr.disconnected();
 			startActivity(new Intent(this, splashScreen.class));
 			finish();
 			break;

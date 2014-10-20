@@ -7,7 +7,6 @@ import java.util.Set;
 import org.park.R;
 import org.park.authorize.LoginActivity;
 import org.park.box.BoxActivity;
-import org.park.connection.Connecter;
 import org.park.util.About;
 import org.park.util.ClsUtils;
 import org.park.util.Common;
@@ -34,7 +33,6 @@ import android.widget.TextView;
 
 public class DevlstActivity extends Activity implements OnClickListener,
 		Devlster {
-	public static String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 	ListView lvBTDevices;
 	DeviceAdapter adtDevices;
 	List<MDevice> lstDevices = new ArrayList<MDevice>();
@@ -45,7 +43,6 @@ public class DevlstActivity extends Activity implements OnClickListener,
 	public static boolean IS_STORE = true;
 
 	private View mProgress, lst_devs;
-	protected String DEVICE_MAC_ADDR = "00:0E:0E:00:0F:54";
 	private SearchDevReceiver mSearchDev;
 	TextView text_hint;
 
@@ -133,7 +130,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 			lstDevices.get(arg2).ic_btn = R.drawable.btn_connect_pressed;
 			String address = lstDevices.get(arg2).mac_addr;
 			Log.i(Common.TAG, lstDevices.get(arg2).mac_addr);
-			ClsUtils.pair(address, Connecter.DEFAULT_PIN_CODE);
+			ClsUtils.pair(address, Common.DEFAULT_PIN_CODE);
 			try {
 				Intent intMain = new Intent(getApplicationContext(),
 						BoxActivity.class);
@@ -276,7 +273,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		try {
 			ClsUtils.setPin(btDevice.getClass(), btDevice,
-					Connecter.DEFAULT_PIN_CODE); // 手机和蓝牙采集器配对
+					Common.DEFAULT_PIN_CODE); // 手机和蓝牙采集器配对
 			ClsUtils.createBond(btDevice.getClass(), btDevice);
 			ClsUtils.cancelPairingUserInput(btDevice.getClass(), btDevice);
 		} catch (Exception e) {
