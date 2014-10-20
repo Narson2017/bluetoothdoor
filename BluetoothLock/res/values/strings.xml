@@ -119,5 +119,8 @@
     <string name="send_success">Send command successfully</string>
     <string name="device_return_wrong">Device return wrong message, please retry.</string>
     <string name="change_account">Change account info</string>
+    <string name="operate_failed">Device operation failed.</string>
+    <string name="operate_success">Operation successfully.</string>
+    <string name="time_out">Connection time out.</string>
 
 </resources>

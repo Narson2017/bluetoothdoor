@@ -2,13 +2,14 @@ package org.park.account;
 
 import org.park.R;
 import org.park.entrance.splashScreen;
-import org.park.prefs.settingActivity;
 import org.park.util.About;
 import org.park.util.Quit;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +20,7 @@ import android.widget.TextView;
 
 public class AccountActivity extends Activity implements OnClickListener {
 	EditText edit_username, edit_psw;
-	String old_username, old_psw;
+	String old_username, old_psw, new_psw, new_username;
 	int cabinet, box;
 	Button mbtn;
 	TextView text_hint;
@@ -33,11 +34,14 @@ public class AccountActivity extends Activity implements OnClickListener {
 
 		edit_psw = (EditText) findViewById(R.id.edit_psw);
 		edit_username = (EditText) findViewById(R.id.edit_username);
-		Intent tmp = getIntent();
-		old_username = tmp.getStringExtra(settingActivity.USERNAME);
-		old_psw = tmp.getStringExtra(settingActivity.PASSWORD);
-		cabinet = tmp.getIntExtra(settingActivity.CABINET, -1);
-		box = tmp.getIntExtra(settingActivity.BOX, -1);
+		SharedPreferences _sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
+		new_username = _sharedPreferences.getString("username", "");
+		new_psw = _sharedPreferences.getString("password", "");
+		cabinet = Integer.valueOf(_sharedPreferences.getString("cabinet", ""))
+				.intValue();
+		box = Integer.valueOf(_sharedPreferences.getString("locknbr", ""))
+				.intValue();
 
 		mbtn = (Button) findViewById(R.id.btn_authorize);
 		text_hint = (TextView) findViewById(R.id.text_hint);
@@ -50,8 +54,8 @@ public class AccountActivity extends Activity implements OnClickListener {
 		case R.id.btn_authorize:
 			if (mUpdateinfo == null)
 				mUpdateinfo = new UpdateInfo(this);
-			mUpdateinfo.set_account(edit_username.getText().toString(),
-					old_psw, edit_psw.getText().toString(), cabinet, box);
+			old_psw = edit_psw.getText().toString();
+			old_username = edit_username.getText().toString();
 			mUpdateinfo.startUpdate();
 			break;
 		case R.id.btn_exit:

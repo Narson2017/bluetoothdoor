@@ -44,7 +44,8 @@ public class LockCommand {
 	// get "open lock" command
 	public String getOpenLockCommand(String pairStr, String receivedStr) {
 		String tmp1 = "feef";
-		String tmp2 = "10" + pairStr + "a3" + calculateDynamicPsw(receivedStr)
+		String tmp2 = "10" + intStr6hexStr(pairStr) + "a3"
+				+ calculateDynamicPsw(receivedStr)
 				+ HexConvert.int2hexStr(cabinet_id)
 				+ HexConvert.int2hexStr(box_id) + "00";
 		String tmp3 = xor(tmp2);
@@ -62,7 +63,7 @@ public class LockCommand {
 	}
 
 	// convert old_psw to 6 byte hexadecimal string
-	private String intStr6hexStr(String intStr) {
+	public String intStr6hexStr(String intStr) {
 		String result = "";
 		int i = 0;
 		for (; i < intStr.length(); i++) {
@@ -70,8 +71,8 @@ public class LockCommand {
 					"0" + intStr.charAt(i)).intValue());
 		}
 		if (i < 5) {
-			for (; i < 5; i++)
-				result += "0";
+			for (; i < 6; i++)
+				result += "00";
 		}
 		return result;
 	}
@@ -89,7 +90,12 @@ public class LockCommand {
 			} else {
 				return Common.RECEIVE_PAIR_PASSWORD_FAILED;
 			}
-
+		else if (tmp.substring(6, 8).equalsIgnoreCase("b3"))
+			if (tmp.substring(8, 10).equalsIgnoreCase("da")) {
+				return Common.RECEIVE_OPEN_DOOR_SUCCESS;
+			} else {
+				return Common.RECEIVE_OPEN_DOOR_FAILED;
+			}
 		return -1;
 	}
 

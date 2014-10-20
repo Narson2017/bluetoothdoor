@@ -15,69 +15,30 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 
 public class UpdateInfo implements HandleConnMsg {
-	String new_username, new_psw, old_psw;
-	int cabinet, box;
 	AccountActivity ctx;
 	Loading mload;
-	Connecter mBtMgr = null;
+	Connecter mConnecter = null;
 	ContactThread mConnThr = null;
 	LockCommand mLockcmd = null;
 
 	public UpdateInfo(AccountActivity c) {
 		mload = new Loading(c);
 		ctx = c;
-		mBtMgr = new Connecter(this, c);
+		mConnecter = new Connecter(this, c);
 		mLockcmd = new LockCommand();
-	}
-
-	public void set_username(String username) {
-		this.new_username = username;
-	}
-
-	public void set_account(String new_username, String old_psw,
-			String new_psw, int cabinet, int box) {
-		this.new_username = new_username;
-		this.old_psw = old_psw;
-		this.new_psw = old_psw;
-		this.cabinet = cabinet;
-		this.box = box;
-	}
-
-	public void set_psw(String new_psw, String old_psw) {
-		this.new_psw = new_psw;
-		this.old_psw = old_psw;
 	}
 
 	public void startUpdate() {
 		ctx.set_hint(R.string.loading);
-		new Thread(mload).start();
-		if (!mBtMgr.if_connected)
-			mBtMgr.connect();
+		mload.start();
+		if (!mConnecter.if_connected)
+			mConnecter.connect();
 		else if (mConnThr == null || !mConnThr.if_connected) {
 			connected(true);
 		} else {
-			mConnThr.send(mLockcmd.getChangePairPswCmd(old_psw, new_psw,
-					cabinet, box));
+			mConnThr.send(mLockcmd.getChangePairPswCmd(ctx.old_psw,
+					ctx.new_psw, ctx.cabinet, ctx.box));
 		}
-
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					Thread.sleep(15000);
-					mHandler.obtainMessage(Common.MESSAGE_HINT,
-							R.string.change_account_success, -1).sendToTarget();
-					Thread.sleep(3000);
-					mload.stop();
-					mHandler.sendEmptyMessage(Common.MSG_UPDATE_SUCCESS);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-		}).start();
 	}
 
 	private Handler mHandler = new Handler() {
@@ -102,7 +63,6 @@ public class UpdateInfo implements HandleConnMsg {
 							e.printStackTrace();
 						}
 					}
-
 				}).start();
 				break;
 			case Common.MSG_RETURN_INDEX:
@@ -116,9 +76,13 @@ public class UpdateInfo implements HandleConnMsg {
 	@Override
 	public void connected(boolean state) {
 		// TODO Auto-generated method stub
-		mConnThr = new ContactThread(mBtMgr.btSocket, this);
-		mConnThr.send(mLockcmd.getChangePairPswCmd(old_psw, new_psw, cabinet,
-				box));
+		if (state) {
+			ctx.set_hint(R.string.connect_success);
+			mConnThr = new ContactThread(mConnecter.btSocket, this);
+			mConnThr.start();
+			mConnThr.send(mLockcmd.getChangePairPswCmd(ctx.old_psw,
+					ctx.new_psw, ctx.cabinet, ctx.box));
+		}
 	}
 
 	@Override
@@ -133,8 +97,10 @@ public class UpdateInfo implements HandleConnMsg {
 	@Override
 	public void disconnected() {
 		// TODO Auto-generated method stub
-		if (mBtMgr != null)
-			mBtMgr.onClean();
+		ctx.set_hint(R.string.connect_failed);
+		mload.stop();
+		if (mConnecter != null)
+			mConnecter.onClean();
 		if (mConnThr != null)
 			mConnThr.onClean();
 	}
@@ -154,7 +120,7 @@ public class UpdateInfo implements HandleConnMsg {
 	@Override
 	public void discovery_started() {
 		// TODO Auto-generated method stub
-
+		ctx.set_hint(R.string.searching);
 	}
 
 	@Override
@@ -166,24 +132,33 @@ public class UpdateInfo implements HandleConnMsg {
 	@Override
 	public void received(String received_data) {
 		// TODO Auto-generated method stub
+		SharedPreferences mPrefs;
 		ctx.set_hint(received_data);
 
 		if (mLockcmd == null)
 			mLockcmd = new LockCommand();
 		switch (mLockcmd.checkRecvType(received_data)) {
 		case Common.RECEIVE_PAIR_PASSWORD_SUCCESS:
-			ctx.set_hint(R.string.send_success);
-			SharedPreferences mPrefs = PreferenceManager
-					.getDefaultSharedPreferences(ctx);
-			mPrefs.edit().putString("username", new_username).commit();
-			mPrefs.edit().putString("password", new_psw).commit();
-			mPrefs.edit().putString("locknbr", String.valueOf(box)).commit();
-			mPrefs.edit().putString("cabinet", String.valueOf(cabinet))
+			ctx.set_hint(R.string.operate_success);
+			mload.stop();
+			mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+			mPrefs.edit().putString("username", ctx.new_username).commit();
+			mPrefs.edit().putString("password", ctx.new_psw).commit();
+			mPrefs.edit().putString("locknbr", String.valueOf(ctx.box))
+					.commit();
+			mPrefs.edit().putString("cabinet", String.valueOf(ctx.cabinet))
 					.commit();
 			break;
 		case Common.RECEIVE_PAIR_PASSWORD_FAILED:
-			ctx.set_hint(R.string.send_failed);
+			ctx.set_hint(R.string.operate_failed);
 			mload.stop();
+			mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+			mPrefs.edit().putString("username", ctx.old_username).commit();
+			mPrefs.edit().putString("password", ctx.old_psw).commit();
+			mPrefs.edit().putString("locknbr", String.valueOf(ctx.box))
+					.commit();
+			mPrefs.edit().putString("cabinet", String.valueOf(ctx.cabinet))
+					.commit();
 			break;
 		}
 	}

@@ -7,14 +7,13 @@ import org.park.devlist.DevlstActivity;
 import org.park.entrance.splashScreen;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
+import org.park.util.Common;
 import org.park.util.Quit;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,21 +27,15 @@ import android.widget.TextView;
 
 public class LoginActivity extends Activity implements
 		View.OnFocusChangeListener, OnClickListener, OnLongClickListener {
-	protected static final int MSG_LOGIN_LOADING = 0;
-	protected static final int MSG_REGISTER_LOADING = 2;
-	public static final int MSG_SERVER_FAULT = 3;
 	EditText edit_psw, edit_username;
 	ImageView img_psw, img_username;
 	Button btn_login, btn_register;
 	TextView text_login_hint;
-	AuthenticationManager mAuthMgr;
 
-	int[] loginTexts = { R.string.login_load1, R.string.login_load2,
-			R.string.login_load3 };
-	int[] registerTexts = { R.string.register_load1, R.string.register_load2,
-			R.string.register_load3 };
-	public boolean authorizing = true;
-	public int box_nbr, cabinet_nbr;
+	AuthenticationManager mAuthMgr;
+	RegisterAccount mRegister;
+	public int box, cabinet;
+	public String old_psw, new_psw, new_username;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +44,7 @@ public class LoginActivity extends Activity implements
 			finish();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.login);
-
+		// display
 		edit_psw = (EditText) findViewById(R.id.edit_psw);
 		edit_psw.setOnFocusChangeListener(this);
 		edit_username = (EditText) findViewById(R.id.edit_username);
@@ -66,20 +59,25 @@ public class LoginActivity extends Activity implements
 		btn_register.setOnLongClickListener(this);
 		text_login_hint = (TextView) findViewById(R.id.text_login_hint);
 
-		box_nbr = getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1);
-		cabinet_nbr = getIntent().getIntExtra(BoxAdapter.CABINET_NUMBER, -1);
-		if (box_nbr != -1) {
+		// initialize data
+		old_psw = Common.DEFAULT_PAIR_PASSWORD;
+		box = getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1);
+		cabinet = getIntent().getIntExtra(BoxAdapter.CABINET_NUMBER, -1);
+		if (box != -1) {
 			btn_login.setEnabled(false);
 			btn_register.setEnabled(true);
-			btn_login.setBackgroundColor(R.color.trolley_grey);
+			btn_login.setBackgroundColor(getResources().getColor(
+					R.color.trolley_grey));
 			text_login_hint.setText(R.string.not_register);
 		} else {
 			btn_register.setEnabled(false);
 			btn_login.setEnabled(true);
-			btn_register.setBackgroundColor(R.color.trolley_grey);
+			btn_register.setBackgroundColor(getResources().getColor(
+					R.color.trolley_grey));
 			text_login_hint.setText(R.string.please_login);
 		}
 		mAuthMgr = new AuthenticationManager(this);
+		mRegister = new RegisterAccount(this);
 	}
 
 	@Override
@@ -99,48 +97,6 @@ public class LoginActivity extends Activity implements
 		}
 	}
 
-	private class OprLoad implements Runnable {
-		int operation;
-
-		public OprLoad(int opr) {
-			operation = opr;
-		}
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			int i = 0;
-			while (authorizing) {
-				switch (operation) {
-				case MSG_LOGIN_LOADING:
-					mHandler.obtainMessage(MSG_LOGIN_LOADING,
-							loginTexts[(i++) % loginTexts.length], -1)
-							.sendToTarget();
-					break;
-				case MSG_REGISTER_LOADING:
-					mHandler.obtainMessage(MSG_REGISTER_LOADING,
-							registerTexts[(i++) % registerTexts.length], -1)
-							.sendToTarget();
-					break;
-				}
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (i == 60) {
-					mHandler.sendEmptyMessage(MSG_SERVER_FAULT);
-					break;
-				}
-			}
-			mHandler.obtainMessage(MSG_LOGIN_LOADING, R.string.login, -1)
-					.sendToTarget();
-			mHandler.obtainMessage(MSG_REGISTER_LOADING, R.string.register, -1)
-					.sendToTarget();
-		}
-	}
-
 	@Override
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
@@ -150,20 +106,15 @@ public class LoginActivity extends Activity implements
 				// btn_login.setText(R.string.logining);
 				mAuthMgr.login(edit_username.getText().toString(), edit_psw
 						.getText().toString());
-				new Thread(new OprLoad(MSG_LOGIN_LOADING)).start();
+				// new Thread(new OprLoad(MSG_LOGIN_LOADING)).start();
 			} catch (Exception e) {
 				System.err.print("Begin authorize failed: " + e.toString());
 			}
 			break;
 		case R.id.btn_register:
-			try {
-				mAuthMgr.register(edit_username.getText().toString(), edit_psw
-						.getText().toString(), cabinet_nbr, box_nbr);
-				new Thread(new OprLoad(MSG_REGISTER_LOADING)).start();
-			} catch (Exception e) {
-				System.err.print("Begin register failed: " + e.toString());
-			}
-			System.out.print("Registering");
+			new_psw = edit_psw.getText().toString();
+			new_username = edit_username.getText().toString();
+			mRegister.register();
 			break;
 		case R.id.btn_back:
 			startActivity(new Intent(this, splashScreen.class));
@@ -191,27 +142,8 @@ public class LoginActivity extends Activity implements
 		return super.onKeyDown(keyCode, event);
 	}
 
-	Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case MSG_LOGIN_LOADING:
-				btn_login.setText(msg.arg1);
-				break;
-			case MSG_REGISTER_LOADING:
-				btn_register.setText(msg.arg1);
-				break;
-			case MSG_SERVER_FAULT:
-				hint(R.string.server_fault);
-				authorizing = false;
-				break;
-			}
-		}
-	};
-
 	public void authPassed() {
 		// TODO Auto-generated method stub
-		authorizing = false;
 		text_login_hint.setText(R.string.auth_success);
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
@@ -219,12 +151,12 @@ public class LoginActivity extends Activity implements
 				.commit();
 		prefs.edit().putString("password", edit_psw.getText().toString())
 				.commit();
-		prefs.edit().putString("locknbr", String.valueOf(box_nbr)).commit();
-		prefs.edit().putString("cabinet", String.valueOf(cabinet_nbr)).commit();
+		prefs.edit().putString("locknbr", String.valueOf(box)).commit();
+		prefs.edit().putString("cabinet", String.valueOf(cabinet)).commit();
 
 		Intent intent = new Intent(this, BoxActivity.class);
-		intent.putExtra(BoxAdapter.CABINET_NUMBER, cabinet_nbr);
-		intent.putExtra(BoxAdapter.BOX_NUMBER, box_nbr);
+		intent.putExtra(BoxAdapter.CABINET_NUMBER, cabinet);
+		intent.putExtra(BoxAdapter.BOX_NUMBER, box);
 		startActivity(intent);
 	}
 
@@ -241,11 +173,6 @@ public class LoginActivity extends Activity implements
 	public void setRegisterBtn(int res_id) {
 		// TODO Auto-generated method stub
 		btn_register.setText(res_id);
-	}
-
-	public void stopLoading() {
-		// TODO Auto-generated method stub
-		authorizing = false;
 	}
 
 	@Override

@@ -84,7 +84,7 @@ public class LockOperation implements HandleConnMsg {
 	@Override
 	public void received(String received_data) {
 		// TODO Auto-generated method stub
-		mBoxActivity.tx_fault.setText(received_data);
+		// mBoxActivity.tx_fault.setText(received_data);
 
 		if (mLockCmd == null)
 			mLockCmd = new LockCommand();
@@ -96,6 +96,12 @@ public class LockOperation implements HandleConnMsg {
 		case Common.RECEIVE_DYNAMIC_PASSWORD_FAILED:
 			mBoxActivity.tx_fault.setText(R.string.device_return_wrong);
 			break;
+		case Common.RECEIVE_OPEN_DOOR_SUCCESS:
+			mBoxActivity.tx_fault.setText(R.string.open_door_success);
+			break;
+		case Common.RECEIVE_OPEN_DOOR_FAILED:
+			mBoxActivity.tx_fault.setText(R.string.open_door_failed);
+			break;
 		}
 	}
 
@@ -104,7 +110,7 @@ public class LockOperation implements HandleConnMsg {
 		if (mLockManager == null) {
 			mLockManager = new LockState(mBoxActivity, R.id.btn_box,
 					R.id.box_nbr);
-			mLockManager.setNbr(mBoxActivity.box_nbr);
+			mLockManager.setNbr(mBoxActivity.box);
 			mLockManager.cabinet = mBoxActivity.cabinet;
 		}
 		if (mLockCmd == null)

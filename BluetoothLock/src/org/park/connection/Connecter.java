@@ -103,6 +103,7 @@ public class Connecter extends BroadcastReceiver {
 
 		if (!btAdapt.isEnabled())
 			btAdapt.enable();
+		register(mCtx);
 		mHandler.sendEmptyMessageDelayed(Common.MESSAGE_START_DISCOVER, 3072);
 	}
 
@@ -161,6 +162,7 @@ public class Connecter extends BroadcastReceiver {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case Common.MESSAGE_START_DISCOVER:
+				mHandleConnMsg.discovery_started();
 				if (!btAdapt.isDiscovering()) {
 					if (!findPairedDevice())
 						btAdapt.startDiscovery();

@@ -1,10 +1,10 @@
 package org.park.box;
 
 import org.park.R;
-import org.park.boxlst.BoxAdapter;
 import org.park.entrance.splashScreen;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
+import org.park.util.Common;
 import org.park.util.Quit;
 
 import android.app.Activity;
@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -27,7 +28,7 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 	public String mac_addr;
 	public String dev_name;
 	LockOperation mLockOpr;
-	public int box_nbr;
+	public int box;
 	public int cabinet;
 
 	@Override
@@ -37,11 +38,14 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 		setContentView(R.layout.detail);
 
 		// obtain data
-		box_nbr = getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1);
-		cabinet = getIntent().getIntExtra(BoxAdapter.CABINET_NUMBER, -1);
 		SharedPreferences _sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
+		box = Integer.valueOf(_sharedPreferences.getString("locknbr", ""))
+				.intValue();
+		cabinet = Integer.valueOf(_sharedPreferences.getString("cabinet", ""))
+				.intValue();
 		pair_psw = _sharedPreferences.getString("password", "");
+		Log.i(Common.TAG, "Now password: " + pair_psw);
 		Bundle bunde = this.getIntent().getExtras();
 		if (bunde != null) {
 			dev_name = bunde.getString("NAME");

@@ -73,21 +73,18 @@ public class AuthenticationManager {
 			case MSG_REGISTER_CHECK:
 				result = ((SoapObject) msg.obj).getProperty(0).toString();
 				if (result.equalsIgnoreCase(NOT_AVAILABLE))
-					authSend(phone_number, password, login_ctx.cabinet_nbr,
-							login_ctx.box_nbr, OPR_SAVE);
+					authSend(phone_number, password, login_ctx.cabinet,
+							login_ctx.box, OPR_SAVE);
 				else {
 					login_ctx.hint(R.string.already_registered);
-					login_ctx.stopLoading();
 				}
 				break;
 			case MSG_OPEN_RECEIVE:
 				result = ((SoapObject) msg.obj).getProperty(0).toString();
 				if (result.equalsIgnoreCase(OPERATION_FAILED)) {
 					login_ctx.hint(R.string.server_fault);
-					login_ctx.stopLoading();
 				} else if (result.equalsIgnoreCase(NOT_AVAILABLE)) {
 					login_ctx.hint(R.string.not_register);
-					login_ctx.stopLoading();
 				} else {
 					login_ctx.authPassed();
 				}
@@ -97,10 +94,8 @@ public class AuthenticationManager {
 				result = ((SoapObject) msg.obj).getProperty(0).toString();
 				if (result.equalsIgnoreCase(OPERATION_FAILED)) {
 					login_ctx.hint(R.string.save_failed);
-					login_ctx.stopLoading();
 				} else if (result.equalsIgnoreCase(NOT_AVAILABLE)) {
 					login_ctx.hint(R.string.not_available);
-					login_ctx.stopLoading();
 				} else {
 					login_ctx.authPassed();
 				}
@@ -214,7 +209,7 @@ public class AuthenticationManager {
 	}
 
 	public void getAvailableBoxes() {
-		int[] tmp = { 2, 4, 6, 8, 10 };
+		int[] tmp = {1, 2, 4, 6, 8, 10 };
 		boxlst_ctx.initlst(tmp);
 	}
 

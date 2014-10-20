@@ -27,6 +27,8 @@ public class Common {
 	static public final int RECEIVE_DYNAMIC_PASSWORD_FAILED = 24;
 	static public final int RECEIVE_OPEN_DOOR_FAILED = 25;
 	static public final int RECEIVE_CLOSE_DOOR_FAILED = 26;
+	public static final int MSG_LOGIN_LOADING = 27;
+	public static final int MSG_REGISTER_LOADING = 28;
 
 	public static final String HINT = "toast";
 	public static final String TAG = "BlueToothTool";
@@ -34,4 +36,5 @@ public class Common {
 	public static final String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
 	public static final String DEFAULT_PIN_CODE = "1234";
 	public static final String DEFAULT_DEVICE_ADDR = "00:0E:0E:00:0F:53";
+	public static final int RESPONSE_LENGTH = 16;
 }

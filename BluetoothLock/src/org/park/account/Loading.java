@@ -7,10 +7,11 @@ import android.os.Handler;
 import android.os.Message;
 
 class Loading implements Runnable {
-	static boolean loading;
+	public boolean loading;
 	AccountActivity ctx;
 	int[] loding_txs = { R.string.authorize_update1,
-			R.string.authorize_update2, R.string.authorize_update3, R.string.authorize_update4 };
+			R.string.authorize_update2, R.string.authorize_update3,
+			R.string.authorize_update4 };
 
 	public Loading(AccountActivity c) {
 		super();
@@ -20,6 +21,11 @@ class Loading implements Runnable {
 
 	public void stop() {
 		loading = false;
+	}
+
+	public void start() {
+		loading = true;
+		new Thread(this).start();
 	}
 
 	@Override
@@ -52,7 +58,7 @@ class Loading implements Runnable {
 				ctx.set_btn_text(msg.arg1);
 				break;
 			case Common.MSG_SERVER_FAULT:
-				ctx.set_hint(R.string.server_fault);
+				ctx.set_hint(R.string.time_out);
 				break;
 			}
 		}

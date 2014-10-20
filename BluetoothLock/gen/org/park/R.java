@@ -675,6 +675,8 @@ public final class R {
         public static final int open_blue=0x7f080012;
         public static final int open_door_failed=0x7f080049;
         public static final int open_door_success=0x7f080048;
+        public static final int operate_failed=0x7f080062;
+        public static final int operate_success=0x7f080063;
         public static final int pair_failed=0x7f08004c;
         public static final int pairing=0x7f080044;
         public static final int password=0x7f080022;
@@ -705,6 +707,7 @@ public final class R {
         public static final int simple_view=0x7f080010;
         public static final int store=0x7f08001c;
         public static final int sure=0x7f080023;
+        public static final int time_out=0x7f080064;
         public static final int update_success=0x7f08005e;
         public static final int upload_account=0x7f080056;
         public static final int use=0x7f08004e;

@@ -14,7 +14,6 @@ import android.os.Message;
 import android.util.Log;
 
 public class ContactThread extends Thread {
-	final int RESPONSE_LENGTH = 16;
 	static final int OPR_OPEN_LOCK = 2;
 	static final int OPR_QUERY_LOCK = 1;
 	static final int OPR_QUERY_ALL = 0;
@@ -136,21 +135,13 @@ public class ContactThread extends Thread {
 				// reset received length
 				nRecved = 0;
 				break;
-			case Common.MESSAGE_EXCEPTION_RECV:
-			case Common.MESSAGE_CONNECT_LOST:
-				mHandleConn.disconnected();
-				break;
-			case Common.MESSAGE_WRITE:
-				break;
-			case Common.MESSAGE_READ:
-				break;
 			}
 		}
 	};
 
 	public void send(String mCommand) {
 		// TODO Auto-generated method stub
-		nNeed = RESPONSE_LENGTH;
+		nNeed = Common.RESPONSE_LENGTH;
 		nRecved = 0;
 		try {
 			mmOutStream.write(HexConvert.HexString2Bytes(mCommand));

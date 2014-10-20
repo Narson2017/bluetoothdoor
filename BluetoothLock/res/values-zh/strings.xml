@@ -119,5 +119,7 @@
     <string name="send_success">发送命令成功</string>
     <string name="device_return_wrong">远端设备返回异常, 请重试.</string>
     <string name="change_account">修改账户信息</string>
+    <string name="operate_failed">无端操作失败.</string>
+    <string name="operate_success">操作成功.</string>
 
 </resources>
