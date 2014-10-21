@@ -5,7 +5,7 @@ import org.park.command.LockCommand;
 import org.park.connection.Connecter;
 import org.park.connection.ContactThread;
 import org.park.connection.HandleConnMsg;
-import org.park.entrance.splashScreen;
+import org.park.entrance.Navigation;
 import org.park.util.Common;
 
 import android.content.Intent;
@@ -67,7 +67,7 @@ public class UpdateInfo implements HandleConnMsg {
 				break;
 			case Common.MSG_RETURN_INDEX:
 				ctx.set_hint(R.string.back);
-				ctx.startActivity(new Intent(ctx, splashScreen.class));
+				ctx.startActivity(new Intent(ctx, Navigation.class));
 				break;
 			}
 		}

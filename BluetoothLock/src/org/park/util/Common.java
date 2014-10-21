@@ -69,4 +69,9 @@ public class Common {
 	public static final String DELIMITER = "#";
 	public static final int RESULT_FAULT = -1;
 	public static final int RESULT_NOT_FOUND = 0;
+	public static final String PREFERENCE_PHONE = "username";
+	public static final String PREFERENCE_PASSWORD = "password";
+	public static final String PREFERENCE_BOX = "locknbr";
+	public static final String PREFERENCE_CABINET = "cabinet";
+	public static final String DEFAULT_PASSWORD = "-1";
 }

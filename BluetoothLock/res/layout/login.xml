@@ -223,8 +223,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone" >
+                android:orientation="vertical" >
 
                 <Button
                     android:id="@+id/btn_login"
@@ -233,23 +232,6 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/btn_login"
                     android:text="@string/login" >
-                </Button>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_authorize"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical" >
-
-                <Button
-                    android:id="@+id/btn_authorize"
-                    style="@style/login_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/btn_login"
-                    android:text="@string/authorize" >
                 </Button>
             </LinearLayout>
 
@@ -267,8 +249,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/btn_login"
-                    android:text="@string/register" 
-                    android:onClick="onClick">
+                    android:onClick="onClick"
+                    android:text="@string/register" >
                 </Button>
             </LinearLayout>
         </LinearLayout>

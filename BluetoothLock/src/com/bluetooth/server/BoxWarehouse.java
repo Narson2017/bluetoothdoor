@@ -25,8 +25,11 @@ public class BoxWarehouse implements ServerHandle {
 		mServer.sendRequest(Common.OPERATE_REGISTER);
 	}
 
-	public void obtainBox() {
-
+	public void obtainBox(String phone, String password, int box) {
+		mServer.setLock(box);
+		mServer.setPhone(phone);
+		mServer.setPsw(password);
+		mServer.sendRequest(Common.OPERATE_OPEN);
 	}
 
 	public static ArrayList<Integer> str2intlst(String strlst) {

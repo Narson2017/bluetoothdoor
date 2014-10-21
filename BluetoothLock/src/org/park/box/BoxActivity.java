@@ -1,7 +1,7 @@
 package org.park.box;
 
 import org.park.R;
-import org.park.entrance.splashScreen;
+import org.park.entrance.Navigation;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
 import org.park.util.Common;
@@ -77,7 +77,7 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			mLockOpr.disconnected();
-			startActivity(new Intent(this, splashScreen.class));
+			startActivity(new Intent(this, Navigation.class));
 			finish();
 			return true;
 		} else {

@@ -1,7 +1,7 @@
 package org.park.account;
 
 import org.park.R;
-import org.park.entrance.splashScreen;
+import org.park.entrance.Navigation;
 import org.park.util.About;
 import org.park.util.Quit;
 
@@ -66,7 +66,7 @@ public class AccountActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.btn_action_back:
 		case R.id.btn_back:
-			startActivity(new Intent(this, splashScreen.class));
+			startActivity(new Intent(this, Navigation.class));
 			if (mUpdateinfo != null)
 				mUpdateinfo.disconnected();
 			finish();
@@ -91,7 +91,7 @@ public class AccountActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			startActivity(new Intent(this, splashScreen.class));
+			startActivity(new Intent(this, Navigation.class));
 			if (mUpdateinfo != null)
 				mUpdateinfo.disconnected();
 			finish();

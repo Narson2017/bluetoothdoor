@@ -6,7 +6,7 @@ import org.park.util.Common;
 import android.os.Handler;
 import android.os.Message;
 
-class OprLoad implements Runnable {
+class Loading implements Runnable {
 	int operation;
 	boolean authorizing;
 	LoginActivity mLoginActivity;
@@ -16,7 +16,7 @@ class OprLoad implements Runnable {
 	int[] registerTexts = { R.string.register_load1, R.string.register_load2,
 			R.string.register_load3 };
 
-	public OprLoad(int opr, LoginActivity ctx) {
+	public Loading(int opr, LoginActivity ctx) {
 		operation = opr;
 		mLoginActivity = ctx;
 	}

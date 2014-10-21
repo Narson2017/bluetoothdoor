@@ -22,7 +22,7 @@
         android:theme="@android:style/Theme.Light" >
         <uses-library android:name="android.test.runner" />
 
-        <activity android:name="org.park.entrance.splashScreen" >
+        <activity android:name="org.park.entrance.Navigation" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

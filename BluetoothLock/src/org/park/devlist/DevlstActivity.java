@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.park.R;
-import org.park.authorize.LoginActivity;
 import org.park.box.BoxActivity;
 import org.park.util.About;
 import org.park.util.ClsUtils;
@@ -72,7 +71,6 @@ public class DevlstActivity extends Activity implements OnClickListener,
 		btAdapt = BluetoothAdapter.getDefaultAdapter();
 		if (btAdapt == null) {
 			text_hint.setText(R.string.blue_unabailable);
-			startActivity(new Intent(this, LoginActivity.class));
 			if (btAdapt != null)
 				btAdapt.disable();
 			finish();
@@ -149,7 +147,6 @@ public class DevlstActivity extends Activity implements OnClickListener,
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			startActivity(new Intent(this, LoginActivity.class));
 			if (btAdapt != null)
 				btAdapt.disable();
 			finish();
@@ -174,7 +171,6 @@ public class DevlstActivity extends Activity implements OnClickListener,
 			break;
 		case R.id.btn_action_back:
 		case R.id.btn_back:
-			startActivity(new Intent(this, LoginActivity.class));
 			if (btAdapt != null)
 				btAdapt.disable();
 			finish();

@@ -18,13 +18,13 @@ public class ChangePairpsw implements HandleConnMsg {
 	Connecter mConnecter = null;
 	ContactThread mConnThr = null;
 	LockCommand mLockcmd = null;
-	OprLoad mLoad;
+	Loading mLoad;
 
 	public ChangePairpsw(LoginActivity mLoginActivity) {
 		mConnecter = new Connecter(this, mLoginActivity);
 		this.mLoginActivity = mLoginActivity;
 		mLockcmd = new LockCommand();
-		mLoad = new OprLoad(Common.MSG_REGISTER_LOADING, mLoginActivity);
+		mLoad = new Loading(Common.MSG_REGISTER_LOADING, mLoginActivity);
 	}
 
 	public void register() {

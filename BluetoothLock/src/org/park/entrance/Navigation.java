@@ -2,30 +2,34 @@ package org.park.entrance;
 
 import org.park.R;
 import org.park.authorize.LoginActivity;
-import org.park.box.BoxActivity;
-import org.park.boxlst.BoxAdapter;
 import org.park.boxlst.BoxlstActivity;
+import org.park.devlist.DevlstActivity;
 import org.park.prefs.settingActivity;
 import org.park.util.Common;
 import org.park.util.Quit;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.Window;
+import android.widget.Button;
 
-public class splashScreen extends Activity implements OnClickListener {
+public class Navigation extends Activity implements OnClickListener,
+		OnLongClickListener {
+	Button btn_login;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash);
+
+		btn_login = (Button) findViewById(R.id.btn_login);
+		btn_login.setOnLongClickListener(this);
 	}
 
 	@Override
@@ -53,23 +57,10 @@ public class splashScreen extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.btn_login:
-			SharedPreferences _sharedPreferences = PreferenceManager
-					.getDefaultSharedPreferences(getBaseContext());
-			String box = _sharedPreferences.getString("locknbr", "");
-			if (!box.equals("")) {
-				String cabinet = _sharedPreferences.getString("cabinet", "");
-				Intent tmp = new Intent(splashScreen.this, BoxActivity.class);
-				tmp.putExtra(BoxAdapter.BOX_NUMBER, Integer.valueOf(box)
-						.intValue());
-				tmp.putExtra(BoxAdapter.CABINET_NUMBER, Integer
-						.valueOf(cabinet).intValue());
-				startActivity(tmp);
-			} else {
-				startActivity(new Intent(splashScreen.this, LoginActivity.class));
-			}
+			startActivity(new Intent(Navigation.this, LoginActivity.class));
 			break;
 		case R.id.btn_newuser:
-			startActivity(new Intent(splashScreen.this, BoxlstActivity.class));
+			startActivity(new Intent(Navigation.this, BoxlstActivity.class));
 			break;
 		case R.id.btn_change_account:
 			startActivity(new Intent(this, settingActivity.class));
@@ -85,5 +76,16 @@ public class splashScreen extends Activity implements OnClickListener {
 		} else {
 			return super.onKeyDown(keyCode, event);
 		}
+	}
+
+	@Override
+	public boolean onLongClick(View arg0) {
+		// TODO Auto-generated method stub
+		switch (arg0.getId()) {
+		case R.id.btn_login:
+			startActivity(new Intent(this, DevlstActivity.class));
+			return true;
+		}
+		return false;
 	}
 }

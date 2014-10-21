@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.park.R;
-import org.park.entrance.splashScreen;
+import org.park.entrance.Navigation;
 import org.park.util.OnClickCtrl;
 
 import android.app.Activity;
@@ -64,7 +64,7 @@ public class BoxlstActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			startActivity(new Intent(this, splashScreen.class));
+			startActivity(new Intent(this, Navigation.class));
 			return true;
 		} else {
 			return super.onKeyDown(keyCode, event);

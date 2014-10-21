@@ -15,11 +15,8 @@ import org.park.util.MDes;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 public class ServerConn {
-	protected String OPERATION_FAILED = "-1";
-	protected String NOT_AVAILABLE = "0";
 
 	private String phone, password, ciphertext;
 	private int box, cabinet;
@@ -136,7 +133,7 @@ public class ServerConn {
 				sign.addChild(Node.TEXT, ciphertext);
 				header[0].addChild(Node.ELEMENT, sign);
 				envelope.headerOut = header;
-				
+
 				HttpTransportSE httpTransport = new HttpTransportSE(
 						Common.SOAP_ADDRESS);
 				SoapObject result = null;
@@ -178,7 +175,6 @@ public class ServerConn {
 		// 重写handleMessage()方法，此方法在UI线程运行
 		@Override
 		public void handleMessage(Message msg) {
-			String result = null;
 			switch (msg.what) {
 			case Common.MSG_RECEIVE_FAILED:
 				mServmsg.received(null);
@@ -191,43 +187,6 @@ public class ServerConn {
 				break;
 			case Common.MSG_SEND_FAILED:
 				mServmsg.sended(false);
-				break;
-			case Common.MSG_HINT:
-				// login_ctx.hint(msg.arg1);
-				break;
-			case Common.MSG_REGISTER_CHECK:
-				result = ((SoapObject) msg.obj).getProperty(0).toString();
-				if (result.equalsIgnoreCase(NOT_AVAILABLE))
-					sendRequest(Common.OPERATE_SAVE);
-				else {
-					// login_ctx.hint(R.string.already_registered);
-				}
-				break;
-			case Common.MSG_OPEN_RECEIVE:
-				result = ((SoapObject) msg.obj).getProperty(0).toString();
-				if (result.equalsIgnoreCase(OPERATION_FAILED)) {
-					// login_ctx.hint(R.string.server_fault);
-				} else if (result.equalsIgnoreCase(NOT_AVAILABLE)) {
-					// login_ctx.hint(R.string.not_register);
-				} else {
-					// login_ctx.authPassed();
-				}
-				break;
-			case Common.MSG_SAVE_RECEIVE:
-				// login_ctx.setRegisterBtn(R.string.register);
-				result = ((SoapObject) msg.obj).getProperty(0).toString();
-				if (result.equalsIgnoreCase(OPERATION_FAILED)) {
-					// login_ctx.hint(R.string.save_failed);
-				} else if (result.equalsIgnoreCase(NOT_AVAILABLE)) {
-					// login_ctx.hint(R.string.not_available);
-				} else {
-					// login_ctx.authPassed();
-				}
-				break;
-			// 否则提示失败
-			case Common.MSG_FAILURE:
-				Log.e(Common.TAG,
-						"AuthenticationManager: Receive message failed.");
 				break;
 			}
 		}
