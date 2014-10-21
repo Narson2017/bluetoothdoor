@@ -114,7 +114,7 @@ public class Connecter extends BroadcastReceiver {
 				// TODO Auto-generated method stub
 				int count = 1;
 				while (!if_connected && if_connecting) {
-					if (count++ > 4)
+					if (count++ > Common.TIME_OUT)
 						break;
 					try {
 						Thread.sleep(1000);
@@ -123,7 +123,7 @@ public class Connecter extends BroadcastReceiver {
 						e.printStackTrace();
 					}
 				}
-				if (count > 6) {
+				if (count > Common.TIME_OUT) {
 					mHandler.sendEmptyMessage(Common.MSG_TIME_OUT);
 				}
 			}

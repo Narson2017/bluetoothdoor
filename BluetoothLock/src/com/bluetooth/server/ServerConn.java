@@ -1,4 +1,4 @@
-package org.park.authorize;
+package com.bluetooth.server;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
@@ -10,6 +10,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import org.kxml2.kdom.Element;
 import org.kxml2.kdom.Node;
 import org.park.R;
+import org.park.authorize.LoginActivity;
 import org.park.boxlst.BoxlstActivity;
 import org.park.util.Common;
 import org.park.util.HexConvert;
@@ -19,46 +20,40 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-public class AuthenticationManager {
-	private static final String UTF_8 = "UTF-8";
-	private static final String SOAP_ACTION = "";
-	public static final int OPR_SAVE = 0;
-	public static final int OPR_OPEN = 1;
-	public static final int OPR_REGISTER = 2;
-
-	private static final String FUNC_SAVE = "save_Lock";
-	private static final String FUNC_OPEN = "open_lock";
-	private static final String WSDL_TARGET_NAMESPACE = "http://web_test";
-	private static final String SOAP_ADDRESS = "http://192.168.1.206:8092/web_test/services/web_test";
-
-	private static final int MSG_FAILURE = 1;
-	protected static final int MSG_REGISTER_CHECK = 2;
-	protected static final int MSG_SAVE_RECEIVE = 3;
-	protected static final int MSG_OPEN_RECEIVE = 4;
-	protected static final int MSG_HINT = 5;
-
-	private static final String DES_CODE = "38374008";
-	public static final String PHONE_NUMBER = "telNo";
-	public static final String PASSWORD = "Bpwd";
-	public static final String LOCK_NUMBER = "UID";
-
+public class ServerConn {
 	protected String OPERATION_FAILED = "-1";
 	protected String NOT_AVAILABLE = "0";
 
-	private BoxlstActivity boxlst_ctx;
 	private LoginActivity login_ctx;
 
-	private String phone_number = null, password = null;
-	private int lock_number = -1;
+	private String phone, password, ciphertext;
+	private int box, cabinet;
+	private ServerHandle mServmsg;
 
-	public AuthenticationManager(LoginActivity ctx) {
+	public ServerConn(ServerHandle handle) {
 		super();
-		login_ctx = ctx;
+		mServmsg = handle;
 	}
 
-	public AuthenticationManager(BoxlstActivity ctx) {
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setPsw(String psw) {
+		password = psw;
+	}
+
+	public void setLock(int lock) {
+		box = lock;
+	}
+
+	public void setCabinet(int cabinet) {
+		this.cabinet = cabinet;
+	}
+
+	public ServerConn(LoginActivity ctx) {
 		super();
-		this.boxlst_ctx = ctx;
+		login_ctx = ctx;
 	}
 
 	private Handler mHandler = new Handler() {
@@ -67,19 +62,30 @@ public class AuthenticationManager {
 		public void handleMessage(Message msg) {
 			String result = null;
 			switch (msg.what) {
-			case MSG_HINT:
+			case Common.MSG_RECEIVE_FAILED:
+				mServmsg.received(null);
+				break;
+			case Common.MSG_RECEIVE_SUCCESS:
+				mServmsg.received((String) msg.obj);
+				break;
+			case Common.MSG_SEND_SUCCESS:
+				mServmsg.sended(true);
+				break;
+			case Common.MSG_SEND_FAILED:
+				mServmsg.sended(false);
+				break;
+			case Common.MSG_HINT:
 				login_ctx.hint(msg.arg1);
 				break;
-			case MSG_REGISTER_CHECK:
+			case Common.MSG_REGISTER_CHECK:
 				result = ((SoapObject) msg.obj).getProperty(0).toString();
 				if (result.equalsIgnoreCase(NOT_AVAILABLE))
-					authSend(phone_number, password, login_ctx.cabinet,
-							login_ctx.box, OPR_SAVE);
+					sendRequest(Common.OPERATE_SAVE);
 				else {
 					login_ctx.hint(R.string.already_registered);
 				}
 				break;
-			case MSG_OPEN_RECEIVE:
+			case Common.MSG_OPEN_RECEIVE:
 				result = ((SoapObject) msg.obj).getProperty(0).toString();
 				if (result.equalsIgnoreCase(OPERATION_FAILED)) {
 					login_ctx.hint(R.string.server_fault);
@@ -89,7 +95,7 @@ public class AuthenticationManager {
 					login_ctx.authPassed();
 				}
 				break;
-			case MSG_SAVE_RECEIVE:
+			case Common.MSG_SAVE_RECEIVE:
 				login_ctx.setRegisterBtn(R.string.register);
 				result = ((SoapObject) msg.obj).getProperty(0).toString();
 				if (result.equalsIgnoreCase(OPERATION_FAILED)) {
@@ -101,7 +107,7 @@ public class AuthenticationManager {
 				}
 				break;
 			// ∑Ò‘ÚÃ· æ ß∞‹
-			case MSG_FAILURE:
+			case Common.MSG_FAILURE:
 				Log.e(Common.TAG,
 						"AuthenticationManager: Receive message failed.");
 				break;
@@ -109,12 +115,49 @@ public class AuthenticationManager {
 		}
 	};
 
-	public void authSend(final String phone, final String psw, int cabinet,
-			int box, final int operation) {
+	public void sendRequest(int operation) {
+		SoapObject request;
+		byte[] tmp = null;
+		switch (operation) {
+		case Common.OPERATE_ALL_BOXES:
+			request = new SoapObject(Common.WSDL_TARGET_NAMESPACE,
+					Common.FUNC_ALL_BOXES);
+			// body
+			request.addProperty(Common.CABINET,
+					String.valueOf(Common.DEFAULT_CABINET));
+			// encrypt header
+			try {
+				tmp = MDes.desEncrypt(String.valueOf(Common.DEFAULT_CABINET)
+						.getBytes(Common.UTF_8), Common.DES_CODE);
+			} catch (UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			ciphertext = HexConvert.Bytes2HexString(tmp, tmp.length);
+			sendRequest(request);
+			break;
+		case Common.OPERATE_OPEN:
+			request = new SoapObject(Common.WSDL_TARGET_NAMESPACE,
+					Common.FUNC_OPEN);
+			// body
+			request.addProperty(Common.PHONE_NUMBER, phone);
+			request.addProperty(Common.PASSWORD, password);
+			request.addProperty(Common.LOCK_NUMBER, String.valueOf(box));
+			// encrypt header
+			try {
+				tmp = MDes.desEncrypt((phone + password + String.valueOf(box))
+						.getBytes(Common.UTF_8), Common.DES_CODE);
+			} catch (UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			ciphertext = HexConvert.Bytes2HexString(tmp, tmp.length);
+			sendRequest(request);
+			break;
+		}
+	}
 
-		phone_number = phone;
-		password = psw;
-
+	public void sendRequest(final SoapObject request) {
 		new Thread(new Runnable() {
 
 			@Override
@@ -122,95 +165,60 @@ public class AuthenticationManager {
 				// TODO Auto-generated method stub
 				SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 						SoapEnvelope.VER11);
-
-				SoapObject request = (operation == OPR_SAVE) ? new SoapObject(
-						WSDL_TARGET_NAMESPACE, FUNC_SAVE) : new SoapObject(
-						WSDL_TARGET_NAMESPACE, FUNC_OPEN);
-				// body
-				request.addProperty(PHONE_NUMBER, phone);
-				request.addProperty(PASSWORD, psw);
-				request.addProperty(LOCK_NUMBER, String.valueOf(lock_number));
 				envelope.setOutputSoapObject(request);
 
 				// soap header
 				Element[] header = new Element[1];
-				header[0] = new Element().createElement(WSDL_TARGET_NAMESPACE,
-						"RequestSOAPHeader");
+				header[0] = new Element().createElement(
+						Common.WSDL_TARGET_NAMESPACE, "RequestSOAPHeader");
 
 				Element version = new Element().createElement(
-						WSDL_TARGET_NAMESPACE, "version");
+						Common.WSDL_TARGET_NAMESPACE, "version");
 				version.addChild(Node.TEXT, String.valueOf(SoapEnvelope.VER11));
 				header[0].addChild(Node.ELEMENT, version);
 
 				Element messageId = new Element().createElement(
-						WSDL_TARGET_NAMESPACE, "messageId");
+						Common.WSDL_TARGET_NAMESPACE, "messageId");
 				String mSequence = "11112121";
 				messageId.addChild(Node.TEXT, mSequence);
 				header[0].addChild(Node.ELEMENT, messageId);
 
 				Element timestamp = new Element().createElement(
-						WSDL_TARGET_NAMESPACE, "timestamp");
+						Common.WSDL_TARGET_NAMESPACE, "timestamp");
 				String mTimestamp = new java.sql.Timestamp(Calendar
 						.getInstance().getTimeInMillis()).toString();
 				timestamp.addChild(Node.TEXT, mTimestamp);
 				header[0].addChild(Node.ELEMENT, timestamp);
 
 				Element userId = new Element().createElement(
-						WSDL_TARGET_NAMESPACE, "userId");
-				userId.addChild(Node.TEXT, String.valueOf(lock_number));
+						Common.WSDL_TARGET_NAMESPACE, "userId");
+				userId.addChild(Node.TEXT, String.valueOf(box));
 				header[0].addChild(Node.ELEMENT, userId);
 
 				Element sign = new Element().createElement(
-						WSDL_TARGET_NAMESPACE, "sign");
-				byte[] tmp = null;
-				try {
-					tmp = MDes.desEncrypt((phone_number + password + String
-							.valueOf(lock_number)).getBytes(UTF_8), DES_CODE);
-				} catch (UnsupportedEncodingException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				String ciphertext = HexConvert.Bytes2HexString(tmp, tmp.length);
+						Common.WSDL_TARGET_NAMESPACE, "sign");
 				sign.addChild(Node.TEXT, ciphertext);
 				header[0].addChild(Node.ELEMENT, sign);
 				envelope.headerOut = header;
-
 				HttpTransportSE httpTransport = new HttpTransportSE(
-						SOAP_ADDRESS);
+						Common.SOAP_ADDRESS);
 				SoapObject result = null;
 				try {
-					httpTransport.call(SOAP_ACTION, envelope);
-					Log.i(Common.TAG, envelope.bodyIn.toString());
+					httpTransport.call(Common.SOAP_ACTION, envelope);
+					// Log.i(Common.TAG, envelope.bodyIn.toString());
+					mHandler.sendEmptyMessage(Common.MSG_SEND_SUCCESS);
 					result = (SoapObject) envelope.bodyIn;
 				} catch (Exception e) {
 					e.printStackTrace();
-					// return;
+					mHandler.sendEmptyMessage(Common.MSG_SEND_FAILED);
 				}
-				if (result != null)
-					switch (operation) {
-					case OPR_REGISTER:
-						mHandler.obtainMessage(MSG_REGISTER_CHECK, result)
-								.sendToTarget();
-						break;
-					case OPR_SAVE:
-						mHandler.obtainMessage(MSG_SAVE_RECEIVE, result)
-								.sendToTarget();
-						break;
-					case OPR_OPEN:
-						mHandler.obtainMessage(MSG_OPEN_RECEIVE, result)
-								.sendToTarget();
-						break;
-					}
-				else
-					mHandler.obtainMessage(MSG_HINT, R.string.server_fault, -1)
-							.sendToTarget();
+				if (result != null) {
+					mHandler.obtainMessage(Common.MSG_RECEIVE_SUCCESS,
+							result.getProperty(0).toString()).sendToTarget();
+				} else
+					mHandler.sendEmptyMessage(Common.MSG_RECEIVE_FAILED);
 			}
 		}).start();
-	}
-
-	public void getAvailableBoxes() {
-		int[] tmp = {1, 2, 4, 6, 8, 10 };
-		boxlst_ctx.initlst(tmp);
 	}
 
 	public void register(String username, String password, int cabinet, int box) {
@@ -220,7 +228,7 @@ public class AuthenticationManager {
 
 	public void login(String username, String password) {
 		// TODO Auto-generated method stub
-//		authSend(username, password, -1, -1, OPR_OPEN);
+		// authSend(username, password, -1, -1, OPR_OPEN);
 		login_ctx.authPassed();
 	}
 }

@@ -10,6 +10,8 @@ import org.park.util.About;
 import org.park.util.Common;
 import org.park.util.Quit;
 
+import com.bluetooth.server.ServerConn;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,7 +34,7 @@ public class LoginActivity extends Activity implements
 	Button btn_login, btn_register;
 	TextView text_login_hint;
 
-	AuthenticationManager mAuthMgr;
+	ServerConn mAuthMgr;
 	RegisterAccount mRegister;
 	public int box, cabinet;
 	public String old_psw, new_psw, new_username;
@@ -73,7 +75,7 @@ public class LoginActivity extends Activity implements
 			layout_login.setVisibility(View.VISIBLE);
 			text_login_hint.setText(R.string.please_login);
 		}
-		mAuthMgr = new AuthenticationManager(this);
+		mAuthMgr = new ServerConn(this);
 		mRegister = new RegisterAccount(this);
 	}
 

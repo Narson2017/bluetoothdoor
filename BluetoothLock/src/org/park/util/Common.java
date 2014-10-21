@@ -30,6 +30,19 @@ public class Common {
 	public static final int MSG_LOGIN_LOADING = 27;
 	public static final int MSG_REGISTER_LOADING = 28;
 	public static final int MSG_TIME_OUT = 29;
+	public static final int MSG_FAILURE = 30;
+	public static final int MSG_REGISTER_CHECK = 31;
+	public static final int MSG_SAVE_RECEIVE = 32;
+	public static final int MSG_OPEN_RECEIVE = 33;
+	public static final int MSG_HINT = 34;
+	public static final int OPERATE_SAVE = 35;
+	public static final int OPERATE_OPEN = 36;
+	public static final int OPERATE_REGISTER = 37;
+	public static final int OPERATE_ALL_BOXES = 38;
+	public static final int MSG_RECEIVE_FAILED = 39;
+	public static final int MSG_RECEIVE_SUCCESS = 40;
+	public static final int MSG_SEND_SUCCESS = 41;
+	public static final int MSG_SEND_FAILED = 42;
 
 	public static final String HINT = "toast";
 	public static final String TAG = "BlueToothTool";
@@ -39,4 +52,20 @@ public class Common {
 	public static final String DEFAULT_DEVICE_ADDR = "00:0E:0E:00:0F:53";
 	public static final int RESPONSE_LENGTH = 16;
 	public static final String IS_EXIT = "IS_EXIT";
+	public static final int TIME_OUT = 6;
+	public static final String UTF_8 = "UTF-8";
+	public static final String SOAP_ACTION = "";
+	public static final String FUNC_SAVE = "save_Lock";
+	public static final String FUNC_OPEN = "open_lock";
+	public static final String FUNC_ALL_BOXES = "allowLockes";
+
+	public static final String WSDL_TARGET_NAMESPACE = "http://web_test";
+	public static final String SOAP_ADDRESS = "http://192.168.1.206:8092/web_test/services/web_test";
+	public static final String DES_CODE = "38374008";
+	public static final String PHONE_NUMBER = "telNo";
+	public static final String PASSWORD = "Bpwd";
+	public static final String LOCK_NUMBER = "UID";
+	public static final String CABINET = "LockNo";
+	public static final int DEFAULT_CABINET = 1;
+	public static final String DELIMITER = "#";
 }

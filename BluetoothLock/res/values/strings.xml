@@ -65,7 +65,7 @@
     <string name="save_failed">Register failed</string>
     <string name="not_available">Box not avaiable.</string>
     <string name="registering">Registering</string>
-    <string name="server_fault">Server fault</string>
+    <string name="server_fault">Server fault, please retry.</string>
     <string name="authorizing">Authorizing</string>
     <string name="login_load1">Logining.</string>
     <string name="login_load2">Logining..</string>
@@ -123,5 +123,6 @@
     <string name="operate_success">Operation successfully.</string>
     <string name="time_out">Connection time out, please try again.</string>
     <string name="account">Account</string>
+    <string name="receive_success">Retrieve data successfully.</string>
 
 </resources>

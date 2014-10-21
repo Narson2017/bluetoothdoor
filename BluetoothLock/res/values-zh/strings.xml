@@ -65,7 +65,7 @@
     <string name="save_failed">注册失败</string>
     <string name="not_available">柜子未开放使用</string>
     <string name="registering">注册中</string>
-    <string name="server_fault">连接服务器出错</string>
+    <string name="server_fault">连接服务器出错, 请重试.</string>
     <string name="authorizing">认证中..</string>
     <string name="login_load1">登录中.</string>
     <string name="login_load2">登录中..</string>
@@ -123,5 +123,6 @@
     <string name="operate_success">操作成功.</string>
     <string name="time_out">连接超时，请重试.</string>
     <string name="account">账户</string>
+    <string name="receive_success">获取数据成功.</string>
 
 </resources>
