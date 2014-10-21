@@ -58,14 +58,15 @@ public class Common {
 	public static final String FUNC_SAVE = "save_Lock";
 	public static final String FUNC_OPEN = "open_lock";
 	public static final String FUNC_ALL_BOXES = "allowLockes";
-
 	public static final String WSDL_TARGET_NAMESPACE = "http://web_test";
 	public static final String SOAP_ADDRESS = "http://192.168.1.206:8092/web_test/services/web_test";
 	public static final String DES_CODE = "38374008";
 	public static final String PHONE_NUMBER = "telNo";
 	public static final String PASSWORD = "Bpwd";
-	public static final String LOCK_NUMBER = "UID";
+	public static final String BOX = "UID";
 	public static final String CABINET = "LockNo";
 	public static final int DEFAULT_CABINET = 1;
 	public static final String DELIMITER = "#";
+	public static final int RESULT_FAULT = -1;
+	public static final int RESULT_NOT_FOUND = 0;
 }

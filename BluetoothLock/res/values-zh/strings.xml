@@ -53,14 +53,14 @@
     <string name="obtain">取件</string>
     <string name="room">房间</string>
     <string name="lock_not_found">柜子不存在</string>
-    <string name="authorize">认证</string>
+    <string name="authorize">请认证</string>
     <string name="username">手机号</string>
     <string name="password">6位数字密码</string>
     <string name="sure">是否确定?</string>
     <string name="room_lst">选择房间</string>
     <string name="login">登录账号</string>
     <string name="forget_psw">忘记密码?</string>
-    <string name="register">注册</string>
+    <string name="register">请注册.</string>
     <string name="logining">登录中</string>
     <string name="save_failed">注册失败</string>
     <string name="not_available">柜子未开放使用</string>

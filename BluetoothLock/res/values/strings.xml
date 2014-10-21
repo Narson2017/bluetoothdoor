@@ -53,13 +53,13 @@
     <string name="obtain">Obtain</string>
     <string name="room">Room</string>
     <string name="lock_not_found">Lock does not exists</string>
-    <string name="authorize">Authorize</string>
+    <string name="authorize">Please Authorize.</string>
     <string name="username">Username</string>
     <string name="password">6 digit password</string>
     <string name="sure">Are you sure?</string>
     <string name="room_lst">Room list</string>
     <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="register">Please register.</string>
     <string name="forget_psw">Forget password?</string>
     <string name="logining">Logining</string>
     <string name="save_failed">Register failed</string>

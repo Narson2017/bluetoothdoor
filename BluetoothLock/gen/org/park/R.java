@@ -554,7 +554,7 @@ public final class R {
         public static final int sun=0x7f020057;
     }
     public static final class id {
-        public static final int LinearLayoutSplash=0x7f0a002e;
+        public static final int LinearLayoutSplash=0x7f0a002f;
         public static final int box_nbr=0x7f0a0021;
         public static final int btnDis=0x7f0a0028;
         public static final int btn_about=0x7f0a0011;
@@ -562,17 +562,17 @@ public final class R {
         public static final int btn_authorize=0x7f0a000f;
         public static final int btn_back=0x7f0a0012;
         public static final int btn_box=0x7f0a001a;
-        public static final int btn_change_account=0x7f0a0032;
+        public static final int btn_change_account=0x7f0a0033;
         public static final int btn_connect=0x7f0a0022;
         public static final int btn_devlst=0x7f0a0001;
         public static final int btn_exit=0x7f0a0013;
         public static final int btn_login=0x7f0a002b;
-        public static final int btn_newuser=0x7f0a0031;
+        public static final int btn_newuser=0x7f0a0032;
         public static final int btn_query=0x7f0a0010;
         public static final int btn_refresh=0x7f0a001f;
-        public static final int btn_register=0x7f0a002d;
+        public static final int btn_register=0x7f0a002e;
         public static final int btn_setting=0x7f0a0003;
-        public static final int btns=0x7f0a0030;
+        public static final int btns=0x7f0a0031;
         public static final int detail_view=0x7f0a0020;
         public static final int edit_psw=0x7f0a000e;
         public static final int edit_username=0x7f0a000b;
@@ -584,14 +584,15 @@ public final class R {
         public static final int l_icon=0x7f0a0014;
         public static final int l_lsboxes=0x7f0a001d;
         public static final int l_nbr_msg=0x7f0a0016;
+        public static final int layout_authorize=0x7f0a002c;
         public static final int layout_hint=0x7f0a001c;
         public static final int layout_login=0x7f0a002a;
         public static final int layout_psw=0x7f0a000c;
-        public static final int layout_register=0x7f0a002c;
+        public static final int layout_register=0x7f0a002d;
         public static final int layout_username=0x7f0a0009;
         public static final int login_form=0x7f0a0008;
         public static final int login_hint=0x7f0a0004;
-        public static final int logo=0x7f0a002f;
+        public static final int logo=0x7f0a0030;
         public static final int lst_devs=0x7f0a0026;
         public static final int lvDevices=0x7f0a0027;
         public static final int lvboxes=0x7f0a001e;

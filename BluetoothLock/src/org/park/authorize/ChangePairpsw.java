@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-public class RegisterAccount implements HandleConnMsg {
+public class ChangePairpsw implements HandleConnMsg {
 
 	LoginActivity mLoginActivity;
 	Connecter mConnecter = null;
@@ -20,7 +20,7 @@ public class RegisterAccount implements HandleConnMsg {
 	LockCommand mLockcmd = null;
 	OprLoad mLoad;
 
-	public RegisterAccount(LoginActivity mLoginActivity) {
+	public ChangePairpsw(LoginActivity mLoginActivity) {
 		mConnecter = new Connecter(this, mLoginActivity);
 		this.mLoginActivity = mLoginActivity;
 		mLockcmd = new LockCommand();
@@ -29,7 +29,7 @@ public class RegisterAccount implements HandleConnMsg {
 
 	public void register() {
 		mLoad.start();
-		mLoginActivity.text_login_hint.setText(R.string.loading);
+		mLoginActivity.text_hint.setText(R.string.loading);
 		if (!mConnecter.if_connected)
 			mConnecter.connect();
 		else if (mConnThr == null || !mConnThr.if_connected) {
@@ -45,7 +45,7 @@ public class RegisterAccount implements HandleConnMsg {
 	public void connected(boolean state) {
 		// TODO Auto-generated method stub
 		if (state) {
-			mLoginActivity.text_login_hint.setText(R.string.loading);
+			mLoginActivity.text_hint.setText(R.string.loading);
 			mConnThr = new ContactThread(mConnecter.btSocket, this);
 			mConnThr.start();
 			mConnThr.send(mLockcmd.getChangePairPswCmd(mLoginActivity.old_psw,
@@ -58,15 +58,15 @@ public class RegisterAccount implements HandleConnMsg {
 	public void sended(boolean state) {
 		// TODO Auto-generated method stub
 		if (state)
-			mLoginActivity.text_login_hint.setText(R.string.send_success);
+			mLoginActivity.text_hint.setText(R.string.send_success);
 		else
-			mLoginActivity.text_login_hint.setText(R.string.send_failed);
+			mLoginActivity.text_hint.setText(R.string.send_failed);
 	}
 
 	@Override
 	public void disconnected() {
 		// TODO Auto-generated method stub
-		mLoginActivity.text_login_hint.setText(R.string.connect_failed);
+		mLoginActivity.text_hint.setText(R.string.connect_failed);
 		mLoad.stop();
 		if (mConnecter != null)
 			mConnecter.onClean();
@@ -77,7 +77,7 @@ public class RegisterAccount implements HandleConnMsg {
 	@Override
 	public void pairing() {
 		// TODO Auto-generated method stub
-		mLoginActivity.text_login_hint.setText(R.string.pairing);
+		mLoginActivity.text_hint.setText(R.string.pairing);
 	}
 
 	@Override
@@ -89,13 +89,13 @@ public class RegisterAccount implements HandleConnMsg {
 	@Override
 	public void discovery_started() {
 		// TODO Auto-generated method stub
-		mLoginActivity.text_login_hint.setText(R.string.searching);
+		mLoginActivity.text_hint.setText(R.string.searching);
 	}
 
 	@Override
 	public void discovery_finished() {
 		// TODO Auto-generated method stub
-		mLoginActivity.text_login_hint.setText(R.string.not_found);
+		mLoginActivity.text_hint.setText(R.string.not_found);
 		mLoad.stop();
 	}
 
@@ -103,17 +103,17 @@ public class RegisterAccount implements HandleConnMsg {
 	public void received(String received_data) {
 		// TODO Auto-generated method stub
 		SharedPreferences mPrefs;
-		mLoginActivity.text_login_hint.setText(received_data);
+		mLoginActivity.text_hint.setText(received_data);
 
 		if (mLockcmd == null)
 			mLockcmd = new LockCommand();
 		switch (mLockcmd.checkRecvType(received_data)) {
 		case Common.RECEIVE_PAIR_PASSWORD_SUCCESS:
-			mLoginActivity.text_login_hint.setText(R.string.operate_success);
+			mLoginActivity.text_hint.setText(R.string.operate_success);
 			mLoad.stop();
 			mPrefs = PreferenceManager
 					.getDefaultSharedPreferences(mLoginActivity);
-			mPrefs.edit().putString("username", mLoginActivity.new_username)
+			mPrefs.edit().putString("username", mLoginActivity.new_phone)
 					.commit();
 			mPrefs.edit().putString("password", mLoginActivity.new_psw)
 					.commit();
@@ -129,7 +129,7 @@ public class RegisterAccount implements HandleConnMsg {
 			mLoginActivity.finish();
 			break;
 		case Common.RECEIVE_PAIR_PASSWORD_FAILED:
-			mLoginActivity.text_login_hint.setText(R.string.operate_failed);
+			mLoginActivity.text_hint.setText(R.string.operate_failed);
 			mLoad.stop();
 			break;
 		}

@@ -17,8 +17,12 @@ public class BoxWarehouse implements ServerHandle {
 		mServer.sendRequest(Common.OPERATE_ALL_BOXES);
 	}
 
-	public void registerBox() {
-
+	public void registerBox(String phone, String password, int cabinet, int box) {
+		mServer.setCabinet(cabinet);
+		mServer.setLock(box);
+		mServer.setPhone(phone);
+		mServer.setPsw(password);
+		mServer.sendRequest(Common.OPERATE_REGISTER);
 	}
 
 	public void obtainBox() {

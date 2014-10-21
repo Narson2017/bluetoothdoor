@@ -5,18 +5,18 @@ import org.park.box.BoxActivity;
 import org.park.boxlst.BoxAdapter;
 import org.park.devlist.DevlstActivity;
 import org.park.entrance.splashScreen;
+import org.park.prefs.PreferenceHelper;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
 import org.park.util.Common;
 import org.park.util.Quit;
-
-import com.bluetooth.server.ServerConn;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,18 +27,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bluetooth.server.BoxWarehouse;
+
 public class LoginActivity extends Activity implements
 		View.OnFocusChangeListener, OnClickListener, OnLongClickListener {
-	EditText edit_psw, edit_username;
+	EditText edit_psw, edit_phone;
 	ImageView img_psw, img_username;
 	Button btn_login, btn_register;
-	TextView text_login_hint;
-
-	ServerConn mAuthMgr;
-	RegisterAccount mRegister;
+	TextView text_hint;
 	public int box, cabinet;
-	public String old_psw, new_psw, new_username;
-	private View layout_login, layout_register;
+	public String old_psw, new_psw, new_phone;
+	private View layout_login, layout_register, layout_authorize;
+	private RegisterBox mRegister;
+	private PreferenceHelper mPrefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,35 +49,38 @@ public class LoginActivity extends Activity implements
 		// display
 		edit_psw = (EditText) findViewById(R.id.edit_psw);
 		edit_psw.setOnFocusChangeListener(this);
-		edit_username = (EditText) findViewById(R.id.edit_username);
-		edit_username.setOnFocusChangeListener(this);
+		edit_phone = (EditText) findViewById(R.id.edit_username);
+		edit_phone.setOnFocusChangeListener(this);
 		img_psw = (ImageView) findViewById(R.id.img_psw);
 		img_username = (ImageView) findViewById(R.id.img_username);
 		btn_login = (Button) findViewById(R.id.btn_login);
 		btn_login.setOnClickListener(this);
 		btn_login.setOnLongClickListener(this);
-		btn_register = (Button) findViewById(R.id.btn_register);
-		btn_register.setOnClickListener(this);
-		btn_register.setOnLongClickListener(this);
-		text_login_hint = (TextView) findViewById(R.id.text_login_hint);
+		text_hint = (TextView) findViewById(R.id.text_login_hint);
 		layout_login = findViewById(R.id.layout_login);
 		layout_register = findViewById(R.id.layout_register);
+		layout_authorize = findViewById(R.id.layout_authorize);
 
 		// initialize data
+		edit_phone
+				.setText(((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
+						.getLine1Number());
 		old_psw = Common.DEFAULT_PAIR_PASSWORD;
 		box = getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1);
 		cabinet = getIntent().getIntExtra(BoxAdapter.CABINET_NUMBER, -1);
 		if (box != -1) {
 			layout_register.setVisibility(View.VISIBLE);
 			layout_login.setVisibility(View.GONE);
-			text_login_hint.setText(R.string.not_register);
+			layout_authorize.setVisibility(View.GONE);
+			text_hint.setText(R.string.register);
 		} else {
 			layout_register.setVisibility(View.GONE);
-			layout_login.setVisibility(View.VISIBLE);
-			text_login_hint.setText(R.string.please_login);
+			layout_login.setVisibility(View.GONE);
+			layout_authorize.setVisibility(View.VISIBLE);
+			text_hint.setText(R.string.authorize);
 		}
-		mAuthMgr = new ServerConn(this);
-		mRegister = new RegisterAccount(this);
+		mRegister = new RegisterBox();
+		mPrefs = new PreferenceHelper(this);
 	}
 
 	@Override
@@ -87,7 +91,7 @@ public class LoginActivity extends Activity implements
 				img_psw.setImageResource(R.drawable.ic_device_access_accounts_focused);
 			else
 				img_psw.setImageResource(R.drawable.ic_device_access_accounts);
-		} else if (arg0 == edit_username) {
+		} else if (arg0 == edit_phone) {
 			if (arg1)
 				img_username
 						.setImageResource(R.drawable.ic_device_access_call_focused);
@@ -100,20 +104,9 @@ public class LoginActivity extends Activity implements
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
-		case R.id.btn_login:
-			try {
-				// btn_login.setText(R.string.logining);
-				mAuthMgr.login(edit_username.getText().toString(), edit_psw
-						.getText().toString());
-				// new Thread(new OprLoad(MSG_LOGIN_LOADING)).start();
-			} catch (Exception e) {
-				System.err.print("Begin authorize failed: " + e.toString());
-			}
-			break;
 		case R.id.btn_register:
-			new_psw = edit_psw.getText().toString();
-			new_username = edit_username.getText().toString();
-			mRegister.register();
+			new_phone = edit_phone.getText().toString();
+			mRegister.registerBox(new_phone, "-1", cabinet, box);
 			break;
 		case R.id.btn_back:
 			startActivity(new Intent(this, splashScreen.class));
@@ -143,10 +136,10 @@ public class LoginActivity extends Activity implements
 
 	public void authPassed() {
 		// TODO Auto-generated method stub
-		text_login_hint.setText(R.string.auth_success);
+		text_hint.setText(R.string.auth_success);
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		prefs.edit().putString("username", edit_username.getText().toString())
+		prefs.edit().putString("username", edit_phone.getText().toString())
 				.commit();
 		prefs.edit().putString("password", edit_psw.getText().toString())
 				.commit();
@@ -166,7 +159,7 @@ public class LoginActivity extends Activity implements
 
 	public void hint(String str) {
 		// TODO Auto-generated method stub
-		text_login_hint.setText(str);
+		text_hint.setText(str);
 	}
 
 	public void setRegisterBtn(int res_id) {
@@ -188,4 +181,29 @@ public class LoginActivity extends Activity implements
 		return false;
 	}
 
+	private class RegisterBox extends BoxWarehouse {
+
+		@Override
+		public void received(String data) {
+			// TODO Auto-generated method stub
+			if (data == null) {
+				text_hint.setText(R.string.server_fault);
+			} else {
+				switch (Integer.valueOf(data).intValue()) {
+				case Common.RESULT_FAULT:
+					text_hint.setText(R.string.operate_failed);
+					break;
+				case Common.RESULT_NOT_FOUND:
+					text_hint.setText(R.string.not_available);
+					break;
+				default:
+					text_hint.setText(R.string.operate_success);
+					mPrefs.save(new_phone, new_psw, box, cabinet);
+					startActivity(new Intent(LoginActivity.this,
+							BoxActivity.class));
+					break;
+				}
+			}
+		}
+	}
 }
