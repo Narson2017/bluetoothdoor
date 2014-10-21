@@ -1,9 +1,7 @@
 package org.park.prefs;
 
 import org.park.R;
-import org.park.account.AccountActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -27,9 +25,6 @@ public class settingActivity extends PreferenceActivity {
 			button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference arg0) {
-					Intent mIntent = new Intent(settingActivity.this,
-							AccountActivity.class);
-					settingActivity.this.startActivity(mIntent);
 					finish();
 					return true;
 				}

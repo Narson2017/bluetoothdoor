@@ -29,6 +29,7 @@ public class Common {
 	static public final int RECEIVE_CLOSE_DOOR_FAILED = 26;
 	public static final int MSG_LOGIN_LOADING = 27;
 	public static final int MSG_REGISTER_LOADING = 28;
+	public static final int MSG_TIME_OUT = 29;
 
 	public static final String HINT = "toast";
 	public static final String TAG = "BlueToothTool";
@@ -37,4 +38,5 @@ public class Common {
 	public static final String DEFAULT_PIN_CODE = "1234";
 	public static final String DEFAULT_DEVICE_ADDR = "00:0E:0E:00:0F:53";
 	public static final int RESPONSE_LENGTH = 16;
+	public static final String IS_EXIT = "IS_EXIT";
 }

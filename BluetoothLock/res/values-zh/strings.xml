@@ -31,11 +31,11 @@
     <string name="lock_nbr_label">门锁号</string>
     <string name="blue_unabailable">蓝牙不可用</string>
     <string name="searching">正在搜索</string>
-    <string name="connect_failed">连接异常，请尝试点击连接按键或退出后重试...</string>
+    <string name="connect_failed">连接异常，请重试...</string>
     <string name="exit">退出</string>
     <string name="query_btn">查询</string>
     <string name="send">发送</string>
-    <string name="dev_name">设备名称</string>
+    <string name="dev_name">设备</string>
     <string name="connecting">正在连接</string>
     <string name="simple_view">简略视图</string>
     <string name="detail_view">详细视图</string>
@@ -48,7 +48,7 @@
     <string name="filled">有</string>
     <string name="hint">提示</string>
     <string name="please_connect">请点击列表中的一项连接</string>
-    <string name="not_found">未找到蓝牙设备, 请点击连接按键重试.</string>
+    <string name="not_found">未找到蓝牙设备, 请重试.</string>
     <string name="store">存件</string>
     <string name="obtain">取件</string>
     <string name="room">房间</string>
@@ -116,10 +116,12 @@
     <string name="authorize_update4">认证并更新信息....</string>
     <string name="change_account_success">更改账户信息成功, 正在加载, 请稍候...</string>
     <string name="update_success">更新信息成功, 3秒后返回首页...</string>
-    <string name="send_success">发送命令成功</string>
+    <string name="send_success">发送命令成功,处理中...</string>
     <string name="device_return_wrong">远端设备返回异常, 请重试.</string>
     <string name="change_account">修改账户信息</string>
-    <string name="operate_failed">无端操作失败.</string>
+    <string name="operate_failed">操作失败，请重试.</string>
     <string name="operate_success">操作成功.</string>
+    <string name="time_out">连接超时，请重试.</string>
+    <string name="account">账户</string>
 
 </resources>

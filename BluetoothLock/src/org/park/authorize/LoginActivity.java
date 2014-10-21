@@ -36,12 +36,11 @@ public class LoginActivity extends Activity implements
 	RegisterAccount mRegister;
 	public int box, cabinet;
 	public String old_psw, new_psw, new_username;
+	private View layout_login, layout_register;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getIntent().getBooleanExtra(Quit.IS_EXIT, false))
-			finish();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.login);
 		// display
@@ -58,22 +57,20 @@ public class LoginActivity extends Activity implements
 		btn_register.setOnClickListener(this);
 		btn_register.setOnLongClickListener(this);
 		text_login_hint = (TextView) findViewById(R.id.text_login_hint);
+		layout_login = findViewById(R.id.layout_login);
+		layout_register = findViewById(R.id.layout_register);
 
 		// initialize data
 		old_psw = Common.DEFAULT_PAIR_PASSWORD;
 		box = getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1);
 		cabinet = getIntent().getIntExtra(BoxAdapter.CABINET_NUMBER, -1);
 		if (box != -1) {
-			btn_login.setEnabled(false);
-			btn_register.setEnabled(true);
-			btn_login.setBackgroundColor(getResources().getColor(
-					R.color.trolley_grey));
+			layout_register.setVisibility(View.VISIBLE);
+			layout_login.setVisibility(View.GONE);
 			text_login_hint.setText(R.string.not_register);
 		} else {
-			btn_register.setEnabled(false);
-			btn_login.setEnabled(true);
-			btn_register.setBackgroundColor(getResources().getColor(
-					R.color.trolley_grey));
+			layout_register.setVisibility(View.GONE);
+			layout_login.setVisibility(View.VISIBLE);
 			text_login_hint.setText(R.string.please_login);
 		}
 		mAuthMgr = new AuthenticationManager(this);

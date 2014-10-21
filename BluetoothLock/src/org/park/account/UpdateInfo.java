@@ -148,6 +148,7 @@ public class UpdateInfo implements HandleConnMsg {
 					.commit();
 			mPrefs.edit().putString("cabinet", String.valueOf(ctx.cabinet))
 					.commit();
+			mHandler.sendEmptyMessage(Common.MSG_UPDATE_SUCCESS);
 			break;
 		case Common.RECEIVE_PAIR_PASSWORD_FAILED:
 			ctx.set_hint(R.string.operate_failed);
@@ -161,5 +162,11 @@ public class UpdateInfo implements HandleConnMsg {
 					.commit();
 			break;
 		}
+	}
+
+	@Override
+	public void timeout() {
+		// TODO Auto-generated method stub
+
 	}
 }

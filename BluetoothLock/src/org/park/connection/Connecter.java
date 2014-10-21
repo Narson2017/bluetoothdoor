@@ -29,6 +29,7 @@ public class Connecter extends BroadcastReceiver {
 	public boolean if_connected = false;
 	Context mCtx;
 	boolean if_registed = false;
+	public boolean if_connecting = false;
 
 	public Connecter() {
 		super();
@@ -98,13 +99,37 @@ public class Connecter extends BroadcastReceiver {
 
 	public void connect() {
 		IS_FOUND = false;
+		if_connecting = true;
+		if_connected = false;
 		if (btAdapt == null)
 			btAdapt = BluetoothAdapter.getDefaultAdapter();
 
 		if (!btAdapt.isEnabled())
 			btAdapt.enable();
 		register(mCtx);
-		mHandler.sendEmptyMessageDelayed(Common.MESSAGE_START_DISCOVER, 3072);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				int count = 1;
+				while (!if_connected && if_connecting) {
+					if (count++ > 4)
+						break;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (count > 6) {
+					mHandler.sendEmptyMessage(Common.MSG_TIME_OUT);
+				}
+			}
+
+		}).start();
+		mHandler.sendEmptyMessageDelayed(Common.MESSAGE_START_DISCOVER, 1024);
 	}
 
 	private void connectTarget() {
@@ -162,7 +187,6 @@ public class Connecter extends BroadcastReceiver {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case Common.MESSAGE_START_DISCOVER:
-				mHandleConnMsg.discovery_started();
 				if (!btAdapt.isDiscovering()) {
 					if (!findPairedDevice())
 						btAdapt.startDiscovery();
@@ -170,16 +194,26 @@ public class Connecter extends BroadcastReceiver {
 				break;
 			case Common.MESSAGE_CONNECT_SUCCEED:
 				if_connected = true;
+				if_connecting = false;
 				mHandleConnMsg.connected(true);
 				break;
 			case Common.MESSAGE_CONNECT_LOST:
+				if_connected = false;
+				if_connecting = false;
 				mHandleConnMsg.disconnected();
+				break;
+			case Common.MSG_TIME_OUT:
+				if_connecting = false;
+				if (!if_connected)
+					mHandleConnMsg.timeout();
 				break;
 			}
 		}
 	};
 
 	public void onClean() {
+		if_connecting = false;
+		btAdapt.cancelDiscovery();
 		if (if_connected) {
 			if_connected = false;
 		}
@@ -188,8 +222,8 @@ public class Connecter extends BroadcastReceiver {
 			mCtx.unregisterReceiver(this);
 			if_registed = false;
 		}
-		if (btAdapt != null)
-			btAdapt.disable();
+		// if (btAdapt != null)
+		// btAdapt.disable();
 		try {
 			if (btSocket != null)
 				btSocket.close();

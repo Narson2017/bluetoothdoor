@@ -72,6 +72,10 @@ public class LockOperation implements HandleConnMsg {
 	public void discovery_started() {
 		// TODO Auto-generated method stub
 		mBoxActivity.setHint(R.string.searching);
+		if (!mConnecter.if_connecting)
+			startOpr();
+		// mBoxActivity.detail_view.setVisibility(View.GONE);
+		// mBoxActivity.progress_connect.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -131,5 +135,18 @@ public class LockOperation implements HandleConnMsg {
 				mBoxActivity.pair_psw.equals("") ? Common.DEFAULT_PAIR_PASSWORD
 						: mBoxActivity.pair_psw, mLockManager.cabinet,
 				mLockManager.lockNbr));
+	}
+
+	@Override
+	public void timeout() {
+		// TODO Auto-generated method stub
+		mLockManager.setEnabled(false);
+		mBoxActivity.setBoxVisible(false);
+		mBoxActivity.setProgressVisible(false);
+		mBoxActivity.tx_fault.setText(R.string.time_out);
+		if (mConnecter != null)
+			mConnecter.onClean();
+		if (mConnThr != null)
+			mConnThr.onClean();
 	}
 }

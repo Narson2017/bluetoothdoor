@@ -1,11 +1,9 @@
 package org.park.prefs;
 
 import org.park.R;
-import org.park.entrance.splashScreen;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
@@ -36,8 +34,6 @@ public class ResetPrefs extends DialogPreference {
 			mPrefs.edit().putString("locknbr", "").commit();
 			mPrefs.edit().putString("cabinet", "").commit();
 			Activity tmp = (Activity) getContext();
-			tmp.startActivity(
-					new Intent(getContext(), splashScreen.class));
 			tmp.finish();
 		} else {
 			// User selected Cancel

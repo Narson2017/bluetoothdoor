@@ -75,7 +75,7 @@ class OprLoad implements Runnable {
 				mLoginActivity.btn_register.setText(msg.arg1);
 				break;
 			case Common.MSG_SERVER_FAULT:
-				mLoginActivity.hint(R.string.server_fault);
+				mLoginActivity.hint(R.string.time_out);
 				authorizing = false;
 				break;
 			}

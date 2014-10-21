@@ -1,6 +1,5 @@
 package org.park.connection;
 
-
 public interface HandleConnMsg {
 
 	public void connected(boolean state);
@@ -18,4 +17,6 @@ public interface HandleConnMsg {
 	public void discovery_finished();
 
 	public void received(String received_data);
+
+	public void timeout();
 }

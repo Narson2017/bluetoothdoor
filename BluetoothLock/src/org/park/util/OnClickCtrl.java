@@ -1,7 +1,6 @@
 package org.park.util;
 
 import org.park.R;
-import org.park.entrance.splashScreen;
 import org.park.prefs.settingActivity;
 
 import android.app.Activity;
@@ -29,7 +28,7 @@ public class OnClickCtrl implements OnClickListener {
 			break;
 		case R.id.btn_action_back:
 		case R.id.btn_back:
-			ctx.startActivity(new Intent(ctx, splashScreen.class));
+			// ctx.startActivity(new Intent(ctx, splashScreen.class));
 			ctx.finish();
 			break;
 		case R.id.btn_setting:

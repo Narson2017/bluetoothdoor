@@ -6,6 +6,7 @@ import org.park.box.BoxActivity;
 import org.park.boxlst.BoxAdapter;
 import org.park.boxlst.BoxlstActivity;
 import org.park.prefs.settingActivity;
+import org.park.util.Common;
 import org.park.util.Quit;
 
 import android.app.Activity;
@@ -23,10 +24,22 @@ public class splashScreen extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getIntent().getBooleanExtra(Quit.IS_EXIT, false))
-			finish();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.splash);
+	}
+
+	@Override
+	protected void onStart() {
+		if (getIntent().getBooleanExtra(Common.IS_EXIT, false))
+			finish();
+		super.onStart();
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		if (getIntent().getBooleanExtra(Common.IS_EXIT, false))
+			finish();
+		super.onNewIntent(intent);
 	}
 
 	@Override
@@ -67,7 +80,7 @@ public class splashScreen extends Activity implements OnClickListener {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			Quit.act_exit(splashScreen.this);
+			Quit.act_exit(this);
 			return true;
 		} else {
 			return super.onKeyDown(keyCode, event);

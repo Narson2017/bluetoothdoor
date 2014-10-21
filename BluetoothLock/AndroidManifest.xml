@@ -22,28 +22,19 @@
         <uses-library android:name="android.test.runner" />
 
         <activity
-            android:name="org.park.entrance.splashScreen"
-            android:label="@string/app_name" >
+            android:name="org.park.entrance.splashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="org.park.entrance.MyBlueTooth"
-            android:launchMode="singleTask" >
-        </activity>
-        <activity
-            android:name="org.park.box.BoxActivity"
-            android:launchMode="singleTask" >
+        <activity android:name="org.park.box.BoxActivity" >
         </activity>
         <activity android:name="org.park.authorize.LoginActivity" >
         </activity>
         <activity android:name="org.park.prefs.settingActivity" />
-        <activity
-            android:name="org.park.devlist.DevlstActivity"
-            android:launchMode="singleTask" />
+        <activity android:name="org.park.devlist.DevlstActivity" />
         <activity android:name="org.park.boxlst.BoxlstActivity" />
         <activity android:name="org.park.account.AccountActivity" />
     </application>

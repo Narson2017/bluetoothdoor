@@ -3,11 +3,14 @@ package org.park.boxlst;
 import java.util.List;
 
 import org.park.R;
-import org.park.authorize.LoginActivity;
+import org.park.box.BoxActivity;
+import org.park.util.Common;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,9 +57,24 @@ public class BoxAdapter extends ArrayAdapter<MBox> {
 						if (position != ListView.INVALID_POSITION) {
 							// DO THE STUFF YOU WANT TO DO WITH THE position
 							Intent intent = new Intent(context,
-									LoginActivity.class);
-							intent.putExtra(BOX_NUMBER, mBox.get_nbr());
-							intent.putExtra(CABINET_NUMBER, mBox.cabinet_id);
+									BoxActivity.class);
+							// intent.putExtra(BOX_NUMBER, mBox.get_nbr());
+							// intent.putExtra(CABINET_NUMBER, mBox.cabinet_id);
+							SharedPreferences mPrefs;
+							mPrefs = PreferenceManager
+									.getDefaultSharedPreferences(getContext());
+							mPrefs.edit()
+									.putString("password",
+											Common.DEFAULT_PAIR_PASSWORD)
+									.commit();
+							mPrefs.edit()
+									.putString("locknbr",
+											String.valueOf(mBox.get_nbr()))
+									.commit();
+							mPrefs.edit()
+									.putString("cabinet",
+											String.valueOf(mBox.cabinet_id))
+									.commit();
 							((BoxlstActivity) context).startActivity(intent);
 						}
 						break;

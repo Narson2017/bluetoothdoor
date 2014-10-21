@@ -62,7 +62,6 @@ public class BoxlstActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			startActivity(new Intent(this, splashScreen.class));
-			finish();
 			return true;
 		} else {
 			return super.onKeyDown(keyCode, event);

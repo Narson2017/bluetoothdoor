@@ -15,24 +15,24 @@
             android:summary="@string/enter_password"
             android:title="@string/password" />
         <EditTextPreference
-            android:inputType="number"
-            android:maxLength="3"
             android:dialogTitle="@string/enter_locknbr"
+            android:inputType="number"
             android:key="locknbr"
+            android:maxLength="3"
             android:summary="@string/enter_locknbr"
             android:title="@string/lock_nbr_label" />
         <EditTextPreference
-            android:inputType="number"
-            android:maxLength="2"
             android:dialogTitle="@string/enter_cabinet"
+            android:inputType="number"
             android:key="cabinet"
+            android:maxLength="2"
             android:summary="@string/enter_cabinet"
             android:title="@string/cabinet_label" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_reset" >
         <org.park.prefs.ResetPrefs
-            android:summary="@string/reset_sum"
             android:key="pref_dialog"
+            android:summary="@string/reset_sum"
             android:title="@string/reset" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/back" >

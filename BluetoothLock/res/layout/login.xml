@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingLeft="5dp"
-                    android:text="@string/login"
+                    android:text="@string/account"
                     android:textColor="@color/white"
                     android:textSize="20dp" />
             </LinearLayout>
@@ -221,11 +221,12 @@
             android:orientation="horizontal" >
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/layout_login"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="47.5"
                 android:gravity="center"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:visibility="gone" >
 
                 <Button
                     android:id="@+id/btn_login"
@@ -238,15 +239,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/layout_register"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="5" >
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="47.5"
                 android:gravity="center"
                 android:orientation="vertical" >
 

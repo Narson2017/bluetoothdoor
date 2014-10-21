@@ -77,7 +77,7 @@ public class RegisterAccount implements HandleConnMsg {
 	@Override
 	public void pairing() {
 		// TODO Auto-generated method stub
-
+		mLoginActivity.text_login_hint.setText(R.string.pairing);
 	}
 
 	@Override
@@ -95,7 +95,8 @@ public class RegisterAccount implements HandleConnMsg {
 	@Override
 	public void discovery_finished() {
 		// TODO Auto-generated method stub
-
+		mLoginActivity.text_login_hint.setText(R.string.not_found);
+		mLoad.stop();
 	}
 
 	@Override
@@ -129,8 +130,15 @@ public class RegisterAccount implements HandleConnMsg {
 			break;
 		case Common.RECEIVE_PAIR_PASSWORD_FAILED:
 			mLoginActivity.text_login_hint.setText(R.string.operate_failed);
+			mLoad.stop();
 			break;
 		}
+	}
+
+	@Override
+	public void timeout() {
+		// TODO Auto-generated method stub
+		mLoginActivity.hint(R.string.time_out);
 	}
 
 }

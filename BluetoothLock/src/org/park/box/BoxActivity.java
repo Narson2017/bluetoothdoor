@@ -104,7 +104,7 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 			break;
 		case R.id.btn_back:
 			mLockOpr.disconnected();
-			startActivity(new Intent(this, splashScreen.class));
+			// startActivity(new Intent(this, splashScreen.class));
 			finish();
 			break;
 		case R.id.btn_about:
