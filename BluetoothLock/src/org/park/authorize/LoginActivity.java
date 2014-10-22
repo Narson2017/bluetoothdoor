@@ -42,7 +42,8 @@ public class LoginActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.login);
-		// display
+
+		// initialize data
 		edit_psw = (EditText) findViewById(R.id.edit_psw);
 		edit_psw.setOnFocusChangeListener(this);
 		edit_phone = (EditText) findViewById(R.id.edit_username);
@@ -55,12 +56,11 @@ public class LoginActivity extends Activity implements
 		btn_login = (Button) findViewById(R.id.btn_login);
 		btn_register = (Button) findViewById(R.id.btn_register);
 
-		// initialize data
+		// start
 		mPrefs = new PreferenceHelper(this);
 		edit_phone
 				.setText(((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
 						.getLine1Number());
-		old_psw = Common.DEFAULT_PAIR_PASSWORD;
 		box = getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1);
 		cabinet = getIntent().getIntExtra(BoxAdapter.CABINET_NUMBER, -1);
 		if (box != -1) {
@@ -78,6 +78,7 @@ public class LoginActivity extends Activity implements
 		}
 		mAuth = new Authorize();
 		mload = new Loading(this);
+		old_psw = Common.DEFAULT_PAIR_PASSWORD;
 	}
 
 	@Override
@@ -106,7 +107,7 @@ public class LoginActivity extends Activity implements
 			new_phone = edit_phone.getText().toString();
 			mload.setOperation(Common.MSG_REGISTER_LOADING);
 			mload.start();
-			mAuth.registerBox(new_phone, Common.DEFAULT_PASSWORD, cabinet, box);
+			mAuth.registerBox(new_phone, Common.DEFAULT_PAIR_PASSWORD, cabinet, box);
 			break;
 		case R.id.btn_login:
 			mload.setOperation(Common.MSG_LOGIN_LOADING);

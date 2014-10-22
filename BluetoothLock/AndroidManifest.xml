@@ -36,7 +36,7 @@
         <activity android:name="org.park.prefs.settingActivity" />
         <activity android:name="org.park.devlist.DevlstActivity" />
         <activity android:name="org.park.boxlst.BoxlstActivity" />
-        <activity android:name="org.park.account.AccountActivity" />
+        <activity android:name="org.park.pairpsw.AccountActivity" />
     </application>
 
 </manifest>

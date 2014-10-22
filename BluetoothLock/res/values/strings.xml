@@ -78,7 +78,7 @@
     <string name="already_registered">The account has been registered.</string>
     <string name="pref_account">Account detail</string>
     <string name="enter_username">Enter identity</string>
-    <string name="enter_password">Enter password</string>
+    <string name="enter_password">Enter password(allow empty)</string>
     <string name="enter_locknbr">Enter lock number(allow empty)</string>
     <string name="reset">Reset</string>
     <string name="reset_sum">Reset and return.</string>

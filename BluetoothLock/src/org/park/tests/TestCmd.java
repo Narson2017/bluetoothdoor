@@ -28,7 +28,7 @@ public class TestCmd extends TestCase {
 
 	public void testGetChangePairPswCmd() {
 		assertEquals("feef10010203040506a1040506070809010100b7",
-				mcmd.getChangePairPswCmd("123456", "456789", 1, 1));
+				mcmd.getChangePairPswCmd("123456", "456789"));
 	}
 
 	public void testintStr6hexStr() {

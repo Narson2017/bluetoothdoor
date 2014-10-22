@@ -78,7 +78,7 @@
     <string name="already_registered">该账号已注册，请直接登录.</string>
     <string name="pref_account">账户信息</string>
     <string name="enter_username">输入手机号</string>
-    <string name="enter_password">输入6位数字密码</string>
+    <string name="enter_password">输入6位数字密码(自动获取, 可不填)</string>
     <string name="enter_locknbr">输入柜子编号(自动获取, 可不填)</string>
     <string name="reset">重置</string>
     <string name="reset_sum">清空数据并返回主页.</string>

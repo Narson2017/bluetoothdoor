@@ -1,12 +1,16 @@
 package org.park.connection;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.UUID;
 
+import org.park.command.LockCommand;
 import org.park.util.ClsUtils;
 import org.park.util.Common;
+import org.park.util.HexConvert;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -25,21 +29,24 @@ public class Connecter extends BroadcastReceiver {
 	private boolean IS_FOUND = false;
 	static String strAddress = null;
 	public BluetoothSocket btSocket = null;
-	HandleConnMsg mHandleConnMsg = null;
+	ConnHandle mHandleConn = null;
 	public boolean if_connected = false;
 	Context mCtx;
 	boolean if_registed = false;
 	public boolean if_connecting = false;
+	private InputStream mmInStream;
+	private OutputStream mmOutStream;
+	LockCommand mCmdmgr;
+	int nNeed = -1;
+	byte[] bRecv = new byte[1024];
+	int nRecved = 0;
 
-	public Connecter() {
+	public Connecter(ConnHandle c, Context ctx) {
 		super();
-	}
-
-	public Connecter(HandleConnMsg c, Context ctx) {
-		super();
-		mHandleConnMsg = c;
+		mHandleConn = c;
 		mCtx = ctx;
 		register(ctx);
+		mCmdmgr = new LockCommand();
 	}
 
 	public void register(Context c) {
@@ -55,13 +62,33 @@ public class Connecter extends BroadcastReceiver {
 		}
 	}
 
+	public void startCommand() {
+		if (btSocket != null) {
+			if_connected = true;
+			// Get the input and output streams, using temp objects because
+			// member streams are final
+			InputStream tmpIn = null;
+			OutputStream tmpOut = null;
+			try {
+				tmpIn = btSocket.getInputStream();
+				tmpOut = btSocket.getOutputStream();
+			} catch (IOException e) {
+				e.printStackTrace();
+				if_connected = false;
+			}
+			mmInStream = tmpIn;
+			mmOutStream = tmpOut;
+			new Thread(ConnThread).start();
+		}
+	}
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
 		if (action.equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
 			mHandler.sendEmptyMessage(Common.MESSAGE_CONNECT_LOST);
 		} else if (action.equals(BluetoothDevice.ACTION_PAIRING_REQUEST)) {
-			mHandleConnMsg.pairing();
+			mHandleConn.pairing();
 			BluetoothDevice btDevice = intent
 					.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 			try {
@@ -71,7 +98,7 @@ public class Connecter extends BroadcastReceiver {
 				ClsUtils.cancelPairingUserInput(btDevice.getClass(), btDevice);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				mHandleConnMsg.paired(false);
+				mHandleConn.paired(false);
 				e.printStackTrace();
 			}
 		}
@@ -89,10 +116,10 @@ public class Connecter extends BroadcastReceiver {
 					return;
 				}
 			} else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_STARTED)) {
-				mHandleConnMsg.discovery_started();
+				mHandleConn.discovery_started();
 			} else if (action
 					.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
-				mHandleConnMsg.discovery_finished();
+				mHandleConn.discovery_finished();
 			}
 		}
 	}
@@ -195,43 +222,52 @@ public class Connecter extends BroadcastReceiver {
 			case Common.MESSAGE_CONNECT_SUCCEED:
 				if_connected = true;
 				if_connecting = false;
-				mHandleConnMsg.connected(true);
+				mHandleConn.connected(true);
 				break;
 			case Common.MESSAGE_CONNECT_LOST:
 				if_connected = false;
 				if_connecting = false;
-				mHandleConnMsg.disconnected();
+				mHandleConn.disconnected();
 				break;
 			case Common.MSG_TIME_OUT:
 				if_connecting = false;
 				if (!if_connected)
-					mHandleConnMsg.timeout();
+					mHandleConn.timeout();
+				break;
+			case Common.MESSAGE_RECV:
+				mHandleConn.received(HexConvert.Bytes2HexString(bRecv, nNeed));
+				nRecved = 0;
 				break;
 			}
 		}
 	};
 
 	public void onClean() {
+		unpair();
 		if_connecting = false;
 		btAdapt.cancelDiscovery();
 		if (if_connected) {
 			if_connected = false;
+			try {
+				if (mmInStream != null)
+					mmInStream.close();
+				if (mmOutStream != null)
+					mmOutStream.close();
+				if (btSocket != null)
+					btSocket.close();
+			} catch (IOException e) {
+				Log.e(Common.TAG, "Close Error");
+				e.printStackTrace();
+			} finally {
+				mmInStream = null;
+				mmOutStream = null;
+				btSocket = null;
+				if_connected = false;
+			}
 		}
-		unpair();
 		if (if_registed) {
 			mCtx.unregisterReceiver(this);
 			if_registed = false;
-		}
-		// if (btAdapt != null)
-		// btAdapt.disable();
-		try {
-			if (btSocket != null)
-				btSocket.close();
-		} catch (IOException e) {
-			Log.e(Common.TAG, "Close Error");
-			e.printStackTrace();
-		} finally {
-			btSocket = null;
 		}
 	}
 
@@ -260,8 +296,58 @@ public class Connecter extends BroadcastReceiver {
 		}
 	}
 
-	public void send(String old_password, String new_password) {
-		Log.i(Common.TAG, "Sended");
-		mHandleConnMsg.sended(true);
+	public void send(String mCommand) {
+		// TODO Auto-generated method stub
+		nNeed = Common.RESPONSE_LENGTH;
+		nRecved = 0;
+		try {
+			mmOutStream.write(HexConvert.HexString2Bytes(mCommand));
+			mmOutStream.flush();
+			mHandleConn.sended(true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			mHandleConn.sended(false);
+		}
 	}
+
+	private Runnable ConnThread = new Runnable() {
+		@Override
+		public void run() {
+			// Keep listening to the InputStream until an exception occurs
+			byte[] bufRecv = new byte[32];
+			int nRecv = 0;
+			while (if_connected) {
+				try {
+					if (nRecved >= nNeed) {
+						Log.e(Common.TAG, "System busy, please wait");
+						Thread.sleep(3000);
+						continue;
+					}
+					nRecv = mmInStream.read(bufRecv);
+					if (nRecv < 1) {
+						Log.e(Common.TAG, "Recving Short");
+						Thread.sleep(100);
+						continue;
+					}
+					System.arraycopy(bufRecv, 0, bRecv, nRecved, nRecv);
+					Log.e(Common.TAG, "Recv:" + String.valueOf(nRecv));
+					nRecved += nRecv;
+					if (nRecved < nNeed) {
+						Thread.sleep(100);
+						continue;
+					}
+
+					mHandler.obtainMessage(Common.MESSAGE_RECV, nNeed, -1, null)
+							.sendToTarget();
+
+				} catch (Exception e) {
+					Log.e(Common.TAG, "Recv thread:" + e.getMessage());
+					mHandler.sendEmptyMessage(Common.MESSAGE_EXCEPTION_RECV);
+					break;
+				}
+			}
+			Log.e(Common.TAG, "Exit while");
+		}
+	};
 }

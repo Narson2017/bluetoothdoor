@@ -52,13 +52,12 @@ public class LockCommand {
 		return tmp1 + tmp2 + tmp3;
 	}
 
-	public String getChangePairPswCmd(String old_psw, String new_psw,
-			int cabinet, int box) {
+	public String getChangePairPswCmd(String old_psw, String new_psw) {
 		// TODO Auto-generated method stub
 		String tmp1 = "feef";
 		String tmp2 = "10" + intStr6hexStr(old_psw) + "a1"
-				+ intStr6hexStr(new_psw) + HexConvert.int2hexStr(cabinet)
-				+ HexConvert.int2hexStr(box) + "00";
+				+ intStr6hexStr(new_psw) + HexConvert.int2hexStr(1)
+				+ HexConvert.int2hexStr(1) + "00";
 		return tmp1 + tmp2 + xor(tmp2);
 	}
 
@@ -95,6 +94,12 @@ public class LockCommand {
 				return Common.RECEIVE_OPEN_DOOR_SUCCESS;
 			} else {
 				return Common.RECEIVE_OPEN_DOOR_FAILED;
+			}
+		else if (tmp.substring(6, 8).equalsIgnoreCase("b4"))
+			if (tmp.substring(8, 10).equalsIgnoreCase("da")) {
+				return Common.RECEIVE_CLOSE_DOOR_SUCCESS;
+			} else {
+				return Common.RECEIVE_CLOSE_DOOR_FAILED;
 			}
 		return -1;
 	}

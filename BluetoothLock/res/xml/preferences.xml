@@ -11,11 +11,13 @@
         <EditTextPreference
             style="@style/edit_password"
             android:dialogTitle="@string/enter_password"
+            android:enabled="false"
             android:key="password"
             android:summary="@string/enter_password"
             android:title="@string/password" />
         <EditTextPreference
             android:dialogTitle="@string/enter_locknbr"
+            android:enabled="true"
             android:inputType="number"
             android:key="locknbr"
             android:maxLength="3"
@@ -23,6 +25,7 @@
             android:title="@string/lock_nbr_label" />
         <EditTextPreference
             android:dialogTitle="@string/enter_cabinet"
+            android:enabled="true"
             android:inputType="number"
             android:key="cabinet"
             android:maxLength="2"

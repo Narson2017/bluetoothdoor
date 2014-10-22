@@ -73,7 +73,6 @@ public class Common {
 	public static final String PREFERENCE_PASSWORD = "password";
 	public static final String PREFERENCE_BOX = "locknbr";
 	public static final String PREFERENCE_CABINET = "cabinet";
-	public static final String DEFAULT_PASSWORD = "-1";
 	public static final int DELAY_TIME = 1024;
 	public static final int ROTATE_STEP = 8;
 	public static final int ROTATE_DELAY_TIME = 32;

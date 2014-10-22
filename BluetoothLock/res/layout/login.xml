@@ -228,10 +228,10 @@
                 <Button
                     android:id="@+id/btn_login"
                     style="@style/login_text"
-                    android:onClick="onClick"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/btn_login"
+                    android:onClick="onClick"
                     android:text="@string/login" >
                 </Button>
             </LinearLayout>
@@ -252,6 +252,25 @@
                     android:background="@drawable/btn_login"
                     android:onClick="onClick"
                     android:text="@string/register" >
+                </Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_change"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <Button
+                    android:id="@+id/btn_change_psw"
+                    style="@style/login_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/btn_login"
+                    android:onClick="onClick"
+                    android:text="@string/upload_account" >
                 </Button>
             </LinearLayout>
         </LinearLayout>

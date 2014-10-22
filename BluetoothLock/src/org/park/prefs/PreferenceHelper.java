@@ -28,7 +28,7 @@ public class PreferenceHelper {
 
 	public String getPsw() {
 		return mPrefs.getString(Common.PREFERENCE_PASSWORD,
-				Common.DEFAULT_PASSWORD);
+				Common.DEFAULT_PAIR_PASSWORD);
 	}
 
 	public int getBox() {

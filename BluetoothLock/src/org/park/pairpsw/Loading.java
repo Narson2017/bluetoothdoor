@@ -1,4 +1,4 @@
-package org.park.account;
+package org.park.pairpsw;
 
 import org.park.R;
 import org.park.util.Common;

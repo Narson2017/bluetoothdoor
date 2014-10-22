@@ -5,6 +5,7 @@ import org.park.authorize.LoginActivity;
 import org.park.box.BoxActivity;
 import org.park.boxlst.BoxlstActivity;
 import org.park.devlist.DevlstActivity;
+import org.park.pairpsw.AccountActivity;
 import org.park.prefs.settingActivity;
 import org.park.util.Common;
 import org.park.util.Quit;
@@ -21,7 +22,7 @@ import android.widget.Button;
 
 public class Navigation extends Activity implements OnClickListener,
 		OnLongClickListener {
-	Button btn_login, btn_new_user;
+	Button btn_login, btn_new_user, btn_change_account;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class Navigation extends Activity implements OnClickListener,
 		btn_login.setOnLongClickListener(this);
 		btn_new_user = (Button) findViewById(R.id.btn_new_user);
 		btn_new_user.setOnLongClickListener(this);
+		btn_change_account = (Button) findViewById(R.id.btn_change_account);
+		btn_change_account.setOnLongClickListener(this);
 	}
 
 	@Override
@@ -91,6 +94,9 @@ public class Navigation extends Activity implements OnClickListener,
 		case R.id.btn_new_user:
 			startActivity(new Intent(this, BoxActivity.class));
 			return true;
+		case R.id.btn_change_account:
+			startActivity(new Intent(this, AccountActivity.class));
+			break;
 		}
 		return false;
 	}
