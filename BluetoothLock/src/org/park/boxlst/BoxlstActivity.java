@@ -6,6 +6,7 @@ import java.util.List;
 import org.park.R;
 import org.park.entrance.Navigation;
 import org.park.util.OnClickCtrl;
+import org.park.util.Rotate;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,10 +24,11 @@ public class BoxlstActivity extends Activity implements OnClickListener {
 	ListView box_lv;
 	BoxAdapter mBoxApt;
 	List<MBox> box_lst = new ArrayList<MBox>();
-	View l_lsboxes, l_progressBar1;
+	View l_lsboxes;
 	OnClickCtrl mOnclickCtrl;
 	AllBoxes mAllboxes;
 	TextView text_hint;
+	Rotate mRefresh;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,25 +42,18 @@ public class BoxlstActivity extends Activity implements OnClickListener {
 		findViewById(R.id.btn_action_back).setOnClickListener(mOnclickCtrl);
 		findViewById(R.id.btn_back).setOnClickListener(mOnclickCtrl);
 		findViewById(R.id.btn_setting).setOnClickListener(mOnclickCtrl);
-		l_progressBar1 = findViewById(R.id.progressBar1);
 		l_lsboxes = findViewById(R.id.l_lsboxes);
 		text_hint = (TextView) findViewById(R.id.text_hint);
 		box_lv = (ListView) this.findViewById(R.id.lvboxes);
 		mBoxApt = new BoxAdapter(BoxlstActivity.this,
 				R.layout.box_lst_item_row, box_lst);
 		box_lv.setAdapter(mBoxApt);
+		mRefresh = new Rotate(findViewById(R.id.btn_refresh),
+				findViewById(R.id.refresh_view));
 
 		mAllboxes = new AllBoxes();
 		mAllboxes.getAvaiableBoxes();
-	}
-
-	public void initlst(int[] boxes_lst) {
-		for (int box : boxes_lst) {
-			box_lst.add(new MBox(1, box));
-		}
-		mBoxApt.notifyDataSetChanged();
-		l_progressBar1.setVisibility(View.GONE);
-		l_lsboxes.setVisibility(View.VISIBLE);
+		mRefresh.start();
 	}
 
 	@Override
@@ -84,15 +79,18 @@ public class BoxlstActivity extends Activity implements OnClickListener {
 		@Override
 		public void received(String data) {
 			// TODO Auto-generated method stub
-			l_progressBar1.setVisibility(View.GONE);
 			if (data != null) {
+				mRefresh.display(false);
 				text_hint.setText(R.string.receive_success);
 				for (int box : str2intlst(data))
 					box_lst.add(new MBox(1, box));
 				mBoxApt.notifyDataSetChanged();
 				l_lsboxes.setVisibility(View.VISIBLE);
-			} else
+			} else {
+				mRefresh.display(true);
+				mRefresh.stop();
 				text_hint.setText(R.string.server_fault);
+			}
 		}
 	}
 
@@ -101,8 +99,9 @@ public class BoxlstActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.btn_refresh:
+		case R.id.btn_query:
 			mAllboxes.getAvaiableBoxes();
-			l_progressBar1.setVisibility(View.VISIBLE);
+			mRefresh.start();
 			break;
 		}
 	}

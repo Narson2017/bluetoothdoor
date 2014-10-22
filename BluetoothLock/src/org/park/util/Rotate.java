@@ -56,7 +56,7 @@ public class Rotate implements Runnable {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case Common.MSG_LOADING:
-				rotateView.setRotation((Float) msg.obj);
+				rotateView.setRotation((Float) msg.obj % 360);
 				break;
 			}
 		}

@@ -558,7 +558,7 @@ public final class R {
     }
     public static final class id {
         public static final int LinearLayoutSplash=0x7f0a002f;
-        public static final int box_nbr=0x7f0a0021;
+        public static final int box_nbr=0x7f0a0022;
         public static final int btnDis=0x7f0a0029;
         public static final int btn_about=0x7f0a0011;
         public static final int btn_action_back=0x7f0a001b;
@@ -572,11 +572,11 @@ public final class R {
         public static final int btn_login=0x7f0a002c;
         public static final int btn_new_user=0x7f0a0032;
         public static final int btn_query=0x7f0a0010;
-        public static final int btn_refresh=0x7f0a001f;
+        public static final int btn_refresh=0x7f0a0020;
         public static final int btn_register=0x7f0a002e;
         public static final int btn_setting=0x7f0a0003;
         public static final int btns=0x7f0a0031;
-        public static final int detail_view=0x7f0a0020;
+        public static final int detail_view=0x7f0a0021;
         public static final int edit_psw=0x7f0a000e;
         public static final int edit_username=0x7f0a000b;
         public static final int ic_bar=0x7f0a0025;
@@ -601,7 +601,7 @@ public final class R {
         public static final int main_action_bar=0x7f0a0000;
         public static final int progressBar1=0x7f0a0007;
         public static final int progress_connect=0x7f0a0006;
-        public static final int refresh_view=0x7f0a0022;
+        public static final int refresh_view=0x7f0a001f;
         public static final int textView1=0x7f0a0018;
         public static final int text_hint=0x7f0a0005;
         public static final int text_login_hint=0x7f0a002a;

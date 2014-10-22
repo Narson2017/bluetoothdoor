@@ -137,30 +137,16 @@
             android:id="@+id/refresh_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="center|center"
             android:orientation="vertical" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageButton
+                android:id="@+id/btn_refresh"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical" >
-
-                    <ImageButton
-                        android:id="@+id/btn_refresh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_refresh"
-                        android:contentDescription="REFRESH"
-                        android:onClick="onClick" />
-                </LinearLayout>
-            </LinearLayout>
+                android:background="@drawable/ic_refresh"
+                android:contentDescription="REFRESH"
+                android:onClick="onClick" />
         </LinearLayout>
     </LinearLayout>
 

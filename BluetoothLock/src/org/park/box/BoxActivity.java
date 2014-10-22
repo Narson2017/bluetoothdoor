@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class BoxActivity extends Activity implements View.OnClickListener {
@@ -28,7 +27,6 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 	public int box;
 	public int cabinet;
 	PreferenceHelper mPrefs;
-	ImageButton btn_refresh;
 	Rotate mRefresh;
 
 	@Override
@@ -47,11 +45,11 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 			dev_name = bunde.getString("NAME");
 			mac_addr = bunde.getString("MAC");
 		}
-		btn_refresh = (ImageButton) findViewById(R.id.btn_refresh);
 		detail_view = findViewById(R.id.detail_view);
 		tvTitle = (TextView) findViewById(R.id.tvTitle);
 		tx_fault = (TextView) findViewById(R.id.text_hint);
-		mRefresh = new Rotate(btn_refresh, findViewById(R.id.refresh_view));
+		mRefresh = new Rotate(findViewById(R.id.btn_refresh),
+				findViewById(R.id.refresh_view));
 		mLockOpr = new LockOperation(this);
 
 		// start
