@@ -56,6 +56,7 @@ public class LoginActivity extends Activity implements
 		btn_register = (Button) findViewById(R.id.btn_register);
 
 		// initialize data
+		mPrefs = new PreferenceHelper(this);
 		edit_phone
 				.setText(((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
 						.getLine1Number());
@@ -76,8 +77,7 @@ public class LoginActivity extends Activity implements
 			cabinet = mPrefs.getCabinet();
 		}
 		mAuth = new Authorize();
-		mPrefs = new PreferenceHelper(this);
-		mload = new Loading(Common.MSG_REGISTER_LOADING, this);
+		mload = new Loading(this);
 	}
 
 	@Override
@@ -102,12 +102,16 @@ public class LoginActivity extends Activity implements
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.btn_register:
+			text_hint.setText(R.string.loading);
 			new_phone = edit_phone.getText().toString();
+			mload.setOperation(Common.MSG_REGISTER_LOADING);
 			mload.start();
 			mAuth.registerBox(new_phone, Common.DEFAULT_PASSWORD, cabinet, box);
 			break;
 		case R.id.btn_login:
+			mload.setOperation(Common.MSG_LOGIN_LOADING);
 			mload.start();
+			text_hint.setText(R.string.loading);
 			new_phone = edit_phone.getText().toString().equals("") ? new_phone
 					: edit_phone.getText().toString();
 			mAuth.obtainBox(new_phone, new_psw, box);

@@ -25,7 +25,7 @@ public class LockOperation implements HandleConnMsg {
 		// TODO Auto-generated method stub
 		if (state) {
 			mBoxActivity.detail_view.setVisibility(View.VISIBLE);
-			mBoxActivity.progress_connect.setVisibility(View.GONE);
+			mBoxActivity.mRefresh.display(false);
 			mBoxActivity.setHint(R.string.connect_success);
 			mLockManager.set_state(true, false);
 			mLockManager.setEnabled(true);
@@ -45,7 +45,8 @@ public class LockOperation implements HandleConnMsg {
 		// TODO Auto-generated method stub
 		mLockManager.setEnabled(false);
 		mBoxActivity.setBoxVisible(false);
-		mBoxActivity.setProgressVisible(false);
+		mBoxActivity.mRefresh.display(true);
+		mBoxActivity.mRefresh.stop();
 		mBoxActivity.tx_fault.setText(R.string.connect_failed);
 		if (mConnecter != null)
 			mConnecter.onClean();
@@ -56,8 +57,6 @@ public class LockOperation implements HandleConnMsg {
 	@Override
 	public void pairing() {
 		// TODO Auto-generated method stub
-		mBoxActivity.detail_view.setVisibility(View.GONE);
-		mBoxActivity.progress_connect.setVisibility(View.VISIBLE);
 		mBoxActivity.tx_fault.setText(R.string.pairing);
 	}
 
@@ -82,7 +81,7 @@ public class LockOperation implements HandleConnMsg {
 	public void discovery_finished() {
 		// TODO Auto-generated method stub
 		mBoxActivity.setHint(R.string.not_found);
-		mBoxActivity.setProgressVisible(false);
+		mBoxActivity.mRefresh.display(false);
 	}
 
 	@Override
@@ -142,7 +141,7 @@ public class LockOperation implements HandleConnMsg {
 		// TODO Auto-generated method stub
 		mLockManager.setEnabled(false);
 		mBoxActivity.setBoxVisible(false);
-		mBoxActivity.setProgressVisible(false);
+		mBoxActivity.mRefresh.display(true);
 		mBoxActivity.tx_fault.setText(R.string.time_out);
 		if (mConnecter != null)
 			mConnecter.onClean();

@@ -228,6 +228,7 @@
                 <Button
                     android:id="@+id/btn_login"
                     style="@style/login_text"
+                    android:onClick="onClick"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/btn_login"

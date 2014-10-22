@@ -1,27 +1,24 @@
 package org.park.box;
 
 import org.park.R;
-import org.park.entrance.Navigation;
+import org.park.prefs.PreferenceHelper;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
-import org.park.util.Common;
 import org.park.util.Quit;
+import org.park.util.Rotate;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class BoxActivity extends Activity implements View.OnClickListener {
 	TextView tvTitle;
-	public LinearLayout detail_view, progress_connect;
+	public View detail_view;
 	public TextView tx_fault;
 
 	public String pair_psw;
@@ -30,6 +27,9 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 	LockOperation mLockOpr;
 	public int box;
 	public int cabinet;
+	PreferenceHelper mPrefs;
+	ImageButton btn_refresh;
+	Rotate mRefresh;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,31 +37,27 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.detail);
 
-		// obtain data
-		SharedPreferences _sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(getBaseContext());
-		box = Integer.valueOf(_sharedPreferences.getString("locknbr", ""))
-				.intValue();
-		cabinet = Integer.valueOf(_sharedPreferences.getString("cabinet", ""))
-				.intValue();
-		pair_psw = _sharedPreferences.getString("password", "");
-		Log.i(Common.TAG, "Now password: " + pair_psw);
+		// initial data
+		mPrefs = new PreferenceHelper(this);
+		box = mPrefs.getBox();
+		cabinet = mPrefs.getCabinet();
+		pair_psw = mPrefs.getPsw();
 		Bundle bunde = this.getIntent().getExtras();
 		if (bunde != null) {
 			dev_name = bunde.getString("NAME");
 			mac_addr = bunde.getString("MAC");
 		}
-
-		// display
-		detail_view = (LinearLayout) findViewById(R.id.detail_view);
-		progress_connect = (LinearLayout) findViewById(R.id.progress_connect);
+		btn_refresh = (ImageButton) findViewById(R.id.btn_refresh);
+		detail_view = findViewById(R.id.detail_view);
 		tvTitle = (TextView) findViewById(R.id.tvTitle);
 		tx_fault = (TextView) findViewById(R.id.text_hint);
+		mRefresh = new Rotate(btn_refresh, findViewById(R.id.refresh_view));
+		mLockOpr = new LockOperation(this);
+
+		// start
 		if (dev_name != null)
 			tvTitle.setText(dev_name);
-
-		// initail
-		mLockOpr = new LockOperation(this);
+		mRefresh.start();
 		mLockOpr.startOpr();
 	}
 
@@ -69,6 +65,7 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 
 	@Override
 	protected void onDestroy() {
+		mRefresh.stop();
 		mLockOpr.disconnected();
 		super.onDestroy();
 	}
@@ -76,8 +73,8 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			mRefresh.stop();
 			mLockOpr.disconnected();
-			startActivity(new Intent(this, Navigation.class));
 			finish();
 			return true;
 		} else {
@@ -93,9 +90,10 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 			mLockOpr.disconnected();
 			startActivity(new Intent(this, settingActivity.class));
 			break;
+		case R.id.btn_refresh:
 		case R.id.btn_connect:
 			detail_view.setVisibility(View.GONE);
-			progress_connect.setVisibility(View.VISIBLE);
+			mRefresh.start();
 			tx_fault.setText(R.string.loading);
 			mLockOpr.startOpr();
 			break;
@@ -103,14 +101,15 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 			mLockOpr.openLock();
 			break;
 		case R.id.btn_back:
+			mRefresh.stop();
 			mLockOpr.disconnected();
-			// startActivity(new Intent(this, splashScreen.class));
 			finish();
 			break;
 		case R.id.btn_about:
 			About.ShowAbout(this);
 			break;
 		case R.id.btn_exit:
+			mRefresh.stop();
 			Quit.act_exit(this);
 			break;
 		}
@@ -121,13 +120,6 @@ public class BoxActivity extends Activity implements View.OnClickListener {
 			detail_view.setVisibility(View.VISIBLE);
 		else
 			detail_view.setVisibility(View.GONE);
-	}
-
-	public void setProgressVisible(boolean bl) {
-		if (bl)
-			progress_connect.setVisibility(View.VISIBLE);
-		else
-			progress_connect.setVisibility(View.GONE);
 	}
 
 	public void setHint(int strRes) {

@@ -85,7 +85,7 @@ public class DevlstActivity extends Activity implements OnClickListener,
 		intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 		intent.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
 		registerReceiver(mSearchDev, intent);
-		mHandler.sendEmptyMessageDelayed(Common.MESSAGE_START_DISCOVER, 3072);
+		mHandler.sendEmptyMessageDelayed(Common.MESSAGE_START_DISCOVER, Common.DELAY_TIME);
 	}
 
 	private void addPairedDevice() //

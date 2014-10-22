@@ -7,8 +7,8 @@
     <LinearLayout
         android:id="@+id/main_action_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="20"
+        android:layout_height="0dp"
+        android:layout_weight="15"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -93,66 +93,81 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/progress_connect"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="60" >
+        android:layout_height="0dp"
+        android:layout_weight="70"
+        android:orientation="vertical" >
 
         <LinearLayout
+            android:id="@+id/detail_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <Button
+                        android:id="@+id/btn_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_lock_grey" />
+
+                    <TextView
+                        android:id="@+id/box_nbr"
+                        style="@style/box_nbr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/refresh_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical" >
 
-            <ProgressBar
-                android:id="@+id/progressBar1"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="60"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center" >
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.0"
-                android:gravity="center"
-                android:orientation="vertical" >
+                android:layout_gravity="center"
+                android:gravity="center" >
 
-                <Button
-                    android:id="@+id/btn_box"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_lock_grey" />
+                    android:gravity="center"
+                    android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/box_nbr"
-                    style="@style/box_nbr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <ImageButton
+                        android:id="@+id/btn_refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_refresh"
+                        android:contentDescription="REFRESH"
+                        android:onClick="onClick" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="20" >
+        android:layout_height="0dp"
+        android:layout_weight="15" >
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -24,10 +24,11 @@ public class ChangePairpsw implements HandleConnMsg {
 		mConnecter = new Connecter(this, mLoginActivity);
 		this.mLoginActivity = mLoginActivity;
 		mLockcmd = new LockCommand();
-		mLoad = new Loading(Common.MSG_REGISTER_LOADING, mLoginActivity);
+		mLoad = new Loading(mLoginActivity);
 	}
 
 	public void register() {
+		mLoad.setOperation(Common.MSG_REGISTER_LOADING);
 		mLoad.start();
 		mLoginActivity.text_hint.setText(R.string.loading);
 		if (!mConnecter.if_connected)

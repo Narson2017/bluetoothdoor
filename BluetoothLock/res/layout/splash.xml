@@ -73,7 +73,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/btn_newuser"
+                android:id="@+id/btn_new_user"
                 style="@style/btn_login"
                 android:layout_width="0dp"
                 android:layout_height="64dp"

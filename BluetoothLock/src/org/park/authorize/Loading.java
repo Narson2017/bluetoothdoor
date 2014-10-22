@@ -16,8 +16,8 @@ class Loading implements Runnable {
 	int[] registerTexts = { R.string.register_load1, R.string.register_load2,
 			R.string.register_load3 };
 
-	public Loading(int opr, LoginActivity ctx) {
-		operation = opr;
+	public Loading(LoginActivity ctx) {
+		operation = Common.MSG_LOGIN_LOADING;
 		mLoginActivity = ctx;
 	}
 
@@ -28,6 +28,10 @@ class Loading implements Runnable {
 	public void start() {
 		authorizing = true;
 		new Thread(this).start();
+	}
+
+	public void setOperation(int opr) {
+		operation = opr;
 	}
 
 	@Override
