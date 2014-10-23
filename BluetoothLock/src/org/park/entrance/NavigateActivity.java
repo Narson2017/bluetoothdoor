@@ -20,7 +20,7 @@ import android.view.View.OnLongClickListener;
 import android.view.Window;
 import android.widget.Button;
 
-public class Navigation extends Activity implements OnClickListener,
+public class NavigateActivity extends Activity implements OnClickListener,
 		OnLongClickListener {
 	Button btn_login, btn_new_user, btn_change_account;
 
@@ -63,10 +63,10 @@ public class Navigation extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.btn_login:
-			startActivity(new Intent(Navigation.this, LoginActivity.class));
+			startActivity(new Intent(NavigateActivity.this, LoginActivity.class));
 			break;
 		case R.id.btn_new_user:
-			startActivity(new Intent(Navigation.this, BoxlstActivity.class));
+			startActivity(new Intent(NavigateActivity.this, BoxlstActivity.class));
 			break;
 		case R.id.btn_change_account:
 			startActivity(new Intent(this, settingActivity.class));

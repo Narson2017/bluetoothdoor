@@ -93,9 +93,10 @@ public class Connecter extends BroadcastReceiver {
 					.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 			try {
 				ClsUtils.setPin(btDevice.getClass(), btDevice,
-						Common.DEFAULT_PIN_CODE); // 手机和蓝牙采集器配对
-				ClsUtils.createBond(btDevice.getClass(), btDevice);
+						Common.DEFAULT_PIN_CODE);
+				// ClsUtils.createBond(btDevice.getClass(), btDevice);
 				ClsUtils.cancelPairingUserInput(btDevice.getClass(), btDevice);
+				mHandleConn.paired(true);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				mHandleConn.paired(false);
@@ -112,6 +113,7 @@ public class Connecter extends BroadcastReceiver {
 								: strAddress)) {
 					IS_FOUND = true;
 					btAdapt.cancelDiscovery();
+					mHandler.sendEmptyMessage(Common.MESSAGE_TARGET_FOUND);
 					connectTarget();
 					return;
 				}
@@ -165,7 +167,7 @@ public class Connecter extends BroadcastReceiver {
 			new Thread(new Runnable() {
 				public void run() {
 					try {
-						UUID uuid = UUID.fromString(Common.SPP_UUID);
+						UUID uuid = UUID.randomUUID();
 						BluetoothDevice btDev = btAdapt
 								.getRemoteDevice(strAddress == null ? Common.DEFAULT_DEVICE_ADDR
 										: strAddress);
@@ -197,6 +199,7 @@ public class Connecter extends BroadcastReceiver {
 						strAddress == null ? Common.DEFAULT_DEVICE_ADDR
 								: strAddress)) {
 					IS_FOUND = true;
+					mHandler.sendEmptyMessage(Common.MESSAGE_TARGET_FOUND);
 					connectTarget();
 					return true;
 				}
@@ -237,6 +240,9 @@ public class Connecter extends BroadcastReceiver {
 			case Common.MESSAGE_RECV:
 				mHandleConn.received(HexConvert.Bytes2HexString(bRecv, nNeed));
 				nRecved = 0;
+				break;
+			case Common.MESSAGE_TARGET_FOUND:
+				mHandleConn.found(true);
 				break;
 			}
 		}

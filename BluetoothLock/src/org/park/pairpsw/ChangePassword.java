@@ -114,4 +114,10 @@ public class ChangePassword implements ConnHandle {
 		mload.stop();
 		ctx.set_hint(R.string.time_out);
 	}
+
+	@Override
+	public void found(boolean state) {
+		// TODO Auto-generated method stub
+		
+	}
 }

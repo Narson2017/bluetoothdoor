@@ -666,6 +666,7 @@ public final class R {
         public static final int exit=0x7f08000b;
         public static final int filled=0x7f080018;
         public static final int forget_psw=0x7f080027;
+        public static final int found=0x7f080069;
         public static final int hint=0x7f080019;
         public static final int if_login=0x7f080054;
         public static final int loading=0x7f080042;
@@ -691,6 +692,7 @@ public final class R {
         public static final int operate_failed=0x7f080062;
         public static final int operate_success=0x7f080063;
         public static final int pair_failed=0x7f08004c;
+        public static final int pair_success=0x7f08006a;
         public static final int pairing=0x7f080044;
         public static final int password=0x7f080022;
         public static final int please_connect=0x7f08001a;
@@ -725,6 +727,8 @@ public final class R {
         public static final int update_success=0x7f08005e;
         public static final int upload_account=0x7f080056;
         public static final int use=0x7f08004e;
+        public static final int use_new_box=0x7f080067;
+        public static final int use_registered_box=0x7f080068;
         public static final int username=0x7f080021;
         public static final int welcome=0x7f080004;
     }
@@ -741,17 +745,18 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f09000a;
+        public static final int AppBaseTheme=0x7f09000b;
         public static final int BlackTheme=0x7f090002;
         public static final int CustomTheme=0x7f090000;
         public static final int LightTheme=0x7f090001;
-        public static final int box_lst_msg=0x7f090006;
-        public static final int box_lst_nbr=0x7f090005;
+        public static final int box_lst_msg=0x7f090007;
+        public static final int box_lst_nbr=0x7f090006;
         public static final int box_nbr=0x7f090003;
-        public static final int btn_login=0x7f090007;
-        public static final int edit_password=0x7f090008;
-        public static final int input_username=0x7f090009;
-        public static final int login_text=0x7f090004;
+        public static final int btn_login=0x7f090008;
+        public static final int edit_password=0x7f090009;
+        public static final int input_username=0x7f09000a;
+        public static final int login_text=0x7f090005;
+        public static final int text_hint=0x7f090004;
     }
     public static final class xml {
         public static final int preferences=0x7f050000;

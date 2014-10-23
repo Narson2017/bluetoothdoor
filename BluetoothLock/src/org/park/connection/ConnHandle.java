@@ -19,4 +19,6 @@ public interface ConnHandle {
 	public void received(String received_data);
 
 	public void timeout();
+
+	public void found(boolean state);
 }

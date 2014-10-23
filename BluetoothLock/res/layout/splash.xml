@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.park.entrance.Navigation" >
+    tools:context="org.park.entrance.NavigateActivity" >
 
     <LinearLayout
         android:id="@+id/LinearLayoutSplash"
@@ -51,7 +51,7 @@
                 android:layout_height="64dp"
                 android:layout_weight="50"
                 android:onClick="onClick"
-                android:text="@string/please_login" />
+                android:text="@string/use_registered_box" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -79,7 +79,7 @@
                 android:layout_height="64dp"
                 android:layout_weight="50"
                 android:onClick="onClick"
-                android:text="@string/new_user" />
+                android:text="@string/use_new_box" />
 
             <LinearLayout
                 android:layout_width="0dp"

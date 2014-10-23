@@ -77,4 +77,5 @@ public class Common {
 	public static final int ROTATE_STEP = 8;
 	public static final int ROTATE_DELAY_TIME = 32;
 	public static final int ROTATE_TIME_OUT = 32;
+	public static final int LIMITE_SECOND = 1800;
 }

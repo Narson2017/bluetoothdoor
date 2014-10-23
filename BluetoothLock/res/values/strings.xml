@@ -124,5 +124,9 @@
     <string name="time_out">Connection time out, please try again.</string>
     <string name="account">Account</string>
     <string name="receive_success">Retrieve data successfully.</string>
+    <string name="use_new_box">Use new box</string>
+    <string name="use_registered_box">Open box registered</string>
+    <string name="found">Device found, connecting...</string>
+    <string name="pair_success">Pair successfully.</string>
 
 </resources>

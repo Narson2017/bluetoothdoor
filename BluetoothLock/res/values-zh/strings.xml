@@ -124,5 +124,9 @@
     <string name="time_out">连接超时，请重试.</string>
     <string name="account">账户</string>
     <string name="receive_success">获取数据成功.</string>
+    <string name="use_new_box">使用新箱子</string>
+    <string name="use_registered_box">打开已存件箱子</string>
+    <string name="found">找到设备,处理中...</string>
+    <string name="pair_success">配对成功</string>
 
 </resources>

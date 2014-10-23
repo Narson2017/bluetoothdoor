@@ -4,6 +4,7 @@ import org.park.R;
 import org.park.command.LockCommand;
 import org.park.connection.ConnHandle;
 import org.park.connection.Connecter;
+import org.park.entrance.NavigateActivity;
 import org.park.prefs.PreferenceHelper;
 import org.park.prefs.settingActivity;
 import org.park.util.About;
@@ -14,6 +15,8 @@ import org.park.util.Rotate;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -35,6 +38,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	private LockState mLockManager;
 	private LockCommand mLockCmd;
 	private Connecter mConnecter;
+	private boolean if_exit;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		mLockCmd = new LockCommand();
 		mConnecter = new Connecter(this, this);
 		mConnecter.setMac(mac_addr);
+		if_exit = false;
 
 		// start
 		if (dev_name != null)
@@ -77,6 +82,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 
 	@Override
 	protected void onDestroy() {
+		if_exit = true;
 		mRefresh.stop();
 		disconnected();
 		super.onDestroy();
@@ -85,6 +91,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if_exit = true;
 			mRefresh.stop();
 			disconnected();
 			finish();
@@ -116,6 +123,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 					mLockManager.lockNbr));
 			break;
 		case R.id.btn_back:
+			if_exit = true;
 			mRefresh.stop();
 			disconnected();
 			finish();
@@ -124,6 +132,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 			About.ShowAbout(this);
 			break;
 		case R.id.btn_exit:
+			if_exit = true;
 			mRefresh.stop();
 			Quit.act_exit(this);
 			break;
@@ -137,17 +146,14 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 			detail_view.setVisibility(View.GONE);
 	}
 
-	public void setHint(int strRes) {
-		tx_fault.setText(strRes);
-	}
-
 	@Override
 	public void connected(boolean state) {
 		// TODO Auto-generated method stub
 		if (state) {
+			new Thread(timeLimit).start();
 			detail_view.setVisibility(View.VISIBLE);
 			mRefresh.display(false);
-			setHint(R.string.connect_success);
+			tx_fault.setText(R.string.connect_success);
 			mLockManager.set_state(true, false);
 			mLockManager.setEnabled(true);
 			mConnecter.startCommand();
@@ -182,13 +188,15 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	public void paired(boolean state) {
 		// TODO Auto-generated method stub
 		if (!state)
-			setHint(R.string.pair_failed);
+			tx_fault.setText(R.string.pair_failed);
+		else
+			tx_fault.setText(R.string.pair_success);
 	}
 
 	@Override
 	public void discovery_started() {
 		// TODO Auto-generated method stub
-		setHint(R.string.searching);
+		tx_fault.setText(R.string.searching);
 		if (!mConnecter.if_connecting) {
 			mLockManager.setEnabled(false);
 			mConnecter.register(this);
@@ -199,7 +207,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	@Override
 	public void discovery_finished() {
 		// TODO Auto-generated method stub
-		setHint(R.string.not_found);
+		tx_fault.setText(R.string.not_found);
 		mRefresh.stop();
 	}
 
@@ -240,5 +248,46 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		mLockManager.set_state(false, true);
 		mConnecter.send(mLockCmd.getPswAlg(pair_psw, mLockManager.cabinet,
 				mLockManager.lockNbr));
+	}
+
+	private Runnable timeLimit = new Runnable() {
+		@Override
+		public void run() {
+			int count = 0;
+			while (!if_exit) {
+				try {
+					Thread.sleep(1024);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (count++ > Common.LIMITE_SECOND) {
+					mHandle.sendEmptyMessage(Common.TIME_OUT);
+					break;
+				}
+			}
+		}
+	};
+	private Handler mHandle = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case Common.TIME_OUT:
+				disconnected();
+				startActivity(new Intent(BoxActivity.this,
+						NavigateActivity.class));
+				finish();
+				break;
+			}
+		}
+	};
+
+	@Override
+	public void found(boolean state) {
+		// TODO Auto-generated method stub
+		if (state)
+			tx_fault.setText(R.string.found);
+		else
+			tx_fault.setText(R.string.not_found);
 	}
 }

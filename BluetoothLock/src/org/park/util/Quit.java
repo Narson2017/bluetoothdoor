@@ -1,6 +1,6 @@
 package org.park.util;
 
-import org.park.entrance.Navigation;
+import org.park.entrance.NavigateActivity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -12,7 +12,7 @@ public class Quit {
 		BluetoothAdapter btAdapt = BluetoothAdapter.getDefaultAdapter();
 		if (btAdapt.isDiscovering())
 			btAdapt.cancelDiscovery();
-		Intent tmp = new Intent(ctx, Navigation.class);
+		Intent tmp = new Intent(ctx, NavigateActivity.class);
 		tmp.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		tmp.putExtra(Common.IS_EXIT, true);
 		ctx.startActivity(tmp);

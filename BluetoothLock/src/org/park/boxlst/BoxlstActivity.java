@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.park.R;
-import org.park.entrance.Navigation;
+import org.park.entrance.NavigateActivity;
 import org.park.util.OnClickCtrl;
 import org.park.util.Rotate;
 
@@ -59,7 +59,7 @@ public class BoxlstActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			startActivity(new Intent(this, Navigation.class));
+			startActivity(new Intent(this, NavigateActivity.class));
 			return true;
 		} else {
 			return super.onKeyDown(keyCode, event);
