@@ -1,4 +1,4 @@
-package org.park.box;
+package com.bluetooth.box;
 
 import org.park.R;
 import org.park.command.LockCommand;
@@ -68,6 +68,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		mLockManager.setNbr(box);
 		mLockManager.cabinet = cabinet;
 		mLockCmd = new LockCommand();
+		mLockCmd.setBoxNbr(cabinet, box);
 		mConnecter = new Connecter(this, this);
 		mConnecter.setMac(mac_addr);
 		if_exit = false;
@@ -248,12 +249,6 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	@Override
 	public void timeout() {
 		// TODO Auto-generated method stub
-	}
-
-	public void openLock() {
-		mLockManager.set_state(false, true);
-		mConnecter.send(mLockCmd.getPswAlg(pair_psw, mLockManager.cabinet,
-				mLockManager.lockNbr));
 	}
 
 	private Runnable timeLimit = new Runnable() {

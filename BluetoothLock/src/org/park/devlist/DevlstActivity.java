@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.park.R;
-import org.park.box.BoxActivity;
 import org.park.util.About;
 import org.park.util.Quit;
 import org.park.util.Rotate;
+
+import com.bluetooth.box.BoxActivity;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;

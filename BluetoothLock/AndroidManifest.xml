@@ -29,7 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.park.box.BoxActivity" >
+        <activity android:name="com.bluetooth.box.BoxActivity" >
         </activity>
         <activity android:name="com.bluetooth.authorize.LoginActivity" >
         </activity>

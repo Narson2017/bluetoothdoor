@@ -1,7 +1,6 @@
 package org.park.entrance;
 
 import org.park.R;
-import org.park.box.BoxActivity;
 import org.park.boxlst.BoxlstActivity;
 import org.park.devlist.DevlstActivity;
 import org.park.pairpsw.AccountActivity;
@@ -10,6 +9,7 @@ import org.park.util.Common;
 import org.park.util.Quit;
 
 import com.bluetooth.authorize.LoginActivity;
+import com.bluetooth.box.BoxActivity;
 
 import android.app.Activity;
 import android.content.Intent;
