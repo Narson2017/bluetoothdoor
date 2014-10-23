@@ -13,7 +13,7 @@ public class Common {
 	public static final int MESSAGE_EXCEPTION_RECV = 10;
 	public static final int MESSAGE_SHOW_DEVICES = 11;
 	public static final int MESSAGE_AUTHORIZE_PASSED = 12;
-	public static final int MESSAGE_START_DISCOVER = 13;
+	public static final int MESSAGE_START_SEARCHING = 13;
 	public static final int MESSAGE_TARGET_FOUND = 14;
 	public static final int MSG_LOADING = 15;
 	public static final int MSG_SERVER_FAULT = 16;
@@ -43,6 +43,8 @@ public class Common {
 	public static final int MSG_RECEIVE_SUCCESS = 40;
 	public static final int MSG_SEND_SUCCESS = 41;
 	public static final int MSG_SEND_FAILED = 42;
+	public static final int MSG_CLEAN = 43;
+	public static final int MSG_DELAY_DISPLAY_DISCONNECTED = 44;
 
 	public static final String HINT = "toast";
 	public static final String TAG = "BlueToothTool";
@@ -78,4 +80,6 @@ public class Common {
 	public static final int ROTATE_DELAY_TIME = 32;
 	public static final int ROTATE_TIME_OUT = 32;
 	public static final int LIMITE_SECOND = 1800;
+	public static final int SYSTEM_WAITE = 512;
+	public static final int RECEIVE_INTERVAL = 128;
 }

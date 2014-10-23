@@ -128,5 +128,6 @@
     <string name="use_registered_box">Open box registered</string>
     <string name="found">Device found, connecting...</string>
     <string name="pair_success">Pair successfully.</string>
+    <string name="please_wait">Please wait</string>
 
 </resources>

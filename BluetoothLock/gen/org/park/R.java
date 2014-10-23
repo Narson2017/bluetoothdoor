@@ -697,6 +697,7 @@ public final class R {
         public static final int password=0x7f080022;
         public static final int please_connect=0x7f08001a;
         public static final int please_login=0x7f080053;
+        public static final int please_wait=0x7f08006b;
         public static final int pref_account=0x7f080037;
         public static final int pref_reset=0x7f08003d;
         public static final int product_name=0x7f080055;

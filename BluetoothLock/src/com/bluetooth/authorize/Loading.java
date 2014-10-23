@@ -1,4 +1,4 @@
-package org.park.authorize;
+package com.bluetooth.authorize;
 
 import org.park.R;
 import org.park.util.Common;

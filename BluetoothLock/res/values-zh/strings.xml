@@ -128,5 +128,6 @@
     <string name="use_registered_box">打开已存件箱子</string>
     <string name="found">找到设备,处理中...</string>
     <string name="pair_success">配对成功</string>
+    <string name="please_wait">正在处理, 请稍候...</string>
 
 </resources>

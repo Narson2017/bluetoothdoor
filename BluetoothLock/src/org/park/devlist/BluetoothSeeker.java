@@ -30,7 +30,7 @@ public class BluetoothSeeker extends BroadcastReceiver {
 		register();
 		if (!btAdapt.isEnabled())
 			btAdapt.enable();
-		mHandler.sendEmptyMessageDelayed(Common.MESSAGE_START_DISCOVER,
+		mHandler.sendEmptyMessageDelayed(Common.MESSAGE_START_SEARCHING,
 				Common.DELAY_TIME);
 	}
 
@@ -60,7 +60,7 @@ public class BluetoothSeeker extends BroadcastReceiver {
 			case Common.MESSAGE_SHOW_DEVICES:
 				mSearchHandle.finished();
 				break;
-			case Common.MESSAGE_START_DISCOVER:
+			case Common.MESSAGE_START_SEARCHING:
 				if (!btAdapt.isDiscovering()) {
 					addPairedDevice();
 					btAdapt.startDiscovery();

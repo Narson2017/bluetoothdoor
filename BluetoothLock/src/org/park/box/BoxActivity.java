@@ -20,6 +20,7 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class BoxActivity extends Activity implements View.OnClickListener,
@@ -39,6 +40,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	private LockCommand mLockCmd;
 	private Connecter mConnecter;
 	private boolean if_exit;
+	private Button btn_connect, btn_refresh;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,8 +61,9 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		detail_view = findViewById(R.id.detail_view);
 		tvTitle = (TextView) findViewById(R.id.tvTitle);
 		tx_fault = (TextView) findViewById(R.id.text_hint);
-		mRefresh = new Rotate(findViewById(R.id.btn_refresh),
-				findViewById(R.id.refresh_view));
+		btn_connect = (Button) findViewById(R.id.btn_connect);
+		btn_refresh = (Button) findViewById(R.id.btn_refresh);
+		mRefresh = new Rotate(btn_refresh, findViewById(R.id.refresh_view));
 		mLockManager = new LockState(this, R.id.btn_box, R.id.box_nbr);
 		mLockManager.setNbr(box);
 		mLockManager.cabinet = cabinet;
@@ -70,6 +73,8 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		if_exit = false;
 
 		// start
+		btn_refresh.setEnabled(false);
+		btn_connect.setEnabled(false);
 		if (dev_name != null)
 			tvTitle.setText(dev_name);
 		mRefresh.start();
@@ -106,7 +111,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.btn_setting:
-			disconnected();
+			// disconnected();
 			startActivity(new Intent(this, settingActivity.class));
 			break;
 		case R.id.btn_refresh:
@@ -117,6 +122,8 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 			mLockManager.setEnabled(false);
 			mConnecter.register(this);
 			mConnecter.connect();
+			btn_refresh.setEnabled(false);
+			btn_connect.setEnabled(false);
 			break;
 		case R.id.btn_box:
 			mConnecter.send(mLockCmd.getPswAlg(pair_psw, mLockManager.cabinet,
@@ -169,13 +176,11 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	@Override
 	public void disconnected() {
 		// TODO Auto-generated method stub
-		mLockManager.setEnabled(false);
-		setBoxVisible(false);
-		mRefresh.display(true);
-		mRefresh.stop();
-		tx_fault.setText(R.string.connect_failed);
-		if (mConnecter != null)
-			mConnecter.onClean();
+		mConnecter.onClean();
+		// wait for cleaning
+		tx_fault.setText(R.string.please_wait);
+		mHandle.sendEmptyMessageDelayed(Common.MSG_DELAY_DISPLAY_DISCONNECTED,
+				3072);
 	}
 
 	@Override
@@ -194,21 +199,22 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	}
 
 	@Override
-	public void discovery_started() {
+	public void searching() {
 		// TODO Auto-generated method stub
 		tx_fault.setText(R.string.searching);
 		if (!mConnecter.if_connecting) {
 			mLockManager.setEnabled(false);
-			mConnecter.register(this);
-			mConnecter.connect();
+			mRefresh.start();
 		}
 	}
 
 	@Override
-	public void discovery_finished() {
+	public void searched() {
 		// TODO Auto-generated method stub
 		tx_fault.setText(R.string.not_found);
 		mRefresh.stop();
+		btn_refresh.setEnabled(true);
+		btn_connect.setEnabled(true);
 	}
 
 	@Override
@@ -278,6 +284,15 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 						NavigateActivity.class));
 				finish();
 				break;
+			case Common.MSG_DELAY_DISPLAY_DISCONNECTED:
+				mLockManager.setEnabled(false);
+				setBoxVisible(false);
+				mRefresh.display(true);
+				tx_fault.setText(R.string.connect_failed);
+				mRefresh.stop();
+				btn_refresh.setEnabled(true);
+				btn_connect.setEnabled(true);
+				break;
 			}
 		}
 	};
@@ -287,7 +302,8 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		// TODO Auto-generated method stub
 		if (state)
 			tx_fault.setText(R.string.found);
-		else
+		else {
 			tx_fault.setText(R.string.not_found);
+		}
 	}
 }

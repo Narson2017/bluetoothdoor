@@ -75,13 +75,13 @@ public class ChangePassword implements ConnHandle {
 	}
 
 	@Override
-	public void discovery_started() {
+	public void searching() {
 		// TODO Auto-generated method stub
 		ctx.set_hint(R.string.searching);
 	}
 
 	@Override
-	public void discovery_finished() {
+	public void searched() {
 		// TODO Auto-generated method stub
 
 	}

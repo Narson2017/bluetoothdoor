@@ -12,9 +12,9 @@ public interface ConnHandle {
 
 	public void paired(boolean state);
 
-	public void discovery_started();
+	public void searching();
 
-	public void discovery_finished();
+	public void searched();
 
 	public void received(String received_data);
 

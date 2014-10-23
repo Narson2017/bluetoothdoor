@@ -3,7 +3,8 @@ package org.park.boxlst;
 import java.util.List;
 
 import org.park.R;
-import org.park.authorize.LoginActivity;
+
+import com.bluetooth.authorize.LoginActivity;
 
 import android.app.Activity;
 import android.content.Context;

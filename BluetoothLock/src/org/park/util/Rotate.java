@@ -16,9 +16,11 @@ public class Rotate implements Runnable {
 	}
 
 	public void start() {
-		rotating = true;
-		container.setVisibility(View.VISIBLE);
-		new Thread(this).start();
+		if (!rotating) {
+			rotating = true;
+			container.setVisibility(View.VISIBLE);
+			new Thread(this).start();
+		}
 	}
 
 	public void display(boolean bl) {
@@ -32,6 +34,12 @@ public class Rotate implements Runnable {
 
 	public void stop() {
 		rotating = false;
+		try {
+			Thread.sleep(Common.ROTATE_DELAY_TIME);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
