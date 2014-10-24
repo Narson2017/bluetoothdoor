@@ -5,11 +5,6 @@ import org.park.boxlst.BoxlstActivity;
 import org.park.devlist.DevlstActivity;
 import org.park.pairpsw.AccountActivity;
 import org.park.prefs.settingActivity;
-import org.park.util.Common;
-import org.park.util.Quit;
-
-import com.bluetooth.authorize.LoginActivity;
-import com.bluetooth.box.BoxActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +15,9 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.Window;
 import android.widget.Button;
+
+import com.bluetooth.authorize.LoginActivity;
+import com.bluetooth.box.BoxActivity;
 
 public class NavigateActivity extends Activity implements OnClickListener,
 		OnLongClickListener {
@@ -40,26 +38,6 @@ public class NavigateActivity extends Activity implements OnClickListener,
 	}
 
 	@Override
-	protected void onStart() {
-		if (getIntent().getBooleanExtra(Common.IS_EXIT, false))
-			finish();
-		super.onStart();
-	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		if (getIntent().getBooleanExtra(Common.IS_EXIT, false))
-			finish();
-		super.onNewIntent(intent);
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		android.os.Process.killProcess(android.os.Process.myPid());
-	}
-
-	@Override
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
@@ -67,7 +45,8 @@ public class NavigateActivity extends Activity implements OnClickListener,
 			startActivity(new Intent(NavigateActivity.this, LoginActivity.class));
 			break;
 		case R.id.btn_new_user:
-			startActivity(new Intent(NavigateActivity.this, BoxlstActivity.class));
+			startActivity(new Intent(NavigateActivity.this,
+					BoxlstActivity.class));
 			break;
 		case R.id.btn_change_account:
 			startActivity(new Intent(this, settingActivity.class));
@@ -78,7 +57,7 @@ public class NavigateActivity extends Activity implements OnClickListener,
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			Quit.act_exit(this);
+			finish();
 			return true;
 		} else {
 			return super.onKeyDown(keyCode, event);

@@ -22,12 +22,14 @@
         android:theme="@android:style/Theme.Light" >
         <uses-library android:name="android.test.runner" />
 
-        <activity android:name="org.park.entrance.NavigateActivity" >
+        <activity android:name="org.park.entrance.CoverActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="org.park.entrance.NavigateActivity" >
         </activity>
         <activity android:name="com.bluetooth.box.BoxActivity" >
         </activity>

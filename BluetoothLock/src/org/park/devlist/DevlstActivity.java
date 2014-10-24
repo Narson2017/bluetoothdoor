@@ -114,7 +114,7 @@ public class DevlstActivity extends Activity implements OnClickListener {
 		case R.id.btn_exit:
 			mSeeker.cancel();
 			mRefresh.stop();
-			Quit.act_exit(this);
+			Quit.quit(this);
 			break;
 		case R.id.btn_about:
 			About.ShowAbout(DevlstActivity.this);

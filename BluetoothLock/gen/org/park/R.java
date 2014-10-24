@@ -617,11 +617,12 @@ public final class R {
         public static final int action_view=0x7f030001;
         public static final int box_lst_item_row=0x7f030002;
         public static final int boxlst=0x7f030003;
-        public static final int detail=0x7f030004;
-        public static final int dev_lst_item_row=0x7f030005;
-        public static final int devlst=0x7f030006;
-        public static final int login=0x7f030007;
-        public static final int splash=0x7f030008;
+        public static final int cover=0x7f030004;
+        public static final int detail=0x7f030005;
+        public static final int dev_lst_item_row=0x7f030006;
+        public static final int devlst=0x7f030007;
+        public static final int login=0x7f030008;
+        public static final int splash=0x7f030009;
     }
     public static final class string {
         public static final int about_us=0x7f080002;
@@ -654,6 +655,7 @@ public final class R {
         public static final int connect_failed=0x7f08000a;
         public static final int connect_success=0x7f080014;
         public static final int connecting=0x7f08000f;
+        public static final int decryption_fault=0x7f08006c;
         public static final int detail_view=0x7f080011;
         public static final int dev_name=0x7f08000e;
         public static final int device_return_wrong=0x7f080060;

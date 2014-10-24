@@ -47,7 +47,7 @@ public class AccountActivity extends Activity implements OnClickListener {
 			mUpdateinfo.startUpdate();
 			break;
 		case R.id.btn_exit:
-			Quit.act_exit(this);
+			Quit.quit(this);
 			break;
 		case R.id.btn_about:
 			About.ShowAbout(this);

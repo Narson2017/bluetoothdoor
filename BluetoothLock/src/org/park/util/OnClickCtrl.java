@@ -21,7 +21,7 @@ public class OnClickCtrl implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.btn_exit:
-			Quit.act_exit(ctx);
+			Quit.quit(ctx);
 			break;
 		case R.id.btn_about:
 			About.ShowAbout(ctx);

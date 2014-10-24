@@ -115,13 +115,13 @@ public class LoginActivity extends Activity implements
 			text_hint.setText(R.string.loading);
 			new_phone = edit_phone.getText().toString().equals("") ? new_phone
 					: edit_phone.getText().toString();
-			mAuth.obtainBox(new_phone, new_psw, box);
+			mAuth.obtainBox(new_phone, new_psw, cabinet);
 			break;
 		case R.id.btn_back:
 			finish();
 			break;
 		case R.id.btn_exit:
-			Quit.act_exit(this);
+			Quit.quit(this);
 			break;
 		case R.id.btn_about:
 			About.ShowAbout(this);
@@ -161,6 +161,9 @@ public class LoginActivity extends Activity implements
 				text_hint.setText(R.string.server_fault);
 			} else {
 				switch (Integer.valueOf(data).intValue()) {
+				case Common.DECRYPTION_FAULT:
+					text_hint.setText(R.string.decryption_fault);
+					break;
 				case Common.RESULT_FAULT:
 					text_hint.setText(R.string.operate_failed);
 					break;

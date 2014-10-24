@@ -35,11 +35,10 @@ public class ServerConn {
 			request = new SoapObject(Common.WSDL_TARGET_NAMESPACE,
 					Common.FUNC_ALL_BOXES);
 			// body
-			request.addProperty(Common.CABINET,
-					String.valueOf(Common.DEFAULT_CABINET));
+			request.addProperty(Common.BOX, String.valueOf(Common.DEFAULT_BOX));
 			// encrypt header
 			try {
-				tmp = MDes.desEncrypt(String.valueOf(Common.DEFAULT_CABINET)
+				tmp = MDes.desEncrypt(String.valueOf(Common.DEFAULT_BOX)
 						.getBytes(Common.UTF_8), Common.DES_CODE);
 			} catch (UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
@@ -54,10 +53,10 @@ public class ServerConn {
 			// body
 			request.addProperty(Common.PHONE_NUMBER, phone);
 			request.addProperty(Common.PASSWORD, password);
-			request.addProperty(Common.BOX, String.valueOf(box));
+			request.addProperty(Common.CABINET, String.valueOf(cabinet));
 			// encrypt header
 			try {
-				tmp = MDes.desEncrypt((phone + password + String.valueOf(box))
+				tmp = MDes.desEncrypt((phone + password + String.valueOf(cabinet))
 						.getBytes(Common.UTF_8), Common.DES_CODE);
 			} catch (UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
@@ -72,13 +71,13 @@ public class ServerConn {
 			// body
 			request.addProperty(Common.PHONE_NUMBER, phone);
 			request.addProperty(Common.PASSWORD, password);
-			request.addProperty(Common.BOX, String.valueOf(box));
 			request.addProperty(Common.CABINET, String.valueOf(cabinet));
+			request.addProperty(Common.BOX, String.valueOf(box));
 			// encrypt header
 			try {
 				tmp = MDes.desEncrypt(
-						(phone + password + String.valueOf(box) + String
-								.valueOf(cabinet)).getBytes(Common.UTF_8),
+						(phone + password + String.valueOf(cabinet) + String
+								.valueOf(box)).getBytes(Common.UTF_8),
 						Common.DES_CODE);
 			} catch (UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block

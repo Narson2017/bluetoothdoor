@@ -65,9 +65,10 @@ public class Common {
 	public static final String DES_CODE = "38374008";
 	public static final String PHONE_NUMBER = "telNo";
 	public static final String PASSWORD = "Bpwd";
-	public static final String BOX = "UID";
-	public static final String CABINET = "LockNo";
+	public static final String BOX = "LockNo";
+	public static final String CABINET = "UID";
 	public static final int DEFAULT_CABINET = 1;
+	public static final int DEFAULT_BOX = 1;
 	public static final String DELIMITER = "#";
 	public static final int RESULT_FAULT = -1;
 	public static final int RESULT_NOT_FOUND = 0;
@@ -82,4 +83,5 @@ public class Common {
 	public static final int LIMITE_SECOND = 1800;
 	public static final int SYSTEM_WAITE = 512;
 	public static final int RECEIVE_INTERVAL = 128;
+	public static final int DECRYPTION_FAULT = -2;
 }

@@ -129,5 +129,6 @@
     <string name="found">Device found, connecting...</string>
     <string name="pair_success">Pair successfully.</string>
     <string name="please_wait">Please wait</string>
+    <string name="decryption_fault">Decryption fault</string>
 
 </resources>

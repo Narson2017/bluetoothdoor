@@ -1,4 +1,4 @@
-package org.park.connection;
+package com.bluetooth.connection;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,7 +70,7 @@ public class Connecter extends BroadcastReceiver {
 		}
 	}
 
-	public void startCommand() {
+	public void receiving() {
 		if (btSocket != null) {
 			if_connected = true;
 			// Get the input and output streams, using temp objects because
@@ -122,7 +122,7 @@ public class Connecter extends BroadcastReceiver {
 					IS_FOUND = true;
 					btAdapt.cancelDiscovery();
 					mHandler.sendEmptyMessage(Common.MESSAGE_TARGET_FOUND);
-					connectTarget();
+					connect();
 					return;
 				}
 			} else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_STARTED)) {
@@ -134,7 +134,7 @@ public class Connecter extends BroadcastReceiver {
 		}
 	}
 
-	public void connect() {
+	public void start() {
 		// onClean();
 		IS_FOUND = false;
 		if_connecting = true;
@@ -179,7 +179,7 @@ public class Connecter extends BroadcastReceiver {
 					1024);
 	}
 
-	private void connectTarget() {
+	private void connect() {
 		btAdapt.cancelDiscovery();
 		try {
 			new Thread(new Runnable() {
@@ -217,7 +217,7 @@ public class Connecter extends BroadcastReceiver {
 								: strAddress)) {
 					IS_FOUND = true;
 					mHandler.sendEmptyMessage(Common.MESSAGE_TARGET_FOUND);
-					connectTarget();
+					connect();
 					return true;
 				}
 		}
@@ -244,6 +244,7 @@ public class Connecter extends BroadcastReceiver {
 				if_connected = true;
 				if_connecting = false;
 				mHandleConn.connected(true);
+				receiving();
 				break;
 			case Common.MESSAGE_CONNECT_LOST:
 				if_connected = false;

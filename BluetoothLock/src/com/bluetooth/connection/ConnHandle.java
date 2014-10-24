@@ -1,4 +1,4 @@
-package org.park.connection;
+package com.bluetooth.connection;
 
 public interface ConnHandle {
 

@@ -2,8 +2,6 @@ package com.bluetooth.box;
 
 import org.park.R;
 import org.park.command.LockCommand;
-import org.park.connection.ConnHandle;
-import org.park.connection.Connecter;
 import org.park.entrance.NavigateActivity;
 import org.park.prefs.PreferenceHelper;
 import org.park.prefs.settingActivity;
@@ -11,6 +9,9 @@ import org.park.util.About;
 import org.park.util.Common;
 import org.park.util.Quit;
 import org.park.util.Rotate;
+
+import com.bluetooth.connection.ConnHandle;
+import com.bluetooth.connection.Connecter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -81,7 +82,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		mRefresh.start();
 		mLockManager.setEnabled(false);
 		mConnecter.register(this);
-		mConnecter.connect();
+		mConnecter.start();
 	}
 
 	// private EditText etUsername, etPassword;
@@ -122,7 +123,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 			tx_fault.setText(R.string.loading);
 			mLockManager.setEnabled(false);
 			mConnecter.register(this);
-			mConnecter.connect();
+			mConnecter.start();
 			btn_refresh.setEnabled(false);
 			btn_connect.setEnabled(false);
 			break;
@@ -142,7 +143,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		case R.id.btn_exit:
 			if_exit = true;
 			mRefresh.stop();
-			Quit.act_exit(this);
+			Quit.quit(this);
 			break;
 		}
 	}
@@ -164,7 +165,6 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 			tx_fault.setText(R.string.connect_success);
 			mLockManager.set_state(true, false);
 			mLockManager.setEnabled(true);
-			mConnecter.startCommand();
 		}
 	}
 

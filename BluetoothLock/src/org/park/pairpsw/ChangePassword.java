@@ -2,9 +2,10 @@ package org.park.pairpsw;
 
 import org.park.R;
 import org.park.command.LockCommand;
-import org.park.connection.ConnHandle;
-import org.park.connection.Connecter;
 import org.park.util.Common;
+
+import com.bluetooth.connection.ConnHandle;
+import com.bluetooth.connection.Connecter;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -26,7 +27,7 @@ public class ChangePassword implements ConnHandle {
 		ctx.set_hint(R.string.loading);
 		mload.start();
 		if (!mConnecter.if_connected){
-			mConnecter.connect();
+			mConnecter.start();
 		} else {
 			mConnecter.send(mLockcmd
 					.getChangePairPswCmd(ctx.old_psw, ctx.new_psw));
@@ -38,7 +39,7 @@ public class ChangePassword implements ConnHandle {
 		// TODO Auto-generated method stub
 		if (state) {
 			ctx.set_hint(R.string.connect_success);
-			mConnecter.startCommand();
+			mConnecter.receiving();
 			mConnecter.send(mLockcmd
 					.getChangePairPswCmd(ctx.old_psw, ctx.new_psw));
 		}
