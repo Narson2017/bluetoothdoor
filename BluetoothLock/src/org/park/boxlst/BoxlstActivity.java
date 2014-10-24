@@ -57,6 +57,13 @@ public class BoxlstActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		mAllboxes.getAvaiableBoxes();
+		mRefresh.start();
+	}
+
+	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			startActivity(new Intent(this, NavigateActivity.class));
@@ -80,6 +87,7 @@ public class BoxlstActivity extends Activity implements OnClickListener {
 		public void received(String data) {
 			// TODO Auto-generated method stub
 			if (data != null) {
+				box_lst.clear();
 				mRefresh.display(false);
 				text_hint.setText(R.string.receive_success);
 				for (int box : str2intlst(data))

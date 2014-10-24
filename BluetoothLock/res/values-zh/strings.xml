@@ -130,5 +130,6 @@
     <string name="pair_success">配对成功</string>
     <string name="please_wait">正在处理, 请稍候...</string>
     <string name="decryption_fault">加密出错</string>
+    <string name="press_again">再按一次退出程序</string>
 
 </resources>

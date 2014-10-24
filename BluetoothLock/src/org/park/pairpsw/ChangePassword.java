@@ -60,7 +60,7 @@ public class ChangePassword implements ConnHandle {
 		ctx.set_hint(R.string.connect_failed);
 		mload.stop();
 		if (mConnecter != null)
-			mConnecter.onClean();
+			mConnecter.clean();
 	}
 
 	@Override

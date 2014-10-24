@@ -291,7 +291,7 @@ public class Connecter extends BroadcastReceiver {
 		}
 	};
 
-	public void onClean() {
+	public void clean() {
 		if_connecting = false;
 		if_connected = false;
 		// wait for thread stop

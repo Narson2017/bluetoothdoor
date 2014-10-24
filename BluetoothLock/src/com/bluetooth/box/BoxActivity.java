@@ -177,7 +177,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	@Override
 	public void disconnected() {
 		// TODO Auto-generated method stub
-		mConnecter.onClean();
+		mConnecter.clean();
 		// wait for cleaning
 		tx_fault.setText(R.string.please_wait);
 		mHandle.sendEmptyMessageDelayed(Common.MSG_DELAY_DISPLAY_DISCONNECTED,
