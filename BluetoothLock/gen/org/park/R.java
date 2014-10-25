@@ -676,6 +676,7 @@ public final class R {
         public static final int dev_name=0x7f08000e;
         public static final int device_return_wrong=0x7f080060;
         public static final int disconnect=0x7f080043;
+        public static final int disconnecting=0x7f08006f;
         public static final int empty=0x7f080017;
         public static final int enter_cabinet=0x7f080051;
         public static final int enter_locknbr=0x7f08003a;
@@ -721,6 +722,7 @@ public final class R {
         public static final int press_again=0x7f08006d;
         public static final int product_name=0x7f080055;
         public static final int query_btn=0x7f08000c;
+        public static final int receive_failed=0x7f080070;
         public static final int receive_success=0x7f080066;
         public static final int register=0x7f080026;
         public static final int register_load1=0x7f080032;
@@ -735,6 +737,7 @@ public final class R {
         public static final int save_failed=0x7f080029;
         public static final int save_success=0x7f080040;
         public static final int search_devs=0x7f080001;
+        public static final int search_done=0x7f08006e;
         public static final int searching=0x7f080009;
         public static final int send=0x7f08000d;
         public static final int send_failed=0x7f080013;

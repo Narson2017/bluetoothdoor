@@ -21,4 +21,6 @@ public interface ConnHandle {
 	public void timeout();
 
 	public void found(boolean state);
+
+	public void disconnecting();
 }

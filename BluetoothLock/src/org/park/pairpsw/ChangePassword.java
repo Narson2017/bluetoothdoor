@@ -1,11 +1,11 @@
 package org.park.pairpsw;
 
 import org.park.R;
-import org.park.command.LockCommand;
 import org.park.util.Common;
 
 import com.bluetooth.connection.ConnHandle;
 import com.bluetooth.connection.Connecter;
+import com.bluetooth.connection.LockCommand;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -59,8 +59,6 @@ public class ChangePassword implements ConnHandle {
 		// TODO Auto-generated method stub
 		ctx.set_hint(R.string.connect_failed);
 		mload.stop();
-		if (mConnecter != null)
-			mConnecter.clean();
 	}
 
 	@Override
@@ -118,6 +116,12 @@ public class ChangePassword implements ConnHandle {
 
 	@Override
 	public void found(boolean state) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disconnecting() {
 		// TODO Auto-generated method stub
 		
 	}

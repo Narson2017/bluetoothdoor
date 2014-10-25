@@ -2,7 +2,7 @@ package org.park.tests;
 
 import junit.framework.TestCase;
 
-import org.park.command.LockCommand;
+import com.bluetooth.connection.LockCommand;
 
 public class TestCmd extends TestCase {
 	LockCommand mcmd;

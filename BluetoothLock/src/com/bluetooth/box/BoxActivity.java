@@ -1,7 +1,6 @@
 package com.bluetooth.box;
 
 import org.park.R;
-import org.park.command.LockCommand;
 import org.park.entrance.NavigateActivity;
 import org.park.prefs.PreferenceHelper;
 import org.park.prefs.settingActivity;
@@ -12,6 +11,7 @@ import org.park.util.Rotate;
 
 import com.bluetooth.connection.ConnHandle;
 import com.bluetooth.connection.Connecter;
+import com.bluetooth.connection.LockCommand;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -92,12 +92,14 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		if_exit = true;
 		mRefresh.stop();
 		disconnected();
+		mConnecter.clean();
 		super.onDestroy();
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			mConnecter.clean();
 			if_exit = true;
 			mRefresh.stop();
 			disconnected();
@@ -132,10 +134,12 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 					mLockManager.lockNbr));
 			break;
 		case R.id.btn_back:
+			mConnecter.clean();
 			if_exit = true;
 			mRefresh.stop();
 			disconnected();
-			finish();
+			if (!mConnecter.if_receiving)
+				finish();
 			break;
 		case R.id.btn_about:
 			About.ShowAbout(this);
@@ -143,6 +147,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		case R.id.btn_exit:
 			if_exit = true;
 			mRefresh.stop();
+			mConnecter.clean();
 			Quit.quit(this);
 			break;
 		}
@@ -177,11 +182,13 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	@Override
 	public void disconnected() {
 		// TODO Auto-generated method stub
-		mConnecter.clean();
-		// wait for cleaning
-		tx_fault.setText(R.string.please_wait);
-		mHandle.sendEmptyMessageDelayed(Common.MSG_DELAY_DISPLAY_DISCONNECTED,
-				3072);
+		mLockManager.setEnabled(false);
+		setBoxVisible(false);
+		mRefresh.display(true);
+		tx_fault.setText(R.string.connect_failed);
+		mRefresh.stop();
+		btn_refresh.setEnabled(true);
+		btn_connect.setEnabled(true);
 	}
 
 	@Override
@@ -212,38 +219,38 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 	@Override
 	public void searched() {
 		// TODO Auto-generated method stub
-		tx_fault.setText(R.string.not_found);
-		mRefresh.stop();
-		btn_refresh.setEnabled(true);
-		btn_connect.setEnabled(true);
+		tx_fault.setText(R.string.search_done);
 	}
 
 	@Override
 	public void received(String received_data) {
 		// TODO Auto-generated method stub
-		switch (mLockCmd.checkRecvType(received_data)) {
-		case Common.RECEIVE_DYNAMIC_PASSWORD_SUCCESS:
-			mConnecter.send(mLockCmd.getOpenLockCommand(
-					Common.DEFAULT_PAIR_PASSWORD, received_data));
-			break;
-		case Common.RECEIVE_DYNAMIC_PASSWORD_FAILED:
-			tx_fault.setText(R.string.device_return_wrong);
-			break;
-		case Common.RECEIVE_OPEN_DOOR_SUCCESS:
-			tx_fault.setText(R.string.open_door_success);
-			mLockManager.set_state(false, true);
-			break;
-		case Common.RECEIVE_OPEN_DOOR_FAILED:
-			tx_fault.setText(R.string.open_door_failed);
-			break;
-		case Common.RECEIVE_CLOSE_DOOR_SUCCESS:
-			tx_fault.setText(R.string.close_door_success);
-			mLockManager.set_state(true, true);
-			break;
-		case Common.RECEIVE_CLOSE_DOOR_FAILED:
-			tx_fault.setText(R.string.close_door_failed);
-			break;
-		}
+		if (received_data != null) {
+			switch (mLockCmd.checkRecvType(received_data)) {
+			case Common.RECEIVE_DYNAMIC_PASSWORD_SUCCESS:
+				mConnecter.send(mLockCmd.getOpenLockCommand(
+						Common.DEFAULT_PAIR_PASSWORD, received_data));
+				break;
+			case Common.RECEIVE_DYNAMIC_PASSWORD_FAILED:
+				tx_fault.setText(R.string.device_return_wrong);
+				break;
+			case Common.RECEIVE_OPEN_DOOR_SUCCESS:
+				tx_fault.setText(R.string.open_door_success);
+				mLockManager.set_state(false, true);
+				break;
+			case Common.RECEIVE_OPEN_DOOR_FAILED:
+				tx_fault.setText(R.string.open_door_failed);
+				break;
+			case Common.RECEIVE_CLOSE_DOOR_SUCCESS:
+				tx_fault.setText(R.string.close_door_success);
+				mLockManager.set_state(true, true);
+				break;
+			case Common.RECEIVE_CLOSE_DOOR_FAILED:
+				tx_fault.setText(R.string.close_door_failed);
+				break;
+			}
+		} else
+			tx_fault.setText(R.string.receive_failed);
 	}
 
 	@Override
@@ -279,15 +286,6 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 						NavigateActivity.class));
 				finish();
 				break;
-			case Common.MSG_DELAY_DISPLAY_DISCONNECTED:
-				mLockManager.setEnabled(false);
-				setBoxVisible(false);
-				mRefresh.display(true);
-				tx_fault.setText(R.string.connect_failed);
-				mRefresh.stop();
-				btn_refresh.setEnabled(true);
-				btn_connect.setEnabled(true);
-				break;
 			}
 		}
 	};
@@ -298,7 +296,16 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 		if (state)
 			tx_fault.setText(R.string.found);
 		else {
+			mRefresh.stop();
+			btn_refresh.setEnabled(true);
+			btn_connect.setEnabled(true);
 			tx_fault.setText(R.string.not_found);
 		}
+	}
+
+	@Override
+	public void disconnecting() {
+		// TODO Auto-generated method stub
+		tx_fault.setText(R.string.disconnecting);
 	}
 }

@@ -1,4 +1,4 @@
-package org.park.command;
+package com.bluetooth.connection;
 
 import java.util.ArrayList;
 

@@ -131,5 +131,8 @@
     <string name="please_wait">Please wait</string>
     <string name="decryption_fault">Decryption fault</string>
     <string name="press_again">Press again to exit</string>
+    <string name="search_done">Search done</string>
+    <string name="disconnecting">Cleaning, please wait...</string>
+    <string name="receive_failed">Receive failed.</string>
 
 </resources>
