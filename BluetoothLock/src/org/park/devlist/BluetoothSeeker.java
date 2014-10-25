@@ -57,9 +57,6 @@ public class BluetoothSeeker extends BroadcastReceiver {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case Common.MESSAGE_SHOW_DEVICES:
-				mSearchHandle.finished();
-				break;
 			case Common.MESSAGE_START_SEARCHING:
 				if (!btAdapt.isDiscovering()) {
 					addPairedDevice();
@@ -77,7 +74,6 @@ public class BluetoothSeeker extends BroadcastReceiver {
 			intent.addAction(BluetoothDevice.ACTION_FOUND); // 用BroadcastReceiver来取得搜索结果
 			intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
 			intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-			intent.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
 			mctx.registerReceiver(this, intent);
 		}
 	}

@@ -5,6 +5,7 @@ import org.park.boxlst.BoxlstActivity;
 import org.park.devlist.DevlstActivity;
 import org.park.pairpsw.AccountActivity;
 import org.park.prefs.settingActivity;
+import org.park.util.About;
 import org.park.util.Quit;
 
 import android.app.Activity;
@@ -54,6 +55,9 @@ public class NavigateActivity extends Activity implements OnClickListener,
 			break;
 		case R.id.btn_change_account:
 			startActivity(new Intent(this, settingActivity.class));
+			break;
+		case R.id.btn_about:
+			About.ShowAbout(this);
 			break;
 		}
 	}

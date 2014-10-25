@@ -11,7 +11,6 @@ import org.park.util.Quit;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -58,9 +57,8 @@ public class LoginActivity extends Activity implements
 
 		// start
 		mPrefs = new PreferenceHelper(this);
-		edit_phone
-				.setText(((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
-						.getLine1Number());
+		if (!mPrefs.getPhone().equalsIgnoreCase("-1"))
+			edit_phone.setText(mPrefs.getPhone());
 		box = getIntent().getIntExtra(BoxAdapter.BOX_NUMBER, -1);
 		cabinet = getIntent().getIntExtra(BoxAdapter.CABINET_NUMBER, -1);
 		if (box != -1) {
@@ -107,7 +105,8 @@ public class LoginActivity extends Activity implements
 			new_phone = edit_phone.getText().toString();
 			mload.setOperation(Common.MSG_REGISTER_LOADING);
 			mload.start();
-			mAuth.registerBox(new_phone, Common.DEFAULT_PAIR_PASSWORD, cabinet, box);
+			mAuth.registerBox(new_phone, Common.DEFAULT_PAIR_PASSWORD, cabinet,
+					box);
 			break;
 		case R.id.btn_login:
 			mload.setOperation(Common.MSG_LOGIN_LOADING);

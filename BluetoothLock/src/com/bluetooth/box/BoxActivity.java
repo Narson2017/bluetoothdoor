@@ -137,7 +137,6 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 			mConnecter.clean();
 			if_exit = true;
 			mRefresh.stop();
-			disconnected();
 			if (!mConnecter.if_receiving)
 				finish();
 			break;
@@ -145,10 +144,11 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 			About.ShowAbout(this);
 			break;
 		case R.id.btn_exit:
+			mConnecter.clean();
 			if_exit = true;
 			mRefresh.stop();
-			mConnecter.clean();
-			Quit.quit(this);
+			if (!mConnecter.if_receiving)
+				Quit.quit(this);
 			break;
 		}
 	}

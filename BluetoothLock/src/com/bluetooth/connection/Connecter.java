@@ -273,6 +273,7 @@ public class Connecter extends BroadcastReceiver {
 	};
 
 	public void clean() {
+		unpair();
 		mHandleConn.disconnecting();
 		if_connecting = false;
 		if_connected = false;

@@ -577,7 +577,6 @@ public final class R {
     public static final class id {
         public static final int box_nbr=0x7f0a001d;
         public static final int btnDis=0x7f0a0025;
-        public static final int btn_abount=0x7f0a0033;
         public static final int btn_about=0x7f0a000c;
         public static final int btn_action_back=0x7f0a0016;
         public static final int btn_authorize=0x7f0a000a;
