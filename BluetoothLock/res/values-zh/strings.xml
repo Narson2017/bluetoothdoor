@@ -41,7 +41,7 @@
     <string name="detail_view">详细视图</string>
     <string name="open_blue">蓝牙已关闭, 将自动开户, 请稍等...</string>
     <string name="send_failed">发送指令失败, 请重试.</string>
-    <string name="connect_success">连接成功, 请点击开锁.</string>
+    <string name="connect_success">连接成功, 请点击开锁或等待系统自动开锁.</string>
     <string name="open">开</string>
     <string name="close">关</string>
     <string name="empty">无</string>

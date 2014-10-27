@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Set;
-import java.util.UUID;
 
 import org.park.util.ClsUtils;
 import org.park.util.Common;
@@ -101,6 +100,7 @@ public class Connecter extends BroadcastReceiver {
 		} else if (action.equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
 			receiving();
 			mHandleConn.connected(true);
+
 		} else if (action.equals(BluetoothDevice.ACTION_PAIRING_REQUEST)) {
 			BluetoothDevice btDevice = intent
 					.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
@@ -121,7 +121,6 @@ public class Connecter extends BroadcastReceiver {
 					strAddress == null ? Common.DEFAULT_DEVICE_ADDR
 							: strAddress)) {
 				IS_FOUND = true;
-				btAdapt.cancelDiscovery();
 				mHandleConn.found(true);
 				connect();
 				return;
@@ -143,28 +142,6 @@ public class Connecter extends BroadcastReceiver {
 		if_connecting = true;
 		if_connected = false;
 		register(mCtx);
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				int count = 1;
-				while (!if_connected && if_connecting) {
-					if (count++ > Common.TIME_OUT)
-						break;
-					try {
-						Thread.sleep(1024);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				if (count > Common.TIME_OUT) {
-					mHandler.sendEmptyMessage(Common.MSG_TIME_OUT);
-				}
-			}
-
-		}).start();
 		if (!btAdapt.isEnabled()) {
 			new Thread(new Runnable() {
 
@@ -193,12 +170,16 @@ public class Connecter extends BroadcastReceiver {
 			new Thread(new Runnable() {
 				public void run() {
 					try {
-						UUID uuid = UUID.fromString(Common.SPP_UUID);
+//						UUID uuid = UUID.fromString(Common.SPP_UUID);
 						BluetoothDevice btDev = btAdapt
 								.getRemoteDevice(strAddress == null ? Common.DEFAULT_DEVICE_ADDR
 										: strAddress);
-						btSocket = btDev
-								.createRfcommSocketToServiceRecord(uuid);
+						Method m = btDev.getClass()
+								.getMethod("createRfcommSocket",
+										new Class[] { int.class });
+						btSocket = (BluetoothSocket) m.invoke(btDev, 1);
+						// btSocket =
+						// btDev.createRfcommSocketToServiceRecord(uuid);
 						btSocket.connect();
 						if_connected = true;
 						if_connecting = false;
@@ -249,11 +230,6 @@ public class Connecter extends BroadcastReceiver {
 					if (!findPairedDevice())
 						btAdapt.startDiscovery();
 				}
-				break;
-			case Common.MSG_TIME_OUT:
-				if_connecting = false;
-				if (!if_connected)
-					mHandleConn.timeout();
 				break;
 			case Common.MESSAGE_RECV:
 				if (if_receiving) {

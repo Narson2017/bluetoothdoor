@@ -19,14 +19,18 @@ public class CoverActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.cover);
+		btAdapt = BluetoothAdapter.getDefaultAdapter();
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				btAdapt = BluetoothAdapter.getDefaultAdapter();
-				if (!btAdapt.isEnabled())
-					btAdapt.enable();
+				try {
+					if (!btAdapt.isEnabled())
+						btAdapt.enable();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				// wait for opening bluetooth
 				try {
 					Thread.sleep(2048);

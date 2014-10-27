@@ -1,6 +1,7 @@
 package org.park.util;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -64,7 +65,8 @@ public class Rotate implements Runnable {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case Common.MSG_LOADING:
-				rotateView.setRotation((Float) msg.obj % 360);
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+					rotateView.setRotation((Float) msg.obj % 360);
 				break;
 			}
 		}

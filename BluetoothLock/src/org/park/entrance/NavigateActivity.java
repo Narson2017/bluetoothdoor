@@ -53,6 +53,7 @@ public class NavigateActivity extends Activity implements OnClickListener,
 			startActivity(new Intent(NavigateActivity.this,
 					BoxlstActivity.class));
 			break;
+		case R.id.btn_setting:
 		case R.id.btn_change_account:
 			startActivity(new Intent(this, settingActivity.class));
 			break;

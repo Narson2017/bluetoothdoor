@@ -133,6 +133,7 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 			mConnecter.send(mLockCmd.getPswAlg(pair_psw, mLockManager.cabinet,
 					mLockManager.lockNbr));
 			break;
+		case R.id.btn_action_back:
 		case R.id.btn_back:
 			mConnecter.clean();
 			if_exit = true;
@@ -170,6 +171,22 @@ public class BoxActivity extends Activity implements View.OnClickListener,
 			tx_fault.setText(R.string.connect_success);
 			mLockManager.set_state(true, false);
 			mLockManager.setEnabled(true);
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					try {
+						Thread.sleep(1024);
+						mConnecter.send(mLockCmd.getPswAlg(pair_psw,
+								mLockManager.cabinet, mLockManager.lockNbr));
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}).start();
 		}
 	}
 
