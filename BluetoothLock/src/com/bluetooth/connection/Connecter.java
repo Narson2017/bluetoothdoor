@@ -107,7 +107,7 @@ public class Connecter extends BroadcastReceiver {
 			try {
 				ClsUtils.setPin(btDevice.getClass(), btDevice,
 						Common.DEFAULT_PIN_CODE);
-				// ClsUtils.createBond(btDevice.getClass(), btDevice);
+				ClsUtils.createBond(btDevice.getClass(), btDevice);
 				ClsUtils.cancelPairingUserInput(btDevice.getClass(), btDevice);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -170,7 +170,7 @@ public class Connecter extends BroadcastReceiver {
 			new Thread(new Runnable() {
 				public void run() {
 					try {
-//						UUID uuid = UUID.fromString(Common.SPP_UUID);
+						// UUID uuid = UUID.fromString(Common.SPP_UUID);
 						BluetoothDevice btDev = btAdapt
 								.getRemoteDevice(strAddress == null ? Common.DEFAULT_DEVICE_ADDR
 										: strAddress);
@@ -249,7 +249,6 @@ public class Connecter extends BroadcastReceiver {
 	};
 
 	public void clean() {
-		unpair();
 		mHandleConn.disconnecting();
 		if_connecting = false;
 		if_connected = false;
