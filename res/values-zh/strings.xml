@@ -1,0 +1,141 @@
+<resources>
+
+    <string-array name="lock_nbr_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+    </string-array>
+
+    <string name="app_name">无线遥控</string>
+    <string name="search_devs">搜索设备</string>
+    <string name="about_us">关于我们</string>
+    <string name="company_name">暨嘉科技</string>
+    <string name="welcome">欢迎选用,更多产品请访问:http://www.gzjnu.com/</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_ok">确认</string>
+    <string name="lock_nbr_label">门锁号</string>
+    <string name="blue_unabailable">蓝牙不可用</string>
+    <string name="searching">正在搜索</string>
+    <string name="connect_failed">连接异常，请重试...</string>
+    <string name="exit">退出</string>
+    <string name="query_btn">查询</string>
+    <string name="send">发送</string>
+    <string name="dev_name">设备</string>
+    <string name="connecting">正在连接</string>
+    <string name="simple_view">简略视图</string>
+    <string name="detail_view">详细视图</string>
+    <string name="open_blue">蓝牙已关闭, 将自动开户, 请稍等...</string>
+    <string name="send_failed">发送指令失败, 请重试.</string>
+    <string name="connect_success">连接成功, 请点击开锁或等待系统自动开锁.</string>
+    <string name="open">开</string>
+    <string name="close">关</string>
+    <string name="empty">无</string>
+    <string name="filled">有</string>
+    <string name="hint">提示</string>
+    <string name="please_connect">请点击列表中的一项连接</string>
+    <string name="not_found">未找到蓝牙设备, 请重试.</string>
+    <string name="store">存件</string>
+    <string name="obtain">取件</string>
+    <string name="room">房间</string>
+    <string name="lock_not_found">柜子不存在</string>
+    <string name="authorize">请认证</string>
+    <string name="username">手机号</string>
+    <string name="password">6位数字密码</string>
+    <string name="sure">是否确定?</string>
+    <string name="room_lst">选择房间</string>
+    <string name="login">登录账号</string>
+    <string name="forget_psw">忘记密码?</string>
+    <string name="register">请注册.</string>
+    <string name="logining">登录中</string>
+    <string name="save_failed">注册失败</string>
+    <string name="not_available">柜子未开放使用</string>
+    <string name="registering">注册中</string>
+    <string name="server_fault">连接服务器出错, 请重试.</string>
+    <string name="authorizing">认证中..</string>
+    <string name="login_load1">登录中.</string>
+    <string name="login_load2">登录中..</string>
+    <string name="login_load3">登录中...</string>
+    <string name="auth_success">认证通过</string>
+    <string name="register_load1">注册中.</string>
+    <string name="register_load2">注册中..</string>
+    <string name="register_load3">注册中...</string>
+    <string name="not_register">尚未注册</string>
+    <string name="already_registered">该账号已注册，请直接登录.</string>
+    <string name="pref_account">账户信息</string>
+    <string name="enter_username">输入手机号</string>
+    <string name="enter_password">输入6位数字密码(自动获取, 可不填)</string>
+    <string name="enter_locknbr">输入柜子编号(自动获取, 可不填)</string>
+    <string name="reset">重置</string>
+    <string name="reset_sum">清空数据并返回主页.</string>
+    <string name="pref_reset">清空数据</string>
+    <string name="back">返回</string>
+    <string name="save_exit">保存</string>
+    <string name="save_success">保存成功</string>
+    <string name="new_user">新用户?快速通道</string>
+    <string name="loading">正在加载...</string>
+    <string name="disconnect">连接已断开</string>
+    <string name="pairing">正在配对...</string>
+    <string name="change_psw_success">修改配对密码成功, 正在加载, 请稍候...</string>
+    <string name="obtain_dynamic_psw_failed">获取动态密码失败.</string>
+    <string name="change_psw_failed">修改配对密码失败.</string>
+    <string name="open_door_success">门已开.</string>
+    <string name="open_door_failed">开门失败.</string>
+    <string name="close_door_success">门已关</string>
+    <string name="close_door_failed">关门信息同步失败.</string>
+    <string name="pair_failed">配对失败</string>
+    <string name="box_lst">所有箱子</string>
+    <string name="use">使用</string>
+    <string name="available">空闲</string>
+    <string name="nbr">2</string>
+    <string name="enter_cabinet">输入柜号(自动获取, 可不填)</string>
+    <string name="cabinet_label">柜号</string>
+    <string name="please_login">请登录</string>
+    <string name="if_login">检测到上次登录的账户信息, 是否直接使用该账号登录?</string>
+    <string name="product_name">蓝牙遥控</string>
+    <string name="upload_account">更新账户信息</string>
+    <string name="old_account">请先认证,输入旧的账号密码.</string>
+    <string name="authorize_update">认证并更新信息</string>
+    <string name="authorize_update1">认证并更新信息.</string>
+    <string name="authorize_update2">认证并更新信息..</string>
+    <string name="authorize_update3">认证并更新信息...</string>
+    <string name="authorize_update4">认证并更新信息....</string>
+    <string name="change_account_success">更改账户信息成功, 正在加载, 请稍候...</string>
+    <string name="update_success">更新信息成功, 3秒后返回首页...</string>
+    <string name="send_success">发送命令成功,处理中...</string>
+    <string name="device_return_wrong">远端设备返回异常, 请重试.</string>
+    <string name="change_account">修改账户信息</string>
+    <string name="operate_failed">操作失败，请重试.</string>
+    <string name="operate_success">操作成功.</string>
+    <string name="time_out">连接超时，请重试.</string>
+    <string name="account">账户</string>
+    <string name="receive_success">获取数据成功.</string>
+    <string name="use_new_box">存件</string>
+    <string name="use_registered_box">取件</string>
+    <string name="found">找到设备,处理中...</string>
+    <string name="pair_success">配对成功</string>
+    <string name="please_wait">正在处理, 请稍候...</string>
+    <string name="decryption_fault">加密出错</string>
+    <string name="press_again">再按一次退出程序</string>
+    <string name="search_done">蓝牙扫描完毕, 处理中...</string>
+    <string name="disconnecting">正在断开连接，请开按一次返回...</string>
+    <string name="receive_failed">接收数据出错。</string>
+    <string name="webapp">网页版</string>
+    <string name="admin">管理员</string>
+    <string name="query_success">查询成功</string>
+
+</resources>

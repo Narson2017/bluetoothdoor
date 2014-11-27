@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_account" >
+        <EditTextPreference
+            style="@style/input_username"
+            android:dialogTitle="@string/enter_username"
+            android:key="username"
+            android:summary="@string/enter_username"
+            android:title="@string/username" />
+        <EditTextPreference
+            style="@style/edit_password"
+            android:dialogTitle="@string/enter_password"
+            android:enabled="false"
+            android:key="password"
+            android:summary="@string/enter_password"
+            android:title="@string/password" />
+        <EditTextPreference
+            android:dialogTitle="@string/enter_locknbr"
+            android:enabled="true"
+            android:inputType="number"
+            android:key="locknbr"
+            android:maxLength="3"
+            android:summary="@string/enter_locknbr"
+            android:title="@string/lock_nbr_label" />
+        <EditTextPreference
+            android:dialogTitle="@string/enter_cabinet"
+            android:enabled="true"
+            android:inputType="number"
+            android:key="cabinet"
+            android:maxLength="2"
+            android:summary="@string/enter_cabinet"
+            android:title="@string/cabinet_label" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_reset" >
+        <org.park.prefs.ResetPrefs
+            android:key="pref_dialog"
+            android:summary="@string/reset_sum"
+            android:title="@string/reset" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/back" >
+        <Preference
+            android:key="save"
+            android:title="@string/save_exit" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

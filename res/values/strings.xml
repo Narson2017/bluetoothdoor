@@ -1,0 +1,141 @@
+<resources>
+
+    <string-array name="lock_nbr_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+    </string-array>
+
+    <string name="app_name">RemoteControl</string>
+    <string name="search_devs">Search Devices</string>
+    <string name="about_us">About Us</string>
+    <string name="company_name">Park Org</string>
+    <string name="welcome">More Informations: http://www.gzjnu.com/</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_ok">OK</string>
+    <string name="lock_nbr_label">Lock number</string>
+    <string name="blue_unabailable">Bluetooth Unavailable</string>
+    <string name="searching">Searching</string>
+    <string name="connect_failed">Connect failed, please click connect button to retry...</string>
+    <string name="exit">Exit</string>
+    <string name="query_btn">Query State</string>
+    <string name="send">Send</string>
+    <string name="dev_name">Device Name</string>
+    <string name="connecting">Connecting</string>
+    <string name="simple_view">Simple view</string>
+    <string name="detail_view">Detail view</string>
+    <string name="open_blue">Bluetooth is disable, will enable automatically, please wait...</string>
+    <string name="send_failed">Send command failed, please retry.</string>
+    <string name="connect_success">Connect Successfully, retrieving boxes state...</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="empty">Empty</string>
+    <string name="filled">Filled</string>
+    <string name="hint">Hint</string>
+    <string name="please_connect">Please select an item to connect</string>
+    <string name="not_found">Bluetooth devices not found, please press connect button again.</string>
+    <string name="store">Store</string>
+    <string name="obtain">Obtain</string>
+    <string name="room">Room</string>
+    <string name="lock_not_found">Lock does not exists</string>
+    <string name="authorize">Please Authorize.</string>
+    <string name="username">Username</string>
+    <string name="password">6 digit password</string>
+    <string name="sure">Are you sure?</string>
+    <string name="room_lst">Room list</string>
+    <string name="login">Login</string>
+    <string name="register">Please register.</string>
+    <string name="forget_psw">Forget password?</string>
+    <string name="logining">Logining</string>
+    <string name="save_failed">Register failed</string>
+    <string name="not_available">Box not avaiable.</string>
+    <string name="registering">Registering</string>
+    <string name="server_fault">Server fault, please retry.</string>
+    <string name="authorizing">Authorizing</string>
+    <string name="login_load1">Logining.</string>
+    <string name="login_load2">Logining..</string>
+    <string name="login_load3">Logining...</string>
+    <string name="auth_success">Authorize successfully</string>
+    <string name="register_load1">Registering.</string>
+    <string name="register_load2">Registering..</string>
+    <string name="register_load3">Registering...</string>
+    <string name="not_register">Not yet register</string>
+    <string name="already_registered">The account has been registered.</string>
+    <string name="pref_account">Account detail</string>
+    <string name="enter_username">Enter identity</string>
+    <string name="enter_password">Enter password(allow empty)</string>
+    <string name="enter_locknbr">Enter lock number(allow empty)</string>
+    <string name="reset">Reset</string>
+    <string name="reset_sum">Reset and return.</string>
+    <string name="pref_reset">Clean all</string>
+    <string name="back">Return</string>
+    <string name="save_exit">Save and exit</string>
+    <string name="save_success">Save successfully</string>
+    <string name="new_user">New user</string>
+    <string name="loading">Loading...</string>
+    <string name="disconnect">Disconnected</string>
+    <string name="pairing">Pairing</string>
+    <string name="change_psw_success">Change password successfully, loading...</string>
+    <string name="obtain_dynamic_psw_failed">Obtain dynamic password failed.</string>
+    <string name="change_psw_failed">Change password failed.</string>
+    <string name="open_door_success">Open door successfully.</string>
+    <string name="open_door_failed">Open door failed.</string>
+    <string name="close_door_success">Close door successfully.</string>
+    <string name="close_door_failed">Close door failed.</string>
+    <string name="pair_failed">Pairing failed.</string>
+    <string name="box_lst">Boxes</string>
+    <string name="use">Select</string>
+    <string name="available">Available</string>
+    <string name="nbr">2</string>
+    <string name="enter_cabinet">Enter cabinet number(allow empty)</string>
+    <string name="cabinet_label">Cabinet number</string>
+    <string name="please_login">Please login</string>
+    <string name="if_login">The account saved is found, use this account to login or not?</string>
+    <string name="product_name">Bluetooth control</string>
+    <string name="upload_account">Update account detail</string>
+    <string name="old_account">Please input old account message to authorize</string>
+    <string name="authorize_update">Authorize and update</string>
+    <string name="authorize_update1">Authorize and update.</string>
+    <string name="authorize_update2">Authorize and update..</string>
+    <string name="authorize_update3">Authorize and update...</string>
+    <string name="authorize_update4">Authorize and update....</string>
+    <string name="change_account_success">Change account successfully, loading...</string>
+    <string name="update_success">Update successfully, redirect to index after 3 seconds...</string>
+    <string name="send_success">Send command successfully, please wait...</string>
+    <string name="device_return_wrong">Device return wrong message, please retry.</string>
+    <string name="change_account">Change account info</string>
+    <string name="operate_failed">Device operation failed.</string>
+    <string name="operate_success">Operation successfully.</string>
+    <string name="time_out">Connection time out, please try again.</string>
+    <string name="account">Account</string>
+    <string name="receive_success">Retrieve data successfully.</string>
+    <string name="use_new_box">Use new box</string>
+    <string name="use_registered_box">Open box registered</string>
+    <string name="found">Device found, connecting...</string>
+    <string name="pair_success">Pair successfully.</string>
+    <string name="please_wait">Please wait</string>
+    <string name="decryption_fault">Decryption fault</string>
+    <string name="press_again">Press again to exit</string>
+    <string name="search_done">Search done</string>
+    <string name="disconnecting">Cleaning, please wait...</string>
+    <string name="receive_failed">Receive failed.</string>
+    <string name="webapp">Web app</string>
+    <string name="admin">Administrator</string>
+    <string name="query_success">Query successfully</string>
+
+</resources>
