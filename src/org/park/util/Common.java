@@ -57,6 +57,7 @@ public class Common {
 	public static final int MSG_QUERY_FAILED = 55;
 	public static final int OPERATION_QUERY = 56;
 	public static final int OPERATION_OPEN = 57;
+	public static final int OPERATION_QUERY_ALL = 58;
 
 	public static final String HINT = "toast";
 	public static final String TAG = "BlueToothTool";

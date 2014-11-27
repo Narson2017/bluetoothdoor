@@ -74,7 +74,8 @@ public class AdminActivity extends Activity implements OnClickListener {
 		tx_fault = (TextView) findViewById(R.id.text_hint);
 		btn_connect = (Button) findViewById(R.id.btn_query);
 		btn_refresh = (Button) findViewById(R.id.btn_refresh);
-		mRefresh = new Rotate(btn_refresh, findViewById(R.id.refresh_view),this);
+		mRefresh = new Rotate(btn_refresh, findViewById(R.id.refresh_view),
+				this);
 		box_lv = (ListView) this.findViewById(R.id.lvboxes);
 		l_lsboxes = findViewById(R.id.l_lsboxes);
 		for (int i = 0; i < Common.BOXES_AMOUNT; i++)
@@ -179,9 +180,9 @@ public class AdminActivity extends Activity implements OnClickListener {
 			tx_fault.setText(R.string.connect_success);
 			mRefresh.display(false);
 			l_lsboxes.setVisibility(View.VISIBLE);
-			// mConnecter.send(LockCommand.getPasswordCmd(pairPassword, cabinet,
-			// box));
-			// operation = Common.OPERATION_QUERY;
+			mConnecter.send(LockCommand.getPasswordCmd(pairPassword, cabinet,
+					box));
+			operation = Common.OPERATION_QUERY;
 		}
 
 		@Override
@@ -241,13 +242,16 @@ public class AdminActivity extends Activity implements OnClickListener {
 					break;
 				case Common.RECEIVE_OPEN_DOOR_SUCCESS:
 					tx_fault.setText(R.string.open_door_success);
-					mBoxApt.notifyDataSetChanged();
+					mHandler.sendEmptyMessageDelayed(
+							Common.OPERATION_QUERY_ALL, 512);
 					break;
 				case Common.RECEIVE_OPEN_DOOR_FAILED:
 					tx_fault.setText(R.string.open_door_failed);
 					break;
 				case Common.RECEIVE_CLOSE_DOOR_SUCCESS:
 					tx_fault.setText(R.string.close_door_success);
+					mHandler.sendEmptyMessageDelayed(
+							Common.OPERATION_QUERY_ALL, 512);
 					break;
 				case Common.RECEIVE_CLOSE_DOOR_FAILED:
 					tx_fault.setText(R.string.close_door_failed);
@@ -259,7 +263,7 @@ public class AdminActivity extends Activity implements OnClickListener {
 							.hexStr2binaryStr(received_data.substring(30, 36));
 					for (int i = 0; i < state_sequence.length; i++) {
 						box_lst.get(i).if_locked = lock_state
-								.charAt(state_sequence[i]) == '1' ? true
+								.charAt(state_sequence[i]) == '0' ? true
 								: false;
 						box_lst.get(i).if_empty = empty_state
 								.charAt(state_sequence[i]) == '1' ? true
@@ -275,7 +279,8 @@ public class AdminActivity extends Activity implements OnClickListener {
 					break;
 				case Common.MSG_OPEN_ALL_SUCCESS:
 					tx_fault.setText(R.string.open_door_success);
-					mBoxApt.notifyDataSetChanged();
+					mHandler.sendEmptyMessageDelayed(
+							Common.OPERATION_QUERY_ALL, 512);
 					break;
 				case Common.MSG_OPEN_ALL_FAILED:
 					tx_fault.setText(R.string.open_door_failed);
@@ -327,7 +332,6 @@ public class AdminActivity extends Activity implements OnClickListener {
 				operation = Common.OPERATE_OPEN;
 				cabinet = mBox.cabinet;
 				box = mBox.box;
-				mBox.if_locked = false;
 				mConnecter.send(LockCommand.getPasswordCmd(pairPassword,
 						mBox.cabinet, mBox.box));
 			}
@@ -411,6 +415,11 @@ public class AdminActivity extends Activity implements OnClickListener {
 			case Common.OPERATE_OPEN:
 				mConnecter.send(LockCommand.openCmd(pairPassword, cabinet, box,
 						received_data));
+				break;
+			case Common.OPERATION_QUERY_ALL:
+				mConnecter.send(LockCommand.getPasswordCmd(pairPassword,
+						cabinet, box));
+				operation = Common.OPERATION_QUERY;
 				break;
 			}
 		}
